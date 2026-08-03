@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Ai Là Người Giấu Mặt — Pass &amp; Play</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<canvas id="confetti"></canvas>
+<div class="top-progress"><div class="top-progress-fill" id="progressFill"></div></div>
+
+<div id="app">
+
+  <!-- Màn 1: Thiết lập -->
+  <div id="screen-setup" class="screen active">
+    <div class="eyebrow">Trò chơi truyền tay</div>
+    <h1 class="game-title">Ai Là Người Giấu Mặt</h1>
+    <p class="subtitle">Mỗi người một bí mật. Một người không có gì cả.</p>
+
+    <div class="card">
+      <div class="control-row">
+        <span class="control-label">Số người chơi</span>
+        <div class="stepper">
+          <button onclick="App.stepPlayers(-1)">−</button>
+          <span id="disp-players">5</span>
+          <button onclick="App.stepPlayers(1)">+</button>
+        </div>
+      </div>
+
+      <div class="control-row">
+        <span class="control-label">Số kẻ giấu mặt</span>
+        <div class="stepper">
+          <button onclick="App.stepImposters(-1)">−</button>
+          <span id="disp-imposters">1</span>
+          <button onclick="App.stepImposters(1)">+</button>
+        </div>
+      </div>
+
+      <div class="toggle-row" onclick="App.toggleMrWhite()">
+        <div>
+          <div class="control-label">Mr. White</div>
+          <div class="control-sub">Không nhận được từ nào cả</div>
+        </div>
+        <span id="badge-mrwhite" class="toggle-badge off">Tắt</span>
+      </div>
+
+      <div class="toggle-row" onclick="App.toggleTimer()">
+        <div>
+          <div class="control-label">Giới hạn thảo luận</div>
+          <div class="control-sub">Đếm ngược trước khi bỏ phiếu</div>
+        </div>
+        <span id="badge-timer" class="toggle-badge off">Tắt</span>
+      </div>
+      <div class="timer-input-wrap" id="timerInputWrap">
+        <div style="display:flex; align-items:center; gap:10px; justify-content:center;">
+          <span style="color:var(--ghost)">Phút:</span>
+          <input type="number" id="timerMinutes" value="3" min="1" max="15" style="width:80px;">
+        </div>
+      </div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="App.goNames()">Bắt đầu</button>
+    </div>
+  </div>
+
+  <!-- Màn 2: Nhập tên -->
+  <div id="screen-names" class="screen">
+    <div class="eyebrow">Bước 1</div>
+    <h2 class="game-title">Nhập tên người chơi</h2>
+    <p class="subtitle">Mỗi người một màu để dễ nhận diện</p>
+
+    <div id="name-list" style="margin-bottom:10px;"></div>
+
+    <button class="btn btn-outline" onclick="App.shufflePlayers()" style="margin-bottom:8px;">🎲 Xáo thứ tự</button>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="App.goHandover()">Tiếp tục</button>
+    </div>
+  </div>
+
+  <!-- Màn 3a: Chờ truyền máy -->
+  <div id="screen-handover" class="screen">
+    <div class="handover-wrap">
+      <div class="handover-avatar" id="ho-avatar"></div>
+      <div class="warning-text" style="font-size:1rem;">Đưa máy cho</div>
+      <div class="handover-name" id="ho-name"></div>
+      <div class="warning-text">Người khác không nên nhìn màn hình lúc này 👀</div>
+    </div>
+    <div class="btn-group" style="padding-bottom:40px;">
+      <button class="btn btn-primary" onclick="App.showReveal()">
+        Tôi là <span id="ho-btn-name"></span>, xem từ của tôi
+      </button>
+    </div>
+  </div>
+
+  <!-- Màn 3b: Xem từ bí mật -->
+  <div id="screen-reveal" class="screen" style="justify-content:center;">
+    <div id="anti-cheat-overlay" style="display:none; position:fixed; inset:0; background:var(--ink); z-index:50; align-items:center; justify-content:center; text-align:center; padding:24px; flex-direction:column;">
+      <h2 style="color:var(--gold); font-size:1.8rem; margin-bottom:8px;">⚠️ Từ đã bị ẩn</h2>
+      <p style="color:var(--ghost);">Màn hình bị che để tránh lộ khi chuyển tab.</p>
+      <button class="btn btn-primary" style="margin-top:24px; max-width:320px;" onclick="document.getElementById('anti-cheat-overlay').style.display='none'">Tôi vẫn đang cầm máy</button>
+    </div>
+
+    <div style="text-align:center; margin-bottom:12px;">
+      <div class="eyebrow" style="margin-bottom:0;">Từ bí mật của bạn</div>
+    </div>
+
+    <div class="secret-card">
+      <div class="secret-word" id="secret-word">...</div>
+      <div class="secret-hint" id="secret-hint">Hãy ghi nhớ từ này</div>
+    </div>
+
+    <div style="text-align:center; margin-top:8px;">
+      <div class="warning-text">Che ngón tay lên màn hình khi truyền máy cho người tiếp theo</div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-secondary" onclick="App.finishReveal()">Đã xem xong, ẩn đi</button>
+    </div>
+  </div>
+
+  <!-- Màn 4: Thảo luận -->
+  <div id="screen-discuss" class="screen">
+    <div class="eyebrow">Thời gian tranh luận</div>
+    <h2 class="game-title">Thảo luận</h2>
+    <p class="subtitle" id="discuss-sub">Tự do thảo luận</p>
+
+    <div class="timer-wrap" id="timerWrap" style="display:none;">
+      <svg class="timer-svg" width="200" height="200" viewBox="0 0 220 220">
+        <circle class="timer-bg" cx="110" cy="110" r="100"/>
+        <circle class="timer-bar" id="timer-bar" cx="110" cy="110" r="100" stroke-dasharray="628.3185" stroke-dashoffset="0"/>
+      </svg>
+      <div class="timer-text" id="timer-text">03:00</div>
+    </div>
+
+    <div class="chips-wrap" id="discuss-chips"></div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="App.goVote()">Bắt đầu bỏ phiếu</button>
+    </div>
+  </div>
+
+  <!-- Màn 5: Bỏ phiếu -->
+  <div id="screen-vote" class="screen">
+    <div class="eyebrow">Phán quyết</div>
+    <h2 class="game-title">Bỏ phiếu</h2>
+    <p class="subtitle">Chọn 1 người bạn nghi ngờ</p>
+
+    <div class="vote-grid" id="vote-grid"></div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" id="btn-confirm-vote" style="display:none;" onclick="App.openConfirmVote()">
+        Xác nhận loại <span id="confirm-name"></span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Màn 5b: Lộ diện -->
+  <div id="screen-elimination" class="screen" style="justify-content:center;">
+    <div class="eyebrow">Sự thật được hé lộ</div>
+    <h2 class="game-title" style="font-size:1.4rem;">Người bị loại</h2>
+
+    <div class="secret-card elim-card" style="width:100%;">
+      <div class="vote-avatar" id="elim-avatar"></div>
+      <div class="handover-name" id="elim-name"></div>
+      <div class="secret-word" id="elim-word"></div>
+      <div class="badge-role" id="elim-role"></div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn btn-primary" onclick="App.goResults()">Xem kết quả cuối cùng</button>
+    </div>
+  </div>
+
+  <!-- Màn 6: Kết quả -->
+  <div id="screen-result" class="screen">
+    <div class="result-banner" id="result-banner">
+      <h2 id="result-title" style="margin:0; font-family:'Playfair Display',serif;">Kết quả</h2>
+    </div>
+
+    <div class="result-list" id="result-list"></div>
+
+    <div class="btn-group horizontal">
+      <button class="btn btn-secondary" onclick="App.replayKeepConfig()">Chơi lại</button>
+      <button class="btn btn-primary" onclick="App.replayNewGame()">Ván mới</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- Modal xác nhận -->
+<div class="modal-overlay" id="modal-confirm">
+  <div class="modal">
+    <h3>Xác nhận loại bỏ</h3>
+    <p>Loại <strong id="modal-name"></strong> ra khỏi ván?</p>
+    <div class="modal-actions">
+      <button class="btn btn-secondary" onclick="App.closeModal()">Hủy</button>
+      <button class="btn btn-primary" onclick="App.doEliminate()">Loại</button>
+    </div>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
