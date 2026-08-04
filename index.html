@@ -11,6 +11,7 @@
 
 <canvas id="confetti"></canvas>
 <div class="top-progress"><div class="top-progress-fill" id="progressFill"></div></div>
+<button class="rules-fab" onclick="App.openRules()" aria-label="Luật chơi">?</button>
 
 <div id="app">
 
@@ -39,12 +40,23 @@
         </div>
       </div>
 
-      <div class="toggle-row" onclick="App.toggleMrWhite()">
+      <div class="control-row" style="flex-direction:column; align-items:stretch; gap:10px;">
         <div>
-          <div class="control-label">Mr. White</div>
-          <div class="control-sub">Không nhận được từ nào cả</div>
+          <div class="control-label">Chế độ kẻ giấu mặt</div>
+          <div class="control-sub">Cách imposter nhận từ / vai trò của mình</div>
         </div>
-        <span id="badge-mrwhite" class="toggle-badge off">Tắt</span>
+        <div class="segmented">
+          <button class="segmented-btn active" data-mode="aware" onclick="App.setImposterMode('aware')">Biết mình là ai</button>
+          <button class="segmented-btn" data-mode="hidden" onclick="App.setImposterMode('hidden')">Ẩn danh</button>
+        </div>
+      </div>
+
+      <div class="toggle-row" onclick="App.toggleMultiRound()">
+        <div>
+          <div class="control-label">Chơi nhiều vòng</div>
+          <div class="control-sub">Đoán sai vẫn tiếp tục chơi tới khi có kết quả</div>
+        </div>
+        <span id="badge-multiround" class="toggle-badge">Bật</span>
       </div>
 
       <div class="toggle-row" onclick="App.toggleTimer()">
@@ -171,8 +183,10 @@
       <div class="badge-role" id="elim-role"></div>
     </div>
 
+    <div class="elim-verdict" id="elim-verdict"></div>
+
     <div class="btn-group">
-      <button class="btn btn-primary" onclick="App.goResults()">Xem kết quả cuối cùng</button>
+      <button class="btn btn-primary" id="btn-elim-next" onclick="App.goResults()">Xem kết quả cuối cùng</button>
     </div>
   </div>
 
@@ -200,6 +214,62 @@
     <div class="modal-actions">
       <button class="btn btn-secondary" onclick="App.closeModal()">Hủy</button>
       <button class="btn btn-primary" onclick="App.doEliminate()">Loại</button>
+    </div>
+  </div>
+</div>
+
+<!-- Modal luật chơi -->
+<div class="modal-overlay" id="modal-rules">
+  <div class="modal modal-rules">
+    <button class="modal-close" onclick="App.closeRules()" aria-label="Đóng">✕</button>
+    <div class="eyebrow" style="margin-bottom:2px;">Hướng dẫn</div>
+    <h3>Luật chơi</h3>
+    <div class="rules-body">
+      <div class="rule-item">
+        <div class="rule-num">1</div>
+        <div>
+          <div class="rule-title">Chia vai trò</div>
+          <div class="rule-text">Mỗi người lần lượt xem điện thoại. Phần lớn là <b>Dân thường</b> — họ nhận cùng một từ thật. Một vài người là <b>Kẻ giấu mặt</b>.</div>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">2</div>
+        <div>
+          <div class="rule-title">2 chế độ Kẻ giấu mặt</div>
+          <div class="rule-text"><b>Biết mình là ai:</b> imposter được báo rõ vai trò và nhận một gợi ý để bluff. <b>Ẩn danh:</b> imposter chỉ thấy một từ gần giống từ thật, không biết mình khác mọi người.</div>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">3</div>
+        <div>
+          <div class="rule-title">Thảo luận</div>
+          <div class="rule-text">Mỗi người mô tả từ của mình bằng 1 câu ngắn, không nói thẳng từ đó ra. Lắng nghe để tìm ra ai đang mô tả khác thường.</div>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">4</div>
+        <div>
+          <div class="rule-title">Bỏ phiếu &amp; loại</div>
+          <div class="rule-text">Cả nhóm bỏ phiếu chọn 1 người nghi ngờ nhất để loại. Vai trò của người đó sẽ được lộ ra ngay, kèm thông báo đoán đúng hay sai.</div>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">5</div>
+        <div>
+          <div class="rule-title">Chơi nhiều vòng</div>
+          <div class="rule-text">Nếu bật, đoán sai vẫn tiếp tục chơi vòng tiếp theo với những người còn lại. Nếu tắt, ván đấu kết thúc ngay sau lượt loại đầu tiên.</div>
+        </div>
+      </div>
+      <div class="rule-item">
+        <div class="rule-num">6</div>
+        <div>
+          <div class="rule-title">Chiến thắng</div>
+          <div class="rule-text">Loại hết Kẻ giấu mặt → <b>Dân thường thắng</b>. Số Kẻ giấu mặt còn lại bằng hoặc nhiều hơn Dân thường còn lại → <b>Kẻ giấu mặt thắng</b>.</div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-actions" style="margin-top:8px;">
+      <button class="btn btn-primary" onclick="App.closeRules()">Đã hiểu</button>
     </div>
   </div>
 </div>
