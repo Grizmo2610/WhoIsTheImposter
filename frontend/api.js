@@ -1,8 +1,16 @@
 /* ========================================================
    API client — toàn bộ giao tiếp với backend FastAPI ở đây.
-   Đổi API_BASE nếu backend không chạy ở localhost:8000.
+   Tự nhận diện môi trường: mở từ localhost -> gọi backend local,
+   mở từ domain thật -> gọi backend production trên Render.
    ======================================================== */
-const API_BASE = window.API_BASE_URL || 'http://127.0.0.1:8000';
+const PROD_API_URL = 'https://whoistheimposter-egd1.onrender.com';
+const LOCAL_API_URL = 'http://127.0.0.1:8000';
+
+const API_BASE = window.API_BASE_URL || (
+  ['localhost', '127.0.0.1'].includes(location.hostname)
+    ? LOCAL_API_URL
+    : PROD_API_URL
+);
 
 class ApiError extends Error {
   constructor(message, status) {
