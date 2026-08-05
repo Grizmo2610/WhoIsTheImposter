@@ -17,7 +17,7 @@
 <h3 align="center">Ai Là Người Giả Mạo?</h3>
 
   <p align="center">
-    Trò chơi truyền tay — tìm người giả mạo trong bè bạn
+    Trò chơi truyền tay & thời gian thực — tìm người giả mạo trong bè bạn
     <br />
     <a href="https://github.com/hoangtuantu/WhoIsTheImposter"><strong>Khám phá tài liệu »</strong></a>
     <br />
@@ -36,19 +36,22 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-Trò chơi truyền tay theo phong cách "Ai Là Người Giả Mạo?" / Mafia / Among Us. Một người chơi sẽ là người giả mạo — những người còn lại là dân thường. Lần lượt mỗi người xem từ bí mật của mình, sau đó thảo luận và bỏ phiếu để loại bỏ người giả mạo trước khi họ phá hoại cả nhóm.
+**Ai Là Người Giả Mạo?** (Who Is The Imposter?) là trò chơi tiệc tùng lấy cảm hứng từ các thể loại suy luận xã hội cổ điển (Mafia / Among Us). Người chơi lần lượt xem từ bí mật, thảo luận và bỏ phiếu để loại bỏ kẻ giả mạo trước khi chúng phá hoại cả nhóm.
 
-Tính năng chính:
+Dự án hỗ trợ 2 chế độ linh hoạt:
+1. **Truyền tay cổ điển (Chỉ Frontend)**: Chạy hoàn toàn ở phía client trên một thiết bị duy nhất — không cần cài đặt hay kết nối mạng.
+2. **Backend thẩm quyền (FastAPI + WebSocket)**: Quản lý trạng thái trên server với cơ chế phân phối từ/vai trò bảo mật và đồng bộ thời gian thực đa thiết bị qua điện thoại.
 
-* Chơi truyền tay trên một thiết bị duy nhất — không cần mạng
-* Cấu hình số người chơi (3–12) và số người giả mạo
-* Hai chế độ người giả mạo: **Biết Mình Là Ai** (người giả mạo biết vai trò và nhận gợi ý liên quan để đánh lạc hướng) và **Ẩn Danh** (người giả mạo chỉ thấy một từ tương tự từ của dân thường, không biết mình là người giả mạo)
-* Hẹn giờ thảo luận tùy chọn với thanh tiến trình tròn
-* Chống gian lận — ẩn màn hình khi người chơi chuyển tab
-* Kho từ vựng với 50+ cặp từ tiếng Việt (dựa trên CSV, dễ mở rộng)
-* Hỗ trợ chơi nhiều ván — chơi đến khi dân thường hoặc người giả mạo chiến thắng
-* Hiệu ứng confetti khi kết thúc ván chơi
-* Hoàn toàn chạy phía client — không cần backend, không cần bước biên dịch
+### Tính Năng Nổi Bật
+
+* **Đa chế độ chơi**: Truyền tay trên 1 máy hoặc chơi nhiều thiết bị trực tuyến qua WebSocket.
+* **Cấu hình linh hoạt**: Số lượng người chơi (3–12), số lượng kẻ giả mạo, và hẹn giờ thảo luận với thanh tiến trình tròn.
+* **Chế độ Kẻ Giả Mạo**: 
+  * **Biết Mình Là Ai**: Kẻ giả mạo biết vai trò và nhận gợi ý liên quan để đánh lạc hướng.
+  * **Ẩn Danh**: Kẻ giả mạo chỉ thấy từ tương tự từ của dân thường, không có dấu hiệu nhận biết.
+* **Chống gian lận**: Tự động ẩn màn hình khi người chơi chuyển tab trình duyệt.
+* **Kho từ vựng**: 50+ cặp từ tiếng Việt lưu trữ qua CSV (local hoặc Cloudflare R2 S3-compatible).
+* **Giao diện tương tác**: Hiệu ứng confetti chúc mừng chiến thắng và hỗ trợ chơi nhiều ván liên tục.
 
 Quy trình:
 Cài đặt → Nhập Tên → Truyền Máy → Xem Bí Mật → Thảo Luận → Bỏ Phiếu → Loại → Kết Quả
@@ -57,57 +60,67 @@ Cài đặt → Nhập Tên → Truyền Máy → Xem Bí Mật → Thảo Luậ
 
 ---
 
-### Công Nghệ Sử Dụng
+## Công Nghệ Sử Dụng
 
 <p align="center">
   <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
   <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
-  <img src="https://img.shields.io/badge/Canvas-2D_Graphics?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/CSV-Data-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/FastAPI-0.100%2B-009688?style=for-the-badge&logo=fastapi&logoColor=white" />
+  <img src="https://img.shields.io/badge/WebSocket-Realtime-orange?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Cloudflare_R2-S3-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" />
 </p>
 
 <p align="right">(<a href="#readme-top">lên đầu trang</a>)</p>
 
 ---
 
-## Bắt Đầu
+## Bắt Đầu & Cài Đặt
 
 ### Điều Kiện Tiên Quyết
 
 * Trình duyệt web hiện đại (Chrome, Firefox, Safari, Edge)
-* Không cần cài đặt hay biên dịch
+* Python 3.10+ (tùy chọn, chỉ cần thiết khi chạy FastAPI backend)
 
----
-
-### Cài Đặt
-
-1. Sao chép kho lưu trữ
+### 1. Sao Chép Kho Lưu Trữ
 
 ```sh
 git clone https://github.com/hoangtuantu/WhoIsTheImposter.git
-```
-
-2. Mở thư mục dự án
-
-```sh
 cd WhoIsTheImposter
 ```
 
-3. Mở `index.html` bằng trình duyệt
+### 2. Lựa Chọn A: Chạy Frontend Thuần (Truyền tay)
 
-```sh
-# Trên Windows
-start index.html
+Không cần cài đặt hay biên dịch. Chỉ cần mở file `index.html` trên trình duyệt:
 
-# Trên macOS
-open index.html
+* **Windows:** `start index.html` (hoặc nhấp đúp vào `index.html`)
+* **macOS:** `open index.html`
+* **Linux:** `xdg-open index.html`
 
-# Trên Linux
-xdg-open index.html
-```
+### 3. Lựa Chọn B: Chạy Full-Stack (FastAPI Backend + Frontend)
 
-Hoặc chỉ cần nhấp đúp vào `index.html`.
+Để chạy với trạng thái phía server an toàn và hỗ trợ WebSocket đa thiết bị:
+
+* **Terminal 1 (Backend):**
+  ```bash
+  cd backend
+  python -m venv .venv
+  .venv\Scripts\activate.bat   # macOS/Linux: source .venv/bin/activate
+  pip install -r requirements.txt
+  cp .env.example .env
+  uvicorn app.main:app --reload --port 8000
+  ```
+
+* **Terminal 2 (Frontend Static Server):**
+  ```bash
+  cd frontend
+  python -m http.server 5500
+  ```
+  Sau đó mở `http://localhost:5500` trên trình duyệt của bạn.
+
+* Xem chi tiết kiến trúc và cấu hình Cloudflare R2 tại [backend/README.md](backend/README.md).
+* Xem kiến trúc client frontend tại [frontend/README.md](frontend/README.md).
 
 <p align="right">(<a href="#readme-top">lên đầu trang</a>)</p>
 
@@ -117,23 +130,18 @@ Hoặc chỉ cần nhấp đúp vào `index.html`.
 
 ### Cách Chơi
 
-1. **Cài đặt** — Cấu hình số người chơi, số người giả mạo, chế độ người giả mạo và hẹn giờ tùy chọn.
+1. **Cài đặt** — Cấu hình số người chơi, số người giả mạo, chế độ và hẹn giờ tùy chọn.
 2. **Nhập Tên** — Nhập tên cho mỗi người chơi.
-3. **Truyền Máy** — Truyền thiết bị cho người tiếp theo. Họ nhấn để xem từ bí mật của mình.
-4. **Xem Bí Mật** — Người chơi hiện tại xem từ của mình một cách riêng tư. Màn hình sẽ bị ẩn khi họ chuyển tab (chống gian lận).
-5. **Thảo Luận** — Tất cả người chơi thảo luận công khai. Nếu bật hẹn giờ, lượt thảo luận sẽ có giới hạn thời gian.
-6. **Bỏ Phiếu** — Mỗi người chơi bỏ phiếu cho người mà họ nghi là người giả mạo.
-7. **Loại** — Người bị bỏ phiếu sẽ được tiết lộ là dân thường hoặc người giả mạo.
-8. **Kết Quả** — Trò chơi kết thúc khi tất cả người giả mạo bị loại (dân thường thắng) hoặc người giả mạo đông hơn dân thường (người giả mạo thắng).
-
-### Chế Độ Người Giả Mạo
-
-* **Biết Mình Là Ai** — Người giả mạo biết vai trò của mình và nhận một gợi ý liên quan để đánh lạc hướng.
-* **Ẩn Danh** — Người giả mạo chỉ thấy một từ tương tự từ của dân thường, không có dấu hiệu nào cho thấy họ là người giả mạo.
+3. **Truyền Máy** — Truyền thiết bị cho người tiếp theo để xem từ bí mật.
+4. **Xem Bí Mật** — Xem từ cá nhân một cách riêng tư (bảo vệ chống gian lận khi chuyển tab).
+5. **Thảo Luận** — Mọi người thảo luận công khai trong thời gian quy định.
+6. **Bỏ Phiếu** — Bỏ phiếu cho người bị nghi ngờ là kẻ giả mạo.
+7. **Loại** — Tiết lộ vai trò dân thường hoặc kẻ giả mạo của người bị chọn.
+8. **Kết Quả** — Trò chơi kết thúc khi loại hết kẻ giả mạo (dân thắng) hoặc kẻ giả mạo đông hơn.
 
 ### Kho Từ Vựng
 
-Từ được tải từ `words.csv`. Mỗi hàng chứa:
+Từ được tải từ `words.csv` (quản lý local hoặc qua Cloudflare R2). Mỗi hàng chứa:
 
 ```csv
 tu_that,tu_lien_quan,goi_y
@@ -141,23 +149,23 @@ Phở,Bánh mì,Món ăn đường phố Việt Nam
 Biển,Nhà tắm,Quán cà phê có view biển
 ```
 
-Cột thứ nhất là từ của dân thường, cột thứ hai là từ liên quan hiển thị cho người giả mạo ở chế độ ẩn danh, và cột thứ ba là gợi ý tùy chọn hiển thị cho người giả mạo ở chế độ biết mình là ai.
-
 <p align="right">(<a href="#readme-top">lên đầu trang</a>)</p>
 
 ---
 
 ## Lộ Trình Phát Triển
 
+* [x] Chế độ chơi truyền tay client-side
+* [x] Backend thẩm quyền FastAPI kết hợp đồng bộ WebSocket real-time
+* [x] Tích hợp lưu trữ Cloudflare R2 cho kho từ vựng
 * [ ] Hỗ trợ đa ngôn ngữ (Tiếng Anh, Tiếng Nhật, Tiếng Hàn, v.v.)
 * [ ] Hiệu ứng âm thanh và nhạc nền
-* [ ] Gói từ tùy chỉnh
-* [ ] Chơi trực tuyến nhiều người (WebRTC / WebSocket)
+* [ ] Gói từ vựng tùy chỉnh
+* [ ] Mở rộng multiplayer trực tuyến (WebRTC / Cloud deployment)
 * [ ] Ứng dụng di động (Capacitor / PWA)
 * [ ] Theo dõi điểm số và thống kê
-* [ ] Tùy chỉnh chủ đề (tối / sáng / tùy chỉnh)
 
-Xem các [vấn đề mở](https://github.com/hoangtuantu/WhoIsTheImposter/issues)
+Xem các [vấn đề mở](https://github.com/hoangtuantu/WhoIsTheImposter/issues) để biết thêm tính năng dự kiến.
 
 <p align="right">(<a href="#readme-top">lên đầu trang</a>)</p>
 
@@ -166,24 +174,24 @@ Xem các [vấn đề mở](https://github.com/hoangtuantu/WhoIsTheImposter/issu
 ## Đóng Góp
 
 1. Fork dự án
-2. Tạo nhánh (`feature/...`)
-3. Đ commit thay đổi
-4. Push lên nhánh
+2. Tạo nhánh tính năng (`git checkout -b feature/AmazingFeature`)
+3. Commit thay đổi (`git commit -m 'Add some AmazingFeature'`)
+4. Push lên nhánh (`git push origin feature/AmazingFeature`)
 5. Tạo Pull Request
 
 ---
 
-### Top người đóng góp:
+### Top Người Đóng Góp:
 
 <a href="https://github.com/hoangtuantu/WhoIsTheImposter/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=hoangtuantu/WhoIsTheImposter" />
+  <img src="contrib.rocks/image?repo=hoangtuantu/WhoIsTheImposter" />
 </a>
 
 ---
 
 ## Giấy Phép
 
-Phân phối theo Giấy Phép MIT.
+Phân phối theo Giấy Phép MIT. Xem `LICENSE.txt` để biết thêm chi tiết.
 
 <p align="right">(<a href="#readme-top">lên đầu trang</a>)</p>
 
@@ -193,19 +201,16 @@ Phân phối theo Giấy Phép MIT.
 
 hoangtuantu - [hoangtuantu893@gmail.com](mailto:hoangtuantu893@gmail.com)
 
-Liên kết dự án:
-https://github.com/hoangtuantu/WhoIsTheImposter
+Liên kết dự án: [https://github.com/hoangtuantu/WhoIsTheImposter](https://github.com/hoangtuantu/WhoIsTheImposter)
 
 <p align="right">(<a href="#readme-top">lên đầu trang</a>)</p>
 
 ---
 
-## Lời Cảm ơn
+## Lời Cảm Ơn
 
 * Các định dạng trò chơi Among Us / Mafia / Werewolf
-* FaceNet paper
-* PyTorch
-* MTCNN
+* Hệ sinh thái FastAPI & Python
 * Cloudflare R2
 
 <p align="right">(<a href="#readme-top">lên đầu trang</a>)</p>
@@ -219,9 +224,7 @@ https://github.com/hoangtuantu/WhoIsTheImposter
 [stars-shield]: https://img.shields.io/github/stars/hoangtuantu/WhoIsTheImposter.svg?style=for-the-badge
 [stars-url]: https://github.com/hoangtuantu/WhoIsTheImposter/stargazers
 [issues-shield]: https://img.shields.io/github/issues/hoangtuantu/WhoIsTheImposter.svg?style=for-the-badge
-[issues-url]: https://github.com/hoangtuantu/WhoIsTheImposter/issues
+[issues-url]: https://img.shields.io/github/issues/hoangtuantu/WhoIsTheImposter.issues
 [license-shield]: https://img.shields.io/github/license/hoangtuantu/WhoIsTheImposter.svg?style=for-the-badge
 [license-url]: https://github.com/hoangtuantu/WhoIsTheImposter/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
 [product-screenshot]: images/screenshot.png
