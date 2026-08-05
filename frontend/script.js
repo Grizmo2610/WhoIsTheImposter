@@ -1,93 +1,28 @@
-/* ========================================= GAME STATE ========================================= */
+/* ========================================================
+   Game state — giờ chỉ giữ những gì cần cho UI pass-and-play
+   trên 1 thiết bị. Vai trò/từ/thắng-thua do BACKEND quyết định
+   (xem api.js) — client không tự tính nữa.
+   ======================================================== */
 const PALETTE = ['#d4af6a', '#e0654f', '#4f8b8b', '#e8cf9c', '#f2a48f', '#8b93a6', '#c98a4b'];
 
 const App = {
   numPlayers: 5,
   numImposters: 1,
-  imposterMode: 'aware',   // 'aware' = biết mình là ai, nhận gợi ý | 'hidden' = ẩn danh, nhận từ gần giống
+  imposterMode: 'aware',
   multiRound: true,
   timerEnabled: false,
   timerMinutes: 3,
-  players: [],
-  words: [],
-  currentEntry: null,      // { real, related, hint }
+
+  roomId: null,
+  hostToken: null,
+  players: [],           // { name, color, playerId, playerToken, eliminated }
   currentPlayerIndex: 0,
   votedIndex: null,
   pendingGameOver: false,
   pendingWinner: null,
-  winner: null,
   timerId: null,
   timerRemaining: 0,
   confettiRunning: false,
-
-  /* ----- Words / CSV ----- */
-  async loadWordBank() {
-    const tryFetch = async (url) => {
-      const res = await fetch(url);
-      if (!res.ok) throw new Error('No CSV');
-      return await res.text();
-    };
-
-    let raw = '';
-    try {
-      raw = await tryFetch('words.csv');
-    } catch (e) {
-      try {
-        raw = await tryFetch('./words.csv');
-      } catch (e2) {
-        raw = '';
-      }
-    }
-
-    if (raw.trim().length) {
-      this.words = this.parseCSV(raw);
-    }
-    if (!this.words.length) {
-      this.words = this.getDefaultWords();
-    }
-  },
-
-  parseCSV(text) {
-    const out = [];
-    const lines = text.split(/\r?\n/).filter(l => l.trim());
-    lines.forEach((line, idx) => {
-      if (idx === 0) return; // dòng đầu luôn là tiêu đề cột: tu_that,tu_lien_quan,goi_y
-      const parts = line.split(',').map(s => s.trim());
-      if (parts.length >= 2 && parts[0] && parts[1]) {
-        out.push({
-          real: parts[0],
-          related: parts[1],
-          hint: parts[2] || 'Từ này có liên quan gần với chủ đề của từ thật.'
-        });
-      }
-    });
-    return out;
-  },
-
-  getDefaultWords() {
-    const pairs = [
-      ["Chó","Mèo"],["Biển","Hồ"],["Sách","Vở"],["Cà phê","Trà"],
-      ["Núi","Đồi"],["Xe máy","Xe đạp"],["Máy bay","Tàu thủy"],
-      ["Bóng đá","Bóng rổ"],["Pizza","Hamburger"],["Điện thoại","Máy tính bảng"],
-      ["Mưa","Tuyết"],["Bút chì","Bút mực"],["Sushi","Phở"],["Tivi","Máy chiếu"],
-      ["Ghế","Sofa"],["Bàn ăn","Bàn học"],["Tủ lạnh","Máy giặt"],
-      ["Cửa sổ","Cửa ra vào"],["Đèn ngủ","Đèn bàn"],["Khăn tắm","Khăn mặt"],
-      ["Giày","Dép"],["Túi xách","Balo"],["Chuột","Bàn phím"],["Loa","Tai nghe"],
-      ["Bánh mì","Bánh ngọt"],["Sữa","Nước cam"],["Trứng gà","Trứng vịt"],
-      ["Cà chua","Cà rốt"],["Táo","Cam"],["Dưa hấu","Dưa lưới"],
-      ["Gà","Vịt"],["Cá","Tôm"],["Heo","Bò"],["Gạo","Mì"],["Dao","Kéo"],
-      ["Chảo","Nồi"],["Bát","Đĩa"],["Thìa","Dĩa"],["Kem","Bánh flan"],
-      ["Ô tô","Xe buýt"],["Cầu thang","Thang máy"],
-      ["Áo thun","Sơ mi"],["Quạt","Máy lạnh"],["Mặt trời","Mặt trăng"],
-      ["Sông","Suối"],["Rừng","Vườn"],["Bưu điện","Ngân hàng"],
-      ["Bệnh viện","Phòng khám"],["Thư viện","Hiệu sách"],
-      ["Công viên","Sở thú"],["Nhà hàng","Quán ăn"]
-    ];
-    return pairs.map(([real, related]) => ({
-      real, related,
-      hint: 'Từ này có liên quan gần với chủ đề của từ thật.'
-    }));
-  },
 
   /* ----- Setup ----- */
   stepPlayers(delta) {
@@ -149,10 +84,9 @@ const App = {
       this.players.push({
         name: `Người chơi ${i+1}`,
         color: PALETTE[i % PALETTE.length],
-        role: 'civilian',
-        word: '',
-        hint: '',
-        eliminated: false
+        playerId: null,
+        playerToken: null,
+        eliminated: false,
       });
     }
     this.renderNames();
@@ -192,53 +126,72 @@ const App = {
     this.renderNames();
   },
 
-  /* ----- Assign roles & words ----- */
-  assignGame() {
-    if (!this.words.length) this.words = this.getDefaultWords();
-    this.currentEntry = this.words[Math.floor(Math.random() * this.words.length)];
-
-    const indices = this.players.map((_, i) => i);
-    for (let i = indices.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [indices[i], indices[j]] = [indices[j], indices[i]];
+  /* ----- Loading overlay dùng chung khi chờ API ----- */
+  setBusy(isBusy, label) {
+    let el = document.getElementById('api-busy');
+    if (!el) {
+      el = document.createElement('div');
+      el.id = 'api-busy';
+      el.style.cssText = 'position:fixed;inset:0;background:rgba(6,9,15,0.7);display:none;align-items:center;justify-content:center;z-index:500;color:#f2e9d8;font-weight:700;';
+      document.body.appendChild(el);
     }
-
-    const specialRoles = [];
-    for (let i=0; i<this.numImposters; i++) specialRoles.push('imposter');
-    while (specialRoles.length < this.numPlayers) specialRoles.push('civilian');
-
-    indices.forEach((origIdx, pos) => {
-      const role = specialRoles[pos];
-      const p = this.players[origIdx];
-      p.role = role;
-      p.eliminated = false;
-      if (role === 'imposter') {
-        if (this.imposterMode === 'hidden') {
-          p.word = this.currentEntry.related;
-          p.hint = '';
-        } else {
-          p.word = null;
-          p.hint = this.currentEntry.hint;
-        }
-      } else {
-        p.word = this.currentEntry.real;
-        p.hint = '';
-      }
-    });
-
-    this.currentPlayerIndex = 0;
-    this.votedIndex = null;
+    el.textContent = label || 'Đang xử lý...';
+    el.style.display = isBusy ? 'flex' : 'none';
+  },
+  showApiError(err) {
+    console.error(err);
+    alert(err.message || 'Có lỗi xảy ra khi kết nối server.');
   },
 
-  /* ----- Handover & Reveal ----- */
-  goHandover() {
+  /* ----- Tạo phòng trên server + gán vai trò ----- */
+  async goHandover() {
     this.players.forEach((p, i) => {
       if (!p.name.trim()) p.name = `Người chơi ${i+1}`;
     });
-    this.assignGame();
+
+    this.setBusy(true, 'Đang tạo phòng...');
+    try {
+      // 1) Tạo phòng (nếu chưa có, hoặc đang ở phòng cũ đã dùng thì tạo phòng mới)
+      if (!this.roomId) {
+        const room = await api.createRoom();
+        this.roomId = room.room_id;
+        this.hostToken = room.host_token;
+      }
+
+      // 2) Từng người tham gia phòng -> nhận playerId/playerToken riêng
+      this.setBusy(true, 'Đang thêm người chơi...');
+      for (const p of this.players) {
+        const joined = await api.joinRoom(this.roomId, p.name);
+        p.playerId = joined.player_id;
+        p.playerToken = joined.player_token;
+        p.eliminated = false;
+      }
+
+      // 3) Áp cấu hình do host chọn
+      this.setBusy(true, 'Đang áp cấu hình...');
+      await api.updateConfig(this.roomId, this.hostToken, {
+        num_imposters: this.numImposters,
+        imposter_mode: this.imposterMode,
+        multi_round: this.multiRound,
+        timer_enabled: this.timerEnabled,
+        timer_minutes: this.timerMinutes,
+      });
+
+      // 4) Server random từ + gán vai trò cho tất cả người chơi
+      this.setBusy(true, 'Đang chia vai trò...');
+      await api.startGame(this.roomId, this.hostToken);
+    } catch (e) {
+      this.setBusy(false);
+      this.showApiError(e);
+      return;
+    }
+    this.setBusy(false);
+
+    this.currentPlayerIndex = 0;
     this.showHandover();
     this.showScreen('screen-handover');
   },
+
   showHandover() {
     const p = this.players[this.currentPlayerIndex];
     const pct = (this.currentPlayerIndex / this.numPlayers) * 100;
@@ -249,18 +202,31 @@ const App = {
     document.getElementById('ho-name').textContent = p.name;
     document.getElementById('ho-btn-name').textContent = p.name;
   },
-  showReveal() {
+
+  /* ----- Xem từ bí mật: lấy từ SERVER bằng token riêng của người này ----- */
+  async showReveal() {
     const p = this.players[this.currentPlayerIndex];
     const wordEl = document.getElementById('secret-word');
     const hintEl = document.getElementById('secret-hint');
 
-    if (p.role === 'imposter' && this.imposterMode === 'aware') {
+    this.setBusy(true, 'Đang tải từ của bạn...');
+    let secret;
+    try {
+      secret = await api.getSecret(this.roomId, p.playerId, p.playerToken);
+    } catch (e) {
+      this.setBusy(false);
+      this.showApiError(e);
+      return;
+    }
+    this.setBusy(false);
+
+    if (secret.role === 'imposter' && secret.is_imposter_aware) {
       wordEl.textContent = 'KẺ GIẤU MẶT';
       wordEl.style.color = 'var(--coral-soft)';
       wordEl.style.fontSize = '2rem';
-      hintEl.innerHTML = `Gợi ý cho bạn: <b style="color:var(--paper)">${p.hint}</b>`;
+      hintEl.innerHTML = `Gợi ý cho bạn: <b style="color:var(--paper)">${secret.hint}</b>`;
     } else {
-      wordEl.textContent = p.word;
+      wordEl.textContent = secret.word;
       wordEl.style.color = 'var(--paper)';
       wordEl.style.fontSize = '';
       hintEl.textContent = 'Hãy ghi nhớ từ này';
@@ -317,7 +283,7 @@ const App = {
     }, 1000);
   },
 
-  /* ----- Voting ----- */
+  /* ----- Voting (chọn tại chỗ trên 1 máy, không cần từng người bấm phiếu riêng) ----- */
   goVote() {
     if (this.timerId) clearInterval(this.timerId);
     document.getElementById('btn-confirm-vote').style.display = 'none';
@@ -368,45 +334,39 @@ const App = {
   closeRules() {
     document.getElementById('modal-rules').classList.remove('active');
   },
-  doEliminate() {
+
+  /* ----- Loại người chơi: SERVER quyết định đúng/sai + thắng/thua ----- */
+  async doEliminate() {
     this.closeModal();
     const idx = this.votedIndex;
     if (idx == null) return;
     const p = this.players[idx];
-    p.eliminated = true;
 
-    const wasImposter = p.role === 'imposter';
-
-    // Xác định trạng thái ván đấu sau khi loại người này
-    const activeImposters = this.players.filter(pl => pl.role === 'imposter' && !pl.eliminated).length;
-    const activeCivilians = this.players.filter(pl => pl.role === 'civilian' && !pl.eliminated).length;
-
-    let gameOver, winner;
-    if (!this.multiRound) {
-      gameOver = true;
-      winner = wasImposter ? 'civilian' : 'imposter';
-    } else if (activeImposters === 0) {
-      gameOver = true; winner = 'civilian';
-    } else if (activeImposters >= activeCivilians) {
-      gameOver = true; winner = 'imposter';
-    } else {
-      gameOver = false; winner = null;
+    this.setBusy(true, 'Đang xử lý kết quả...');
+    let result;
+    try {
+      result = await api.eliminate(this.roomId, this.hostToken, p.playerId);
+    } catch (e) {
+      this.setBusy(false);
+      this.showApiError(e);
+      return;
     }
-    this.pendingGameOver = gameOver;
-    this.pendingWinner = winner;
+    this.setBusy(false);
 
-    // Hiển thị màn lộ diện
+    p.eliminated = true;
+    this.pendingGameOver = result.game_over;
+    this.pendingWinner = result.winner;
+
     document.getElementById('elim-avatar').style.background = p.color;
     document.getElementById('elim-avatar').textContent = this.getInitials(p.name);
     document.getElementById('elim-name').textContent = p.name;
-    document.getElementById('elim-word').textContent = p.role === 'imposter' && this.imposterMode === 'aware'
-      ? (p.hint || '—') : (p.word ?? '—');
+    document.getElementById('elim-word').textContent = result.revealed_word;
     const roleEl = document.getElementById('elim-role');
-    roleEl.textContent = p.role === 'civilian' ? 'Dân thường' : 'Kẻ giấu mặt';
-    roleEl.className = 'badge-role ' + (p.role === 'civilian' ? 'badge-civilian' : 'badge-imposter');
+    roleEl.textContent = result.role_label;
+    roleEl.className = 'badge-role ' + (result.was_imposter ? 'badge-imposter' : 'badge-civilian');
 
     const verdict = document.getElementById('elim-verdict');
-    if (wasImposter) {
+    if (result.was_imposter) {
       verdict.textContent = '✅ Chính xác! Bạn đã tìm ra Kẻ giấu mặt.';
       verdict.className = 'elim-verdict correct';
     } else {
@@ -415,8 +375,8 @@ const App = {
     }
 
     const btn = document.getElementById('btn-elim-next');
-    btn.textContent = gameOver ? 'Xem kết quả cuối cùng' : 'Tiếp tục vòng tiếp theo';
-    btn.onclick = gameOver ? () => this.goResults() : () => this.goNextRound();
+    btn.textContent = result.game_over ? 'Xem kết quả cuối cùng' : 'Tiếp tục vòng tiếp theo';
+    btn.onclick = result.game_over ? () => this.goResults() : () => this.goNextRound();
 
     this.showScreen('screen-elimination');
   },
@@ -429,14 +389,23 @@ const App = {
     }
   },
 
-  /* ----- Results ----- */
-  goResults() {
+  /* ----- Results: lấy đầy đủ vai trò/từ từ server (chỉ cho phép khi đã finished) ----- */
+  async goResults() {
+    this.setBusy(true, 'Đang tải kết quả...');
+    let reveal;
+    try {
+      reveal = await api.reveal(this.roomId);
+    } catch (e) {
+      this.setBusy(false);
+      this.showApiError(e);
+      return;
+    }
+    this.setBusy(false);
     this.showScreen('screen-result');
-    this.winner = this.pendingWinner;
+
     const title = document.getElementById('result-title');
     const banner = document.getElementById('result-banner');
-
-    if (this.winner === 'civilian') {
+    if (reveal.winner === 'civilian') {
       banner.classList.remove('alt');
       title.textContent = 'Dân thường thắng! 🎉';
     } else {
@@ -445,18 +414,19 @@ const App = {
     }
 
     const list = document.getElementById('result-list');
-    list.innerHTML = this.players.map(p => {
+    list.innerHTML = reveal.players.map(p => {
       const roleLabel = p.role === 'civilian' ? 'Dân' : 'Giấu mặt';
       const roleClass = p.role === 'civilian' ? 'badge-civilian' : 'badge-imposter';
-      const wordDisplay = (p.role === 'imposter' && this.imposterMode === 'aware') ? (p.hint || '—') : (p.word ?? '—');
-      const elimMark = p.eliminated ? ' <span style="color:var(--gold)">(đã bị loại)</span>' : ' <span style="color:var(--teal)">(còn lại)</span>';
+      const elimMark = p.eliminated
+        ? ' <span style="color:var(--gold)">(đã bị loại)</span>'
+        : ' <span style="color:var(--teal)">(còn lại)</span>';
       return `
         <div class="result-item">
           <div class="result-meta">
             <div class="result-avatar" style="background:${p.color}">${this.getInitials(p.name)}</div>
             <div>
               <div style="font-weight:700;">${p.name}${elimMark}</div>
-              <div style="font-size:0.8rem; color:var(--ghost); margin-top:2px;">${wordDisplay}</div>
+              <div style="font-size:0.8rem; color:var(--ghost); margin-top:2px;">${p.revealed_word}</div>
             </div>
           </div>
           <div class="badge-role ${roleClass}">${roleLabel}</div>
@@ -468,11 +438,25 @@ const App = {
   },
 
   /* ----- Replay ----- */
-  replayKeepConfig() {
+  async replayKeepConfig() {
     this.confettiRunning = false;
-    this.players.forEach((p, i) => { p.name = `Người chơi ${i+1}`; p.eliminated = false; });
-    this.currentPlayerIndex = 0;
-    this.votedIndex = null;
+    this.setBusy(true, 'Đang chuẩn bị ván mới...');
+    try {
+      // Giữ config trên server, xoá hết người chơi để nhập tên lại
+      await api.reset(this.roomId, this.hostToken, false);
+    } catch (e) {
+      this.setBusy(false);
+      this.showApiError(e);
+      return;
+    }
+    this.setBusy(false);
+
+    this.players.forEach((p, i) => {
+      p.name = `Người chơi ${i+1}`;
+      p.eliminated = false;
+      p.playerId = null;
+      p.playerToken = null;
+    });
     this.renderNames();
     this.showScreen('screen-names');
   },
@@ -491,6 +475,9 @@ const App = {
     this.players = [];
     this.currentPlayerIndex = 0;
     this.votedIndex = null;
+    // Bỏ phòng cũ — lần "Bắt đầu" kế tiếp sẽ tạo phòng mới hoàn toàn trên server.
+    this.roomId = null;
+    this.hostToken = null;
     this.renderSetup();
   },
 
@@ -560,9 +547,7 @@ document.addEventListener('visibilitychange', () => {
 });
 
 /* ===== Khởi động ===== */
-App.loadWordBank().then(() => {
-  App.renderSetup();
-});
+App.renderSetup();
 window.addEventListener('resize', () => {
   const cvs = document.getElementById('confetti');
   if (cvs) { cvs.width = window.innerWidth; cvs.height = window.innerHeight; }

@@ -17,7 +17,7 @@
 <h3 align="center">Who Is The Imposter?</h3>
 
   <p align="center">
-    Pass-and-play party game — find the imposter among your friends
+    Real-time & Pass-and-play party game — find the imposter among your friends
     <br />
     <a href="https://github.com/Grizmo2610/WhoIsTheImposter"><strong>Explore the docs »</strong></a>
     <br />
@@ -36,19 +36,22 @@
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
 
-A real-time, pass-and-play party game inspired by the classic "Who is the Imposter?" / Mafia / Among Us format. One player is secretly the imposter — everyone else is a civilian. Players take turns viewing their secret word, then discuss and vote to eliminate the imposter before they sabotage the group.
+**Who Is The Imposter?** is a party game inspired by classic social deduction formats (Mafia / Among Us). Players take turns viewing their secret word, discussing, and voting to eliminate the imposter before they sabotage the group.
 
-Core features:
+The project supports two flexible deployment modes:
+1. **Classic Pass-and-Play (Frontend-Only)**: Runs entirely client-side on a single device — zero setup, no network required.
+2. **Authoritative Backend (FastAPI + WebSocket)**: Server-managed state with secure role/secret distribution and multi-device real-time sync across phones.
 
-* Pass-and-play on a single device — no network required
-* Configurable player count (3–12) and imposter count
-* Two imposter modes: **Aware** (imposter knows the imposter role and gets a related clue) and **Hidden** (imposter only sees a word similar to the civilians')
-* Optional discussion timer with circular progress indicator
-* Anti-cheat protection — hides the screen when the user switches tabs
-* Word bank with 50+ Vietnamese word pairs (CSV-based, easily extensible)
-* Multi-round support — play until imposters or civilians win
-* Confetti celebration on game end
-* Fully client-side — no backend, no build step
+### Core Features
+
+* **Dual Mode Play**: Pass-and-play on a single device or multi-device online via WebSocket.
+* **Configurable Setup**: Player count (3–12), imposter count, and round timer with circular progress indicator.
+* **Imposter Modes**: 
+  * **Aware**: Imposter knows their role and receives a related clue to bluff with.
+  * **Hidden**: Imposter only sees a word similar to the civilians' word with no role indication.
+* **Anti-Cheat Protection**: Automatically hides the screen when switching browser tabs.
+* **Word Bank**: 50+ Vietnamese word pairs stored in CSV (local or Cloudflare R2 S3-compatible storage).
+* **Interactive UI**: Confetti celebration on game victory and smooth multi-round support.
 
 Pipeline:
 Setup → Names → Handover → Reveal → Discuss → Vote → Eliminate → Results
@@ -57,32 +60,30 @@ Setup → Names → Handover → Reveal → Discuss → Vote → Eliminate → R
 
 ---
 
-### Built With
+## Built With
 
 <p align="center">
   <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
   <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
-  <img src="https://img.shields.io/badge/Canvas-2D_Graphics?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/CSV-Data-blue?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/FastAPI-0.100%2B-009688?style=for-the-badge&logo=fastapi&logoColor=white" />
+  <img src="https://img.shields.io/badge/WebSocket-Realtime-orange?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Cloudflare_R2-S3-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" />
 </p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
 
-## Getting Started
+## Getting Started & Installation
 
 ### Prerequisites
 
 * A modern web browser (Chrome, Firefox, Safari, Edge)
-* No installation or build step required
+* Python 3.10+ (optional, only required if running the FastAPI backend)
 
----
-
-### Installation
-
-1. Clone repository
+### 1. Clone the Repository
 
 ```sh
 git clone https://github.com/Grizmo2610/WhoIsTheImposter.git
@@ -94,20 +95,37 @@ git clone https://github.com/Grizmo2610/WhoIsTheImposter.git
 cd WhoIsTheImposter
 ```
 
-3. Open `index.html` in your browser
+### 2. Option A: Run Frontend-Only (Pass-and-Play)
 
-```sh
-# On Windows
-start index.html
+No installation or build step required. Simply open `index.html` in your browser:
 
-# On macOS
-open index.html
+* **Windows:** `start index.html` (or double-click `index.html`)
+* **macOS:** `open index.html`
+* **Linux:** `xdg-open index.html`
 
-# On Linux
-xdg-open index.html
-```
+### 3. Option B: Run Full-Stack (FastAPI Backend + Frontend)
 
-Or simply double-click `index.html`.
+To run with secure server-side state and multi-device WebSocket support:
+
+* **Terminal 1 (Backend):**
+  ```bash
+  cd backend
+  python -m venv .venv
+  .venv\Scripts\activate.bat   # On macOS/Linux: source .venv/bin/activate
+  pip install -r requirements.txt
+  cp .env.example .env
+  uvicorn app.main:app --reload --port 8000
+  ```
+
+* **Terminal 2 (Frontend Static Server):**
+  ```bash
+  cd frontend
+  python -m http.server 5500
+  ```
+  Then open `http://localhost:5500` in your browser.
+
+* For detailed architecture and Cloudflare R2 word bank configuration, see [backend/README.md](backend/README.md).
+* For frontend client architecture, see [frontend/README.md](frontend/README.md).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -120,20 +138,15 @@ Or simply double-click `index.html`.
 1. **Setup** — Configure the number of players, imposters, imposter mode, and optional timer.
 2. **Names** — Enter a name for each player.
 3. **Handover** — Pass the device to the next player. They tap to see their secret word.
-4. **Reveal** — The current player views their word privately. The screen is hidden when they switch tabs (anti-cheat).
-5. **Discuss** — All players discuss openly. If a timer is enabled, the round is time-limited.
+4. **Reveal** — The current player views their word privately (protected by anti-cheat tab switching).
+5. **Discuss** — All players discuss openly within the time limit.
 6. **Vote** — Each player votes for who they think is the imposter.
 7. **Eliminate** — The voted player is revealed as civilian or imposter.
-8. **Results** — The game ends when all imposters are eliminated (civilians win) or imposters outnumber civilians (imposters win).
-
-### Imposter Modes
-
-* **Aware** — The imposter knows their role and receives a related clue to bluff with.
-* **Hidden** — The imposter only sees a word similar to the civilians' word, with no indication they are the imposter.
+8. **Results** — The game ends when all imposters are eliminated (civilians win) or imposters outnumber civilians.
 
 ### Word Bank
 
-Words are loaded from `words.csv`. Each row contains:
+Words are loaded from `words.csv` (managed locally or via Cloudflare R2). Each row contains:
 
 ```csv
 tu_that,tu_lien_quan,goi_y
@@ -141,21 +154,21 @@ Phở,Bánh mì,Món ăn đường phố Việt Nam
 Biển,Nhà tắm,Quán cà phê có view biển
 ```
 
-The first column is the civilian word, the second is the related word shown to the imposter in hidden mode, and the third is an optional clue shown to the aware imposter.
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ---
 
 ## Roadmap
 
+* [x] Client-side pass-and-play mode
+* [x] FastAPI authoritative backend with WebSocket real-time sync
+* [x] Cloudflare R2 storage integration for word banks
 * [ ] Localization support (English, Japanese, Korean, etc.)
 * [ ] Sound effects and background music
 * [ ] Custom word packs
-* [ ] Online multiplayer (WebRTC / WebSocket)
+* [ ] Online multiplayer expansion (WebRTC / Cloud deployment)
 * [ ] Mobile app wrapper (Capacitor / PWA)
 * [ ] Score tracking and statistics
-* [ ] Theme customization (dark / light / custom)
 
 See the [open issues](https://github.com/Grizmo2610/WhoIsTheImposter/issues)
 
@@ -166,14 +179,14 @@ See the [open issues](https://github.com/Grizmo2610/WhoIsTheImposter/issues)
 ## Contributing
 
 1. Fork the project
-2. Create branch (`feature/...`)
-3. Commit changes
-4. Push to branch
-5. Create Pull Request
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
 ---
 
-### Top contributors:
+### Top Contributors:
 
 <a href="https://github.com/Grizmo2610/WhoIsTheImposter/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=Grizmo2610/WhoIsTheImposter" />
@@ -183,7 +196,7 @@ See the [open issues](https://github.com/Grizmo2610/WhoIsTheImposter/issues)
 
 ## License
 
-Distributed under the MIT License.
+Distributed under the MIT License. See `LICENSE.txt` for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -203,9 +216,7 @@ https://github.com/Grizmo2610/WhoIsTheImposter
 ## Acknowledgments
 
 * Among Us / Mafia / Werewolf game formats
-* FaceNet paper
-* PyTorch
-* MTCNN
+* FastAPI & Python ecosystem
 * Cloudflare R2
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
