@@ -10,7 +10,7 @@
 
 <br />
 <div align="center">
-  <a href="https://github.com/hoangtuantu/WhoIsTheImposter">
+  <a href="https://github.com/Grizmo2610/WhoIsTheImposter">
     <img src="images/logo.png" alt="Logo" width="80" height="80">
   </a>
 
@@ -19,14 +19,14 @@
   <p align="center">
     Trò chơi truyền tay & thời gian thực — tìm người giả mạo trong bè bạn
     <br />
-    <a href="https://github.com/hoangtuantu/WhoIsTheImposter"><strong>Khám phá tài liệu »</strong></a>
+    <a href="https://github.com/Grizmo2610/WhoIsTheImposter"><strong>Khám phá tài liệu »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/hoangtuantu/WhoIsTheImposter">Xem Demo</a>
+    <a href="https://github.com/Grizmo2610/WhoIsTheImposter">Xem Demo</a>
     &middot;
-    <a href="https://github.com/hoangtuantu/WhoIsTheImposter/issues/new?labels=bug&template=bug-report---.md">Báo Lỗi</a>
+    <a href="https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=bug&template=bug-report---.md">Báo Lỗi</a>
     &middot;
-    <a href="https://github.com/hoangtuantu/WhoIsTheImposter/issues/new?labels=enhancement&template=feature-request---.md">Yêu Cầu Tính Năng</a>
+    <a href="https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=enhancement&template=feature-request---.md">Yêu Cầu Tính Năng</a>
   </p>
 </div>
 
@@ -86,7 +86,12 @@ Cài đặt → Nhập Tên → Truyền Máy → Xem Bí Mật → Thảo Luậ
 ### 1. Sao Chép Kho Lưu Trữ
 
 ```sh
-git clone https://github.com/hoangtuantu/WhoIsTheImposter.git
+git clone https://github.com/Grizmo2610/WhoIsTheImposter.git
+```
+
+2. Mở thư mục dự án
+
+```sh
 cd WhoIsTheImposter
 ```
 
@@ -165,7 +170,7 @@ Biển,Nhà tắm,Quán cà phê có view biển
 * [ ] Ứng dụng di động (Capacitor / PWA)
 * [ ] Theo dõi điểm số và thống kê
 
-Xem các [vấn đề mở](https://github.com/hoangtuantu/WhoIsTheImposter/issues) để biết thêm tính năng dự kiến.
+Xem các [vấn đề mở](https://github.com/Grizmo2610/WhoIsTheImposter/issues)
 
 <p align="right">(<a href="#readme-top">lên đầu trang</a>)</p>
 
@@ -183,8 +188,8 @@ Xem các [vấn đề mở](https://github.com/hoangtuantu/WhoIsTheImposter/issu
 
 ### Top Người Đóng Góp:
 
-<a href="https://github.com/hoangtuantu/WhoIsTheImposter/graphs/contributors">
-  <img src="contrib.rocks/image?repo=hoangtuantu/WhoIsTheImposter" />
+<a href="https://github.com/Grizmo2610/WhoIsTheImposter/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Grizmo2610/WhoIsTheImposter" />
 </a>
 
 ---
@@ -201,7 +206,8 @@ Phân phối theo Giấy Phép MIT. Xem `LICENSE.txt` để biết thêm chi ti�
 
 hoangtuantu - [hoangtuantu893@gmail.com](mailto:hoangtuantu893@gmail.com)
 
-Liên kết dự án: [https://github.com/hoangtuantu/WhoIsTheImposter](https://github.com/hoangtuantu/WhoIsTheImposter)
+Liên kết dự án:
+https://github.com/Grizmo2610/WhoIsTheImposter
 
 <p align="right">(<a href="#readme-top">lên đầu trang</a>)</p>
 
@@ -217,14 +223,16 @@ Liên kết dự án: [https://github.com/hoangtuantu/WhoIsTheImposter](https://
 
 ---
 
-[contributors-shield]: https://img.shields.io/github/contributors/hoangtuantu/WhoIsTheImposter.svg?style=for-the-badge
-[contributors-url]: https://github.com/hoangtuantu/WhoIsTheImposter/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/hoangtuantu/WhoIsTheImposter.svg?style=for-the-badge
-[forks-url]: https://github.com/hoangtuantu/WhoIsTheImposter/network/members
-[stars-shield]: https://img.shields.io/github/stars/hoangtuantu/WhoIsTheImposter.svg?style=for-the-badge
-[stars-url]: https://github.com/hoangtuantu/WhoIsTheImposter/stargazers
-[issues-shield]: https://img.shields.io/github/issues/hoangtuantu/WhoIsTheImposter.svg?style=for-the-badge
-[issues-url]: https://img.shields.io/github/issues/hoangtuantu/WhoIsTheImposter.issues
-[license-shield]: https://img.shields.io/github/license/hoangtuantu/WhoIsTheImposter.svg?style=for-the-badge
-[license-url]: https://github.com/hoangtuantu/WhoIsTheImposter/blob/master/LICENSE.txt
+[contributors-shield]: https://img.shields.io/github/contributors/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
+[contributors-url]: https://github.com/Grizmo2610/WhoIsTheImposter/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
+[forks-url]: https://github.com/Grizmo2610/WhoIsTheImposter/network/members
+[stars-shield]: https://img.shields.io/github/stars/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
+[stars-url]: https://github.com/Grizmo2610/WhoIsTheImposter/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
+[issues-url]: https://github.com/Grizmo2610/WhoIsTheImposter/issues
+[license-shield]: https://img.shields.io/github/license/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
+[license-url]: https://github.com/Grizmo2610/WhoIsTheImposter/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/linkedin_username
 [product-screenshot]: images/screenshot.png
