@@ -242,7 +242,11 @@ const App = {
       wordEl.textContent = secret.word;
       wordEl.style.color = 'var(--paper)';
       wordEl.style.fontSize = '';
-      hintEl.textContent = 'Hãy ghi nhớ từ này';
+      if (secret.meaning) {
+        hintEl.innerHTML = `Giải thích: <span style="color:var(--paper)">${secret.meaning}</span>`;
+      } else {
+        hintEl.textContent = 'Hãy ghi nhớ từ này';
+      }
     }
 
     document.getElementById('anti-cheat-overlay').style.display = 'none';
@@ -374,6 +378,10 @@ const App = {
     document.getElementById('elim-avatar').textContent = this.getInitials(p.name);
     document.getElementById('elim-name').textContent = p.name;
     document.getElementById('elim-word').textContent = result.revealed_word;
+    const elimMeaningEl = document.getElementById('elim-meaning');
+    if (elimMeaningEl) {
+      elimMeaningEl.textContent = result.revealed_meaning ? `Giải thích: ${result.revealed_meaning}` : '';
+    }
     const roleEl = document.getElementById('elim-role');
     roleEl.textContent = result.role_label;
     roleEl.className = 'badge-role ' + (result.was_imposter ? 'badge-imposter' : 'badge-civilian');
@@ -433,13 +441,15 @@ const App = {
       const elimMark = p.eliminated
         ? ' <span style="color:var(--gold)">(đã bị loại)</span>'
         : ' <span style="color:var(--teal)">(còn lại)</span>';
+      const meaningText = p.revealed_meaning ? `<div style="font-size:0.75rem; color:var(--ghost); margin-top:2px;">Giải thích: ${p.revealed_meaning}</div>` : '';
       return `
         <div class="result-item">
           <div class="result-meta">
             <div class="result-avatar" style="background:${p.color}">${this.getInitials(p.name)}</div>
             <div>
               <div style="font-weight:700;">${p.name}${elimMark}</div>
-              <div style="font-size:0.8rem; color:var(--ghost); margin-top:2px;">${p.revealed_word}</div>
+              <div style="font-size:0.8rem; color:var(--paper); margin-top:2px;"><b>Từ:</b> ${p.revealed_word}</div>
+              ${meaningText}
             </div>
           </div>
           <div class="badge-role ${roleClass}">${roleLabel}</div>
