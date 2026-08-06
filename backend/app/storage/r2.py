@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import logging
 import time
 
 import boto3
 from botocore.config import Config as BotoConfig
 
 from app.storage.base import WordRepository
+
+logger = logging.getLogger("game.storage.r2")
 
 
 class R2WordRepository(WordRepository):
@@ -44,22 +47,32 @@ class R2WordRepository(WordRepository):
     async def load_raw_csv(self) -> str:
         now = time.monotonic()
         if self._cached_raw is not None and (now - self._cached_at) < self.cache_ttl:
+            logger.debug("Dùng word bank từ cache (còn %.0fs)", self.cache_ttl - (now - self._cached_at))
             return self._cached_raw
 
-        # boto3 là sync — chạy trong threadpool để không block event loop.
         import anyio
 
         def _fetch() -> str:
             obj = self._client.get_object(Bucket=self.bucket, Key=self.object_key)
             return obj["Body"].read().decode("utf-8")
 
-        raw = await anyio.to_thread.run_sync(_fetch)
+        logger.info("Tải word bank từ R2: bucket=%s key=%s", self.bucket, self.object_key)
+        try:
+            raw = await anyio.to_thread.run_sync(_fetch)
+        except Exception:
+            logger.warning("Không tải được word bank từ R2, dùng cache cũ nếu có", exc_info=True)
+            if self._cached_raw is not None:
+                return self._cached_raw
+            raise
         self._cached_raw = raw
         self._cached_at = now
         return raw
 
+    async def save_raw_csv(self, content: str) -> None:
+        await self.upload_csv(content)
+
     async def upload_csv(self, content: str) -> None:
-        """Tiện ích: cho phép admin cập nhật word bank thẳng lên R2 qua API sau này."""
+        """Tiện ích: cho phép admin cập nhật word bank thẳng lên R2 qua script/API."""
         import anyio
 
         def _put() -> None:
@@ -70,6 +83,7 @@ class R2WordRepository(WordRepository):
                 ContentType="text/csv",
             )
 
+        logger.info("Ghi word bank lên R2: bucket=%s key=%s", self.bucket, self.object_key)
         await anyio.to_thread.run_sync(_put)
         self._cached_raw = content
         self._cached_at = time.monotonic()

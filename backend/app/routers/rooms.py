@@ -63,6 +63,22 @@ async def join_room(room_id: str, body: JoinRequest, engine: GameEngine = Depend
     return JoinResponse(player_id=player.id, player_token=player.token)
 
 
+class RenameRequest(BaseModel):
+    name: str
+
+
+@router.patch("/{room_id}/players/{player_id}/name", response_model=JoinResponse)
+@_err
+async def rename_player(
+    room_id: str, player_id: str, body: RenameRequest,
+    x_player_token: str = Header(...), engine: GameEngine = Depends(get_engine),
+):
+    room = room_store.get(room_id)
+    player = engine.rename_player(room, player_id, x_player_token, body.name)
+    await manager.broadcast(room_id, room.to_state().model_dump(mode="json"))
+    return JoinResponse(player_id=player.id, player_token=player.token)
+
+
 @router.patch("/{room_id}/config", response_model=RoomStateResponse)
 @_err
 async def update_config(

@@ -1,11 +1,14 @@
 from __future__ import annotations
 
+import logging
 from functools import lru_cache
 
 from app.config import Settings, get_settings
 from app.storage.base import WordRepository
 from app.storage.local import LocalCsvWordRepository
 from app.storage.r2 import R2WordRepository
+
+logger = logging.getLogger("game.storage.factory")
 
 
 @lru_cache
@@ -27,9 +30,11 @@ def get_word_repository() -> WordRepository:
             }.items() if not val
         ]
         if missing:
+            logger.error("WORDBANK_BACKEND=r2 nhưng thiếu biến môi trường: %s", ", ".join(missing))
             raise RuntimeError(
                 f"WORDBANK_BACKEND=r2 nhưng thiếu biến môi trường: {', '.join(missing)}"
             )
+        logger.info("Word bank backend: R2 (bucket=%s)", settings.r2_bucket)
         return R2WordRepository(
             bucket=settings.r2_bucket,
             object_key=settings.wordbank_object_key,
@@ -39,4 +44,5 @@ def get_word_repository() -> WordRepository:
             cache_ttl=settings.wordbank_cache_ttl,
         )
 
+    logger.info("Word bank backend: local (path=%s)", settings.wordbank_local_path)
     return LocalCsvWordRepository(path=settings.wordbank_local_path)

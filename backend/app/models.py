@@ -35,8 +35,8 @@ class Role(str, Enum):
 
 class WordEntry(BaseModel):
     real: str
-    related: str
-    hint: str = "Từ này có liên quan gần với chủ đề của từ thật."
+    related: list[str] = Field(default_factory=list)   # >= 1 từ liên quan (chế độ ẩn danh)
+    hints: list[str] = Field(default_factory=list)      # >= 1 gợi ý (chế độ biết mình là ai)
 
 
 class RoomConfig(BaseModel):

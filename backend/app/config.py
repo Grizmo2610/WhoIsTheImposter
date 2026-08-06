@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     # --- App ---
     app_name: str = "Ai La Nguoi Giau Mat API"
     cors_origins: list[str] = ["*"]
+    log_level: str = "INFO"  # TRACE | DEBUG | INFO | WARNING | ERROR
 
     # --- Word bank storage backend: "local" | "r2" ---
     wordbank_backend: str = "local"
