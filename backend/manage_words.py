@@ -46,10 +46,10 @@ async def cmd_add(args: argparse.Namespace) -> None:
     entries = repo.parse_csv(await repo.load_raw_csv())
     same_topic = sum(1 for e in entries if e.topic == args.topic)
     if same_topic == 0:
-        print(f"[CẢNH BÁO] Chủ đề '{args.topic}' chưa có từ nào khác — imposter sẽ không "
-              f"có từ cùng chủ đề để nhận cho tới khi bạn thêm từ thứ 2 vào chủ đề này.")
+        print(f"[CẢNH BÁO] Chủ đề '{args.topic}' chưa có từ nào khác — imposter chọn "
+              f"same_topic sẽ không có từ để nhận cho tới khi bạn thêm từ thứ 2 vào chủ đề này.")
 
-    entry = WordEntry(word=args.word, topic=args.topic, hints=args.hints)
+    entry = WordEntry(word=args.word, topic=args.topic, hints=args.hints, meaning=args.meaning)
     await repo.append_entry(entry)
     print(f"[OK] Đã thêm '{args.word}' (chủ đề: {args.topic}, {len(args.hints)} gợi ý) "
           f"vào backend={args.backend}")
@@ -71,6 +71,7 @@ async def cmd_list(args: argparse.Namespace) -> None:
         print(f"\n=== {topic} ({len(items)} từ) ===")
         for e in items:
             print(f"  - {e.word}")
+            print(f"      nghĩa : {e.meaning}")
             print(f"      gợi ý: {', '.join(e.hints)}")
     print(f"\nTổng cộng: {len(entries)} từ, {len(by_topic)} chủ đề")
 
@@ -87,6 +88,8 @@ def main() -> None:
                         help="Chủ đề — imposter sẽ nhận 1 từ KHÁC cùng chủ đề này")
     p_add.add_argument("--hints", nargs="+", required=True,
                         help="Danh sách gợi ý về từ này (dùng ở chế độ Biết mình là ai)")
+    p_add.add_argument("--meaning", required=True,
+                        help="Giải thích nghĩa của từ — hiện kèm khi người chơi nhận được từ này")
     p_add.set_defaults(func=cmd_add)
 
     p_list = sub.add_parser("list", help="Xem toàn bộ word bank, nhóm theo chủ đề")

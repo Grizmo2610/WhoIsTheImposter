@@ -9,6 +9,7 @@ const App = {
   numPlayers: 5,
   numImposters: 1,
   imposterMode: 'aware',
+  hiddenTopicMode: 'same_topic',
   multiRound: true,
   timerEnabled: false,
   timerMinutes: 3,
@@ -45,6 +46,10 @@ const App = {
     this.imposterMode = mode;
     this.renderSetup();
   },
+  setHiddenTopicMode(mode) {
+    this.hiddenTopicMode = mode;
+    this.renderSetup();
+  },
   toggleMultiRound() {
     this.multiRound = !this.multiRound;
     this.renderSetup();
@@ -61,8 +66,15 @@ const App = {
     document.getElementById('disp-players').textContent = this.numPlayers;
     document.getElementById('disp-imposters').textContent = this.numImposters;
 
-    document.querySelectorAll('.segmented-btn').forEach(btn => {
+    document.querySelectorAll('.segmented-btn[data-mode]').forEach(btn => {
       btn.classList.toggle('active', btn.dataset.mode === this.imposterMode);
+    });
+
+    // Sub-option: chỉ hiện khi chọn Ẩn danh
+    const htWrap = document.getElementById('hiddenTopicWrap');
+    htWrap.classList.toggle('show', this.imposterMode === 'hidden');
+    document.querySelectorAll('.segmented-btn[data-topic]').forEach(btn => {
+      btn.classList.toggle('active', btn.dataset.topic === this.hiddenTopicMode);
     });
 
     const mr = document.getElementById('badge-multiround');
@@ -172,6 +184,7 @@ const App = {
       await api.updateConfig(this.roomId, this.hostToken, {
         num_imposters: this.numImposters,
         imposter_mode: this.imposterMode,
+        hidden_topic_mode: this.hiddenTopicMode,
         multi_round: this.multiRound,
         timer_enabled: this.timerEnabled,
         timer_minutes: this.timerMinutes,
@@ -469,6 +482,7 @@ const App = {
     this.numPlayers = 5;
     this.numImposters = 1;
     this.imposterMode = 'aware';
+    this.hiddenTopicMode = 'same_topic';
     this.multiRound = true;
     this.timerEnabled = false;
     this.timerMinutes = 3;

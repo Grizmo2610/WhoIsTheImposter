@@ -6,7 +6,7 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 from app.models import (
-    EliminationResult, ImposterMode, Player, PlayerSecret, Role,
+    EliminationResult, HiddenTopicMode, ImposterMode, Player, PlayerSecret, Role,
     RoomConfig, RoomStateResponse, RoomStatus, WordEntry, new_id,
 )
 from app.storage.base import WordRepository
@@ -31,9 +31,10 @@ class Room:
     votes: dict[str, str] = field(default_factory=dict)
     winner: Optional[str] = None
     round_number: int = 1
-    # Mỗi imposter được random riêng 1 từ cùng chủ đề / 1 gợi ý — lưu lại
+    # Mỗi imposter được random riêng 1 từ cùng/khác chủ đề — lưu lại
     # để trả nhất quán mỗi lần hỏi trong cùng 1 ván.
     assigned_word: dict[str, str] = field(default_factory=dict)
+    assigned_meaning: dict[str, str] = field(default_factory=dict)  # chỉ có khi assigned_word là 1 từ (không phải hint)
 
     def active_players(self) -> list[Player]:
         return [p for p in self.players.values() if not p.eliminated]
@@ -126,6 +127,7 @@ class GameEngine:
         real_entry = await self.word_repo.get_random_entry()
         room.current_entry = real_entry
         room.assigned_word.clear()
+        room.assigned_meaning.clear()
 
         player_ids = list(room.players.keys())
         random.shuffle(player_ids)
@@ -142,8 +144,11 @@ class GameEngine:
                     room.assigned_word[pid] = random.choice(real_entry.hints)
                 else:
                     related = await self.word_repo.get_related_entry(
-                        real_entry.topic, exclude_word=real_entry.word)
+                        real_entry.topic, exclude_word=real_entry.word,
+                        same_topic=(room.config.hidden_topic_mode == HiddenTopicMode.same_topic),
+                    )
                     room.assigned_word[pid] = related.word
+                    room.assigned_meaning[pid] = related.meaning
             else:
                 player.role = Role.civilian
             role_log.append(f"{player.name}={player.role.value}")
@@ -174,15 +179,20 @@ class GameEngine:
         if player.role == Role.imposter:
             assigned = room.assigned_word.get(player.id)
             if room.config.imposter_mode == ImposterMode.aware:
+                # Chế độ "biết mình là ai": chỉ nhận gợi ý, không nhận 1 "từ" thật sự
+                # -> không có nghĩa để kèm theo.
                 return PlayerSecret(
                     player_id=player.id, role=Role.imposter,
-                    word=None, hint=assigned, is_imposter_aware=True,
+                    word=None, meaning=None, hint=assigned, is_imposter_aware=True,
                 )
+            # Chế độ ẩn danh: có nhận 1 từ thật sự -> kèm luôn giải thích nghĩa của từ đó.
             return PlayerSecret(
                 player_id=player.id, role=Role.imposter,
-                word=assigned, hint=None, is_imposter_aware=False,
+                word=assigned, meaning=room.assigned_meaning.get(player.id),
+                hint=None, is_imposter_aware=False,
             )
-        return PlayerSecret(player_id=player.id, role=Role.civilian, word=entry.word, hint=None)
+        return PlayerSecret(player_id=player.id, role=Role.civilian,
+                             word=entry.word, meaning=entry.meaning, hint=None)
 
     # ---------- Voting ----------
 
@@ -231,9 +241,15 @@ class GameEngine:
 
         entry = room.current_entry
         if player.role == Role.imposter:
-            revealed_word = room.assigned_word.get(player.id, "")
+            if room.config.imposter_mode == ImposterMode.aware:
+                revealed_word = room.assigned_word.get(player.id, "")
+                revealed_meaning = None  # đây là gợi ý, không phải 1 từ có nghĩa riêng
+            else:
+                revealed_word = room.assigned_word.get(player.id, "")
+                revealed_meaning = room.assigned_meaning.get(player.id)
         else:
             revealed_word = entry.word
+            revealed_meaning = entry.meaning
 
         room.votes.clear()
         if game_over:
@@ -255,6 +271,7 @@ class GameEngine:
             was_imposter=was_imposter,
             role_label="Kẻ giấu mặt" if was_imposter else "Dân thường",
             revealed_word=revealed_word,
+            revealed_meaning=revealed_meaning,
             game_over=game_over,
             winner=winner,
         )
@@ -272,11 +289,14 @@ class GameEngine:
         for p in room.players.values():
             if p.role == Role.imposter:
                 word = room.assigned_word.get(p.id, "")
+                meaning = (None if room.config.imposter_mode == ImposterMode.aware
+                           else room.assigned_meaning.get(p.id))
             else:
                 word = entry.word
+                meaning = entry.meaning
             out.append(RevealPlayer(
                 id=p.id, name=p.name, color=p.color, role=p.role,
-                revealed_word=word, eliminated=p.eliminated,
+                revealed_word=word, revealed_meaning=meaning, eliminated=p.eliminated,
             ))
         logger.info("Lộ kết quả cuối: room_id=%s winner=%s", room.id, room.winner)
         return RevealResponse(winner=room.winner, players=out)
@@ -290,6 +310,7 @@ class GameEngine:
         room.winner = None
         room.round_number = 1
         room.assigned_word.clear()
+        room.assigned_meaning.clear()
         if not keep_players:
             room.players.clear()
         else:

@@ -13,7 +13,12 @@ def new_id() -> str:
 
 class ImposterMode(str, Enum):
     aware = "aware"    # biết mình là ai, nhận gợi ý
-    hidden = "hidden"  # ẩn danh, nhận từ gần giống
+    hidden = "hidden"  # ẩn danh, nhận 1 từ (không biết mình khác mọi người)
+
+
+class HiddenTopicMode(str, Enum):
+    same_topic = "same_topic"            # từ nhận được cùng chủ đề với từ thật
+    different_topic = "different_topic"  # từ nhận được thuộc chủ đề khác hẳn
 
 
 class RoomStatus(str, Enum):
@@ -33,11 +38,13 @@ class WordEntry(BaseModel):
     word: str
     topic: str
     hints: list[str] = Field(default_factory=list)
+    meaning: str = ""
 
 
 class RoomConfig(BaseModel):
     num_imposters: int = Field(default=1, ge=1)
     imposter_mode: ImposterMode = ImposterMode.aware
+    hidden_topic_mode: HiddenTopicMode = HiddenTopicMode.same_topic  # chỉ áp dụng khi imposter_mode=hidden
     multi_round: bool = True
     timer_enabled: bool = False
     timer_minutes: int = Field(default=3, ge=1, le=15)
@@ -76,6 +83,7 @@ class PlayerSecret(BaseModel):
     player_id: str
     role: Role
     word: Optional[str] = None
+    meaning: Optional[str] = None   # giải thích nghĩa của "word" — có khi word có giá trị
     hint: Optional[str] = None
     is_imposter_aware: bool = False
 
@@ -90,6 +98,7 @@ class EliminationResult(BaseModel):
     was_imposter: bool
     role_label: str
     revealed_word: str
+    revealed_meaning: Optional[str] = None  # None nếu revealed_word thực chất là 1 gợi ý (aware mode)
     game_over: bool
     winner: Optional[str] = None  # "civilian" | "imposter"
 
@@ -111,6 +120,7 @@ class RevealPlayer(BaseModel):
     color: str
     role: Role
     revealed_word: str
+    revealed_meaning: Optional[str] = None
     eliminated: bool
 
 

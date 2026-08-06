@@ -10,8 +10,10 @@ from app.models import WordEntry
 
 logger = logging.getLogger("game.storage")
 
-DEFAULT_HINT = "Từ này thuộc cùng chủ đề với từ thật."
+DEFAULT_HINT = "This word shares a topic with the real word."
+DEFAULT_MEANING = "(no explanation provided)"
 LIST_SEP = ";"
+CSV_HEADER = "word,topic,hints,meaning"
 
 
 class WordRepository(ABC):
@@ -31,18 +33,26 @@ class WordRepository(ABC):
         logger.debug("Chọn từ thật ngẫu nhiên: word=%s topic=%s", entry.word, entry.topic)
         return entry
 
-    async def get_related_entry(self, topic: str, exclude_word: str) -> WordEntry:
-        """Chọn 1 từ khác CÙNG chủ đề để làm từ của imposter (chế độ ẩn danh).
+    async def get_related_entry(self, topic: str, exclude_word: str, same_topic: bool = True) -> WordEntry:
+        """Chọn 1 từ khác để làm từ của imposter (chế độ ẩn danh).
+        same_topic=True  -> lấy từ CÙNG chủ đề (khó nhận ra imposter hơn)
+        same_topic=False -> lấy từ chủ đề KHÁC hẳn (dễ nhận ra hơn, thử thách khác)
         Vì chọn ngẫu nhiên trong toàn bộ word bank mỗi ván, cùng 1 từ có thể
         là 'từ thật' ở ván này nhưng lại là 'từ imposter' ở ván khác."""
         entries = await self._get_entries()
-        same_topic = [e for e in entries if e.topic == topic and e.word != exclude_word]
         if same_topic:
-            chosen = random.choice(same_topic)
-            logger.debug("Chọn từ liên quan cùng chủ đề '%s': %s", topic, chosen.word)
+            pool = [e for e in entries if e.topic == topic and e.word != exclude_word]
+        else:
+            pool = [e for e in entries if e.topic != topic and e.word != exclude_word]
+
+        if pool:
+            chosen = random.choice(pool)
+            logger.debug("Chọn từ imposter (same_topic=%s, chủ đề='%s'): %s",
+                         same_topic, topic, chosen.word)
             return chosen
 
-        logger.warning("Chủ đề '%s' không đủ từ khác — fallback sang từ ngẫu nhiên khác chủ đề", topic)
+        logger.warning("Không đủ từ cho same_topic=%s, chủ đề='%s' — fallback sang bất kỳ từ nào khác",
+                       same_topic, topic)
         others = [e for e in entries if e.word != exclude_word]
         if not others:
             raise RuntimeError("Word bank chỉ có 1 từ duy nhất — không đủ để chơi.")
@@ -51,7 +61,7 @@ class WordRepository(ABC):
     async def append_entry(self, entry: WordEntry) -> None:
         raw = await self.load_raw_csv()
         if not raw.strip():
-            raw = "tu,chu_de,goi_y\n"
+            raw = CSV_HEADER + "\n"
         if not raw.endswith("\n"):
             raw += "\n"
         raw += self._serialize_row(entry) + "\n"
@@ -64,12 +74,11 @@ class WordRepository(ABC):
 
     @staticmethod
     def _serialize_row(entry: WordEntry) -> str:
-        def esc(s: str) -> str:
-            return s.replace(",", " ").replace("\n", " ").strip()
-        word = esc(entry.word)
-        topic = esc(entry.topic)
-        hints = LIST_SEP.join(esc(h) for h in entry.hints)
-        return f"{word},{topic},{hints}"
+        buf = io.StringIO()
+        writer = csv.writer(buf, lineterminator="")
+        hints = LIST_SEP.join(h.replace(LIST_SEP, ",").strip() for h in entry.hints)
+        writer.writerow([entry.word.strip(), entry.topic.strip(), hints, entry.meaning.strip()])
+        return buf.getvalue()
 
     @staticmethod
     def parse_csv(raw: str) -> list[WordEntry]:
@@ -78,13 +87,15 @@ class WordRepository(ABC):
         rows = list(reader)
         for i, row in enumerate(rows):
             if i == 0:
-                continue  # dòng đầu luôn là tiêu đề cột: tu,chu_de,goi_y
+                continue  # dòng đầu luôn là tiêu đề cột: word,topic,hints,meaning
             if len(row) < 2 or not row[0].strip() or not row[1].strip():
                 continue
             hints = ([s.strip() for s in row[2].split(LIST_SEP) if s.strip()]
                       if len(row) > 2 and row[2].strip() else [])
             if not hints:
                 hints = [DEFAULT_HINT]
-            entries.append(WordEntry(word=row[0].strip(), topic=row[1].strip(), hints=hints))
+            meaning = row[3].strip() if len(row) > 3 and row[3].strip() else DEFAULT_MEANING
+            entries.append(WordEntry(word=row[0].strip(), topic=row[1].strip(),
+                                      hints=hints, meaning=meaning))
         logger.info("Đã parse %d từ từ CSV", len(entries))
         return entries

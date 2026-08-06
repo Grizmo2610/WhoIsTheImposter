@@ -50,6 +50,20 @@
         </div>
       </div>
 
+      <!-- Sub-option: chỉ hiện khi chọn Ẩn danh -->
+      <div class="hidden-topic-wrap" id="hiddenTopicWrap">
+        <div class="control-row" style="flex-direction:column; align-items:stretch; gap:10px;">
+          <div>
+            <div class="control-label" style="font-size:0.85rem;">Từ của kẻ giấu mặt</div>
+            <div class="control-sub">Từ imposter nhận được so với từ thật</div>
+          </div>
+          <div class="segmented">
+            <button class="segmented-btn active" data-topic="same_topic" onclick="App.setHiddenTopicMode('same_topic')">Cùng chủ đề</button>
+            <button class="segmented-btn" data-topic="different_topic" onclick="App.setHiddenTopicMode('different_topic')">Khác chủ đề</button>
+          </div>
+        </div>
+      </div>
+
       <div class="toggle-row" onclick="App.toggleMultiRound()">
         <div>
           <div class="control-label">Chơi nhiều vòng</div>
