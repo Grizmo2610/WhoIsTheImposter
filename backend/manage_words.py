@@ -1,25 +1,4 @@
 #!/usr/bin/env python3
-"""
-Script admin quản lý word bank — chạy độc lập, không cần khởi động server.
-
-Ví dụ:
-    # Thêm 1 từ mới vào CSV local
-    python scripts/manage_words.py add \\
-        --real "Phở" \\
-        --related "Bún bò" "Bún riêu" "Hủ tiếu" \\
-        --hints "Món nước, thường ăn sáng" "Có nước dùng đậm đà"
-
-    # Thêm thẳng lên Cloudflare R2 (đọc cấu hình từ .env)
-    python scripts/manage_words.py add --backend r2 --real "Sapa" --related "Đà Lạt" "Tam Đảo" --hints "Nơi có khí hậu mát mẻ"
-
-    # Xem toàn bộ word bank hiện có
-    python scripts/manage_words.py list
-    python scripts/manage_words.py list --backend r2
-
-Ràng buộc: mỗi từ cần >= 1 từ liên quan và >= 1 gợi ý; script sẽ cảnh báo
-(không chặn) nếu bạn chỉ nhập đúng 1 giá trị — nên có ít nhất 2 để đa dạng
-hoá lượt chơi (mỗi imposter được random 1 giá trị riêng trong danh sách).
-"""
 from __future__ import annotations
 
 import argparse
@@ -54,21 +33,25 @@ def build_repo(backend: str) -> WordRepository:
             endpoint_url=settings.r2_endpoint_url,
             access_key_id=settings.r2_access_key_id,
             secret_access_key=settings.r2_secret_access_key,
-            cache_ttl=0,  # script chạy 1 lần, không cần cache
+            cache_ttl=0,
         )
     return LocalCsvWordRepository(path=settings.wordbank_local_path)
 
 
 async def cmd_add(args: argparse.Namespace) -> None:
-    if len(args.related) < 2:
-        print(f"[CẢNH BÁO] '{args.real}' chỉ có {len(args.related)} từ liên quan — nên có >= 2.")
     if len(args.hints) < 2:
-        print(f"[CẢNH BÁO] '{args.real}' chỉ có {len(args.hints)} gợi ý — nên có >= 2.")
+        print(f"[CẢNH BÁO] '{args.word}' chỉ có {len(args.hints)} gợi ý — nên có >= 2.")
 
     repo = build_repo(args.backend)
-    entry = WordEntry(real=args.real, related=args.related, hints=args.hints)
+    entries = repo.parse_csv(await repo.load_raw_csv())
+    same_topic = sum(1 for e in entries if e.topic == args.topic)
+    if same_topic == 0:
+        print(f"[CẢNH BÁO] Chủ đề '{args.topic}' chưa có từ nào khác — imposter sẽ không "
+              f"có từ cùng chủ đề để nhận cho tới khi bạn thêm từ thứ 2 vào chủ đề này.")
+
+    entry = WordEntry(word=args.word, topic=args.topic, hints=args.hints)
     await repo.append_entry(entry)
-    print(f"[OK] Đã thêm '{args.real}' ({len(args.related)} từ liên quan, {len(args.hints)} gợi ý) "
+    print(f"[OK] Đã thêm '{args.word}' (chủ đề: {args.topic}, {len(args.hints)} gợi ý) "
           f"vào backend={args.backend}")
 
 
@@ -79,11 +62,17 @@ async def cmd_list(args: argparse.Namespace) -> None:
     if not entries:
         print("(word bank rỗng)")
         return
-    for i, e in enumerate(entries, 1):
-        print(f"{i:>3}. {e.real}")
-        print(f"     liên quan: {', '.join(e.related) or '(không có)'}")
-        print(f"     gợi ý    : {', '.join(e.hints) or '(không có)'}")
-    print(f"\nTổng cộng: {len(entries)} từ")
+
+    by_topic: dict[str, list] = {}
+    for e in entries:
+        by_topic.setdefault(e.topic, []).append(e)
+
+    for topic, items in by_topic.items():
+        print(f"\n=== {topic} ({len(items)} từ) ===")
+        for e in items:
+            print(f"  - {e.word}")
+            print(f"      gợi ý: {', '.join(e.hints)}")
+    print(f"\nTổng cộng: {len(entries)} từ, {len(by_topic)} chủ đề")
 
 
 def main() -> None:
@@ -93,14 +82,14 @@ def main() -> None:
     sub = parser.add_subparsers(dest="command", required=True)
 
     p_add = sub.add_parser("add", help="Thêm 1 từ mới")
-    p_add.add_argument("--real", required=True, help="Từ thật (dân thường nhận)")
-    p_add.add_argument("--related", nargs="+", required=True,
-                        help="Danh sách từ liên quan (chế độ Ẩn danh) — nhập cách nhau bởi dấu cách")
+    p_add.add_argument("--word", required=True, help="Từ (có thể là từ thật hoặc từ imposter tuỳ ván)")
+    p_add.add_argument("--topic", required=True,
+                        help="Chủ đề — imposter sẽ nhận 1 từ KHÁC cùng chủ đề này")
     p_add.add_argument("--hints", nargs="+", required=True,
-                        help="Danh sách gợi ý (chế độ Biết mình là ai) — nhập cách nhau bởi dấu cách")
+                        help="Danh sách gợi ý về từ này (dùng ở chế độ Biết mình là ai)")
     p_add.set_defaults(func=cmd_add)
 
-    p_list = sub.add_parser("list", help="Xem toàn bộ word bank hiện có")
+    p_list = sub.add_parser("list", help="Xem toàn bộ word bank, nhóm theo chủ đề")
     p_list.set_defaults(func=cmd_list)
 
     args = parser.parse_args()

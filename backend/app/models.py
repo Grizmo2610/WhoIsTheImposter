@@ -1,7 +1,3 @@
-"""
-Domain models — dùng chung cho cả game engine, API request/response
-và (khi cần) tầng persistence.
-"""
 from __future__ import annotations
 
 import uuid
@@ -34,9 +30,9 @@ class Role(str, Enum):
 
 
 class WordEntry(BaseModel):
-    real: str
-    related: list[str] = Field(default_factory=list)   # >= 1 từ liên quan (chế độ ẩn danh)
-    hints: list[str] = Field(default_factory=list)      # >= 1 gợi ý (chế độ biết mình là ai)
+    word: str
+    topic: str
+    hints: list[str] = Field(default_factory=list)
 
 
 class RoomConfig(BaseModel):

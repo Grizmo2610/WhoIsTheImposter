@@ -1,12 +1,22 @@
-tu_that,tu_lien_quan,goi_y
-Phở,Bún bò;Bún riêu;Hủ tiếu,Món nước có sợi - ăn sáng;Có nước dùng đậm đà;Ăn kèm rau thơm
-Cà phê sữa đá,Trà đào;Trà sữa,Thức uống có đá - hay uống ở quán cóc;Uống buổi chiều với bạn bè
-Xe máy,Xe đạp điện;Xe đạp,Phương tiện 2 bánh chạy trên đường phố;Cần đội mũ bảo hiểm khi đi
-Bánh chưng,Bánh tét;Bánh giầy,Món bánh gói lá - hay ăn dịp Tết;Có nhân đậu xanh thịt heo
-Áo dài,Áo bà ba;Áo tứ thân,Trang phục truyền thống Việt Nam;Hay mặc dịp lễ Tết
-Sapa,Đà Lạt;Tam Đảo,Điểm du lịch có khí hậu mát mẻ;Nằm ở vùng núi phía Bắc
-Nón lá,Mũ bảo hiểm;Mũ tai bèo,Vật đội trên đầu khi ra đường;Che nắng che mưa
-Bánh xèo,Bánh khọt;Bánh căn,Món bánh chiên giòn - ăn kèm rau sống;Có nhân tôm thịt giá đỗ
-Chợ Bến Thành,Chợ Đồng Xuân;Chợ Bình Tây,Khu chợ nổi tiếng ở thành phố lớn;Bán đủ loại hàng hoá
-Karaoke,Nhạc sống;Nhậu,Hoạt động giải trí có âm nhạc - hay tụ tập bạn bè;Thường đi vào cuối tuần
-Bóng đá,Bóng rổ;Bóng chuyền,Môn thể thao đồng đội;Chơi trên sân cỏ hoặc sân xi măng
+tu,chu_de,goi_y
+Phở,Ẩm thực,Món nước có sợi - ăn sáng;Có nước dùng đậm đà
+Bún bò,Ẩm thực,Món nước cay;Đặc sản miền Trung
+Bún riêu,Ẩm thực,Món nước có cua;Ăn kèm rau sống
+Hủ tiếu,Ẩm thực,Món nước gốc Nam Bộ;Có thể ăn khô hoặc nước
+Cà phê sữa đá,Đồ uống,Thức uống có đá - hay uống ở quán cóc;Vị đắng ngọt hoà quyện
+Trà đào,Đồ uống,Uống buổi chiều với bạn bè;Có vị chua ngọt trái cây
+Trà sữa,Đồ uống,Thường có trân châu;Giới trẻ hay uống
+Nước mía,Đồ uống,Ép trực tiếp từ cây;Hay bán vỉa hè
+Xe máy,Phương tiện,Chạy trên đường phố;Cần đội mũ bảo hiểm khi đi
+Xe đạp điện,Phương tiện,Học sinh hay đi;Không cần bằng lái
+Xe đạp,Phương tiện,Đạp bằng chân;Không dùng xăng
+Xe buýt,Phương tiện,Phương tiện công cộng;Có nhiều trạm dừng
+Áo dài,Trang phục,Trang phục truyền thống Việt Nam;Hay mặc dịp lễ Tết
+Áo bà ba,Trang phục,Gắn liền với miền Tây;Chất liệu mềm mại
+Áo tứ thân,Trang phục,Trang phục miền Bắc xưa;Thường đi kèm khăn mỏ quạ
+Sapa,Du lịch,Điểm du lịch có khí hậu mát mẻ;Nằm ở vùng núi phía Bắc
+Đà Lạt,Du lịch,Thành phố ngàn hoa;Khí hậu se lạnh quanh năm
+Tam Đảo,Du lịch,Gần Hà Nội;Có nhà thờ đá cổ
+Karaoke,Giải trí,Hoạt động giải trí có âm nhạc;Thường đi vào cuối tuần
+Nhạc sống,Giải trí,Biểu diễn trực tiếp;Hay có ở quán nhậu
+Board game,Giải trí,Chơi theo nhóm bạn;Cần bàn và quân cờ/thẻ bài

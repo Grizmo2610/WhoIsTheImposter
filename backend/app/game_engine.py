@@ -1,15 +1,3 @@
-"""
-Game engine — logic thuần, tách khỏi FastAPI để dễ test và dễ thay
-room store (memory -> redis) sau này mà không đụng vào luật chơi.
-
-Server là nguồn sự thật duy nhất: từ/gợi ý của mỗi người chỉ trả về
-cho đúng player đó (xác thực qua token), tránh client tự sửa state
-như bản pass-and-play thuần frontend trước đây.
-
-Logging: mọi hành động ảnh hưởng tới ván đấu đều được ghi log ra
-stdout (logger "game.engine") — Render/Railway tự hiển thị log này
-trong dashboard, không cần lưu file vì state vốn cũng chỉ ở RAM.
-"""
 from __future__ import annotations
 
 import logging
@@ -39,13 +27,13 @@ class Room:
     config: RoomConfig = field(default_factory=RoomConfig)
     players: dict[str, Player] = field(default_factory=dict)
     status: RoomStatus = RoomStatus.lobby
-    current_entry: Optional[WordEntry] = None
-    votes: dict[str, str] = field(default_factory=dict)  # voter_id -> target_id
+    current_entry: Optional[WordEntry] = None  # từ thật (dân thường) ván này
+    votes: dict[str, str] = field(default_factory=dict)
     winner: Optional[str] = None
     round_number: int = 1
-    # Mỗi imposter được random riêng 1 từ liên quan / 1 gợi ý (đa dạng hơn
-    # khi word bank có nhiều lựa chọn) — lưu lại để trả nhất quán mỗi lần hỏi.
-    assigned_word: dict[str, str] = field(default_factory=dict)   # player_id -> word/hint hiển thị
+    # Mỗi imposter được random riêng 1 từ cùng chủ đề / 1 gợi ý — lưu lại
+    # để trả nhất quán mỗi lần hỏi trong cùng 1 ván.
+    assigned_word: dict[str, str] = field(default_factory=dict)
 
     def active_players(self) -> list[Player]:
         return [p for p in self.players.values() if not p.eliminated]
@@ -62,10 +50,6 @@ class Room:
 
 
 class RoomStore:
-    """Room store trong bộ nhớ tiến trình. Đủ dùng cho 1 instance.
-    Khi cần scale nhiều instance / restart không mất state, thay lớp này
-    bằng bản backed-by-Redis (giữ nguyên interface get/save/delete)."""
-
     def __init__(self):
         self._rooms: dict[str, Room] = {}
 
@@ -139,8 +123,8 @@ class GameEngine:
         if room.status != RoomStatus.lobby:
             raise GameError("Ván đấu đã bắt đầu rồi")
 
-        entry = await self.word_repo.get_random_entry()
-        room.current_entry = entry
+        real_entry = await self.word_repo.get_random_entry()
+        room.current_entry = real_entry
         room.assigned_word.clear()
 
         player_ids = list(room.players.keys())
@@ -155,9 +139,11 @@ class GameEngine:
             if pid in imposter_ids:
                 player.role = Role.imposter
                 if room.config.imposter_mode == ImposterMode.aware:
-                    room.assigned_word[pid] = random.choice(entry.hints)
+                    room.assigned_word[pid] = random.choice(real_entry.hints)
                 else:
-                    room.assigned_word[pid] = random.choice(entry.related or [entry.real])
+                    related = await self.word_repo.get_related_entry(
+                        real_entry.topic, exclude_word=real_entry.word)
+                    room.assigned_word[pid] = related.word
             else:
                 player.role = Role.civilian
             role_log.append(f"{player.name}={player.role.value}")
@@ -167,11 +153,11 @@ class GameEngine:
         room.votes.clear()
         room.winner = None
 
-        # Log role thật của từng người CHỈ ra server log (không lộ cho client) —
-        # phục vụ admin debug khi cần, đúng yêu cầu "ghi lại người chơi nào là gì".
-        logger.info("Ván đấu bắt đầu: room_id=%s tu_that=%s imposter_mode=%s multi_round=%s roles=[%s]",
-                    room.id, entry.real, room.config.imposter_mode.value,
-                    room.config.multi_round, ", ".join(role_log))
+        logger.info("Ván đấu bắt đầu: room_id=%s tu_that=%s chu_de=%s imposter_mode=%s "
+                    "multi_round=%s roles=[%s]",
+                    room.id, real_entry.word, real_entry.topic,
+                    room.config.imposter_mode.value, room.config.multi_round,
+                    ", ".join(role_log))
 
     def get_player_secret(self, room: Room, player_id: str, token: str) -> PlayerSecret:
         player = room.players.get(player_id)
@@ -196,7 +182,7 @@ class GameEngine:
                 player_id=player.id, role=Role.imposter,
                 word=assigned, hint=None, is_imposter_aware=False,
             )
-        return PlayerSecret(player_id=player.id, role=Role.civilian, word=entry.real, hint=None)
+        return PlayerSecret(player_id=player.id, role=Role.civilian, word=entry.word, hint=None)
 
     # ---------- Voting ----------
 
@@ -213,8 +199,6 @@ class GameEngine:
         logger.debug("Bỏ phiếu: room_id=%s %s -> %s", room.id, voter.name, target.name)
 
     def tally_and_eliminate(self, room: Room) -> EliminationResult:
-        """Loại người có nhiều phiếu nhất (host cũng có thể gọi thủ công target_id riêng
-        qua eliminate_target nếu app dùng cơ chế host-chọn thay vì tự động đếm phiếu)."""
         if not room.votes:
             raise GameError("Chưa có phiếu bầu nào")
         tally: dict[str, int] = {}
@@ -249,7 +233,7 @@ class GameEngine:
         if player.role == Role.imposter:
             revealed_word = room.assigned_word.get(player.id, "")
         else:
-            revealed_word = entry.real
+            revealed_word = entry.word
 
         room.votes.clear()
         if game_over:
@@ -289,7 +273,7 @@ class GameEngine:
             if p.role == Role.imposter:
                 word = room.assigned_word.get(p.id, "")
             else:
-                word = entry.real
+                word = entry.word
             out.append(RevealPlayer(
                 id=p.id, name=p.name, color=p.color, role=p.role,
                 revealed_word=word, eliminated=p.eliminated,
