@@ -35,6 +35,7 @@ backend/
 │       ├── base.py        # Abstract WordRepository interface
 │       ├── local.py       # Local CSV file reader
 │       ├── r2.py          # Cloudflare R2 / S3 reader with TTL caching
+│       ├── d1.py          # Cloudflare D1 (SQLite) reader/writer via REST API
 │       └── factory.py     # Factory pattern for selecting storage backend
 ├── data/
 │   └── words.csv          # Default word bank (used when WORDBANK_BACKEND=local)
@@ -112,6 +113,68 @@ To store and load the word bank remotely via Cloudflare R2 (or AWS S3, MinIO, Ba
 
 ---
 
+## 🗄️ Cloudflare D1 Storage Integration (recommended for structured data)
+
+D1 is Cloudflare's managed SQLite. Unlike R2 (which rewrites the whole CSV file on every edit), D1 does real row-level `INSERT`/`UPDATE`/`DELETE`, which is faster and avoids overwrite conflicts when several people edit at once. There's no native Python driver for D1, so `D1WordRepository` talks to the [D1 REST API](https://developers.cloudflare.com/api/operations/cloudflare-d1-list-databases) over HTTP via `httpx`.
+
+1. Create a database: Cloudflare Dashboard > Workers & Pages > D1 > Create database. Note its **Database ID**.
+2. Create an API Token: My Profile > API Tokens > Create Token > permission **D1 Edit** (scoped to the account, or that specific database).
+3. Get your **Account ID** (top-right of any Cloudflare Dashboard page).
+4. Update `.env`:
+   ```env
+   WORDBANK_BACKEND=d1
+   D1_ACCOUNT_ID=your_account_id
+   D1_DATABASE_ID=your_database_id
+   D1_API_TOKEN=your_api_token
+   WORDBANK_CACHE_TTL=300
+   ```
+5. Create the `words` table (one-time):
+   ```bash
+   python manage_words.py --backend d1 init-schema
+   ```
+6. Import your existing CSV:
+   ```bash
+   python manage_words.py --backend d1 import --file data/words.csv -y
+   ```
+7. Restart the server.
+
+---
+
+## 🛠️ Managing the Word Bank from Local (`manage_words.py`)
+
+Full CRUD from your machine against any backend, selected via `--backend local|r2|d1` (uses the same `.env` credentials as the server). Examples below use `d1`; swap for `r2` or `local` freely.
+
+```bash
+# (D1 only, one-time) create the table
+python manage_words.py --backend d1 init-schema
+
+# Add a word
+python manage_words.py --backend d1 add --word "Phở" --topic "Ẩm thực" \
+  --hints "Món nước có sợi" "Ăn sáng" --meaning "Món ăn Việt Nam..."
+
+# View one word
+python manage_words.py --backend d1 get --word "Phở"
+
+# List everything, grouped by topic
+python manage_words.py --backend d1 list
+
+# Edit a word (only pass the fields you want to change)
+python manage_words.py --backend d1 update --word "Phở" --meaning "Nghĩa mới"
+
+# Delete a word (prompts for confirmation; skip with -y)
+python manage_words.py --backend d1 delete --word "Phở"
+
+# Download the current word bank to a local CSV file (backup)
+python manage_words.py --backend d1 export --out backup.csv
+
+# Push a local CSV up, overwriting everything on that backend (prompts unless -y)
+python manage_words.py --backend d1 import --file data/words.csv
+```
+
+Since `WordRepository` is the same abstraction the API server uses, `import`/`export` work across all three backends — handy for migrating data (e.g. export from `r2`, import into `d1`). Switching the running server between backends is just the `WORDBANK_BACKEND` env var — no code changes needed.
+
+---
+
 ## 🔌 API Endpoints Reference
 
 | Action | Method & Endpoint | Authentication Header | Description |
@@ -134,3 +197,8 @@ To store and load the word bank remotely via Cloudflare R2 (or AWS S3, MinIO, Ba
 
 * **Distributed Room Store**: Current `RoomStore` is in-memory. The `get/create/delete` interface is fully decoupled, ready to be swapped with a Redis-backed implementation (`ROOM_STORE_BACKEND`) for horizontal scaling across multiple instances.
 * **Frontend Integration**: Frontend (`index.html` / `script.js`) can seamlessly integrate by mapping local state calls to these REST/WS endpoints, preserving the complete pass-and-play UI/UX experience.
+
+
+python manage_words.py --backend d1 init-schema
+python manage_words.py --backend d1 import --file data/words.csv -y
+python manage_words.py --backend d1 list 

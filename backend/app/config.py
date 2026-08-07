@@ -10,7 +10,7 @@ class Settings(BaseSettings):
     cors_origins: list[str] = ["*"]
     log_level: str = "INFO"  # TRACE | DEBUG | INFO | WARNING | ERROR
 
-    # --- Word bank storage backend: "local" | "r2" ---
+    # --- Word bank storage backend: "local" | "r2" | "d1" ---
     wordbank_backend: str = "local"
 
     # Local backend
@@ -27,6 +27,13 @@ class Settings(BaseSettings):
 
     # Cache TTL (giây) cho word bank tải từ cloud, tránh gọi API mỗi request
     wordbank_cache_ttl: int = 300
+
+    # D1 backend (SQLite trên Cloudflare, gọi qua D1 REST API)
+    # Lấy Account ID, Database ID trong Cloudflare Dashboard > Workers & Pages > D1.
+    # Tạo API Token trong My Profile > API Tokens, quyền "D1 Edit".
+    d1_account_id: str | None = None
+    d1_database_id: str | None = None
+    d1_api_token: str | None = None
 
     # --- Room state store: "memory" | "redis" (để ngỏ, chưa bật) ---
     room_store_backend: str = "memory"

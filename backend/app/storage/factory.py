@@ -5,6 +5,7 @@ from functools import lru_cache
 
 from app.config import Settings, get_settings
 from app.storage.base import WordRepository
+from app.storage.d1 import D1WordRepository
 from app.storage.local import LocalCsvWordRepository
 from app.storage.r2 import R2WordRepository
 
@@ -14,11 +15,32 @@ logger = logging.getLogger("game.storage.factory")
 @lru_cache
 def get_word_repository() -> WordRepository:
     """
-    Điểm chuyển đổi duy nhất giữa local và cloud.
-    Đổi WORDBANK_BACKEND=r2 trong .env + điền các biến R2_* là xong,
-    không cần sửa router hay game engine.
+    Điểm chuyển đổi duy nhất giữa local / R2 / D1.
+    Đổi WORDBANK_BACKEND=r2 hoặc d1 trong .env + điền các biến tương ứng
+    là xong, không cần sửa router hay game engine.
     """
     settings: Settings = get_settings()
+
+    if settings.wordbank_backend == "d1":
+        missing = [
+            name for name, val in {
+                "D1_ACCOUNT_ID": settings.d1_account_id,
+                "D1_DATABASE_ID": settings.d1_database_id,
+                "D1_API_TOKEN": settings.d1_api_token,
+            }.items() if not val
+        ]
+        if missing:
+            logger.error("WORDBANK_BACKEND=d1 nhưng thiếu biến môi trường: %s", ", ".join(missing))
+            raise RuntimeError(
+                f"WORDBANK_BACKEND=d1 nhưng thiếu biến môi trường: {', '.join(missing)}"
+            )
+        logger.info("Word bank backend: D1 (database_id=%s)", settings.d1_database_id)
+        return D1WordRepository(
+            account_id=settings.d1_account_id,
+            database_id=settings.d1_database_id,
+            api_token=settings.d1_api_token,
+            cache_ttl=settings.wordbank_cache_ttl,
+        )
 
     if settings.wordbank_backend == "r2":
         missing = [

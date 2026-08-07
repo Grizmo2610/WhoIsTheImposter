@@ -68,6 +68,49 @@ class WordRepository(ABC):
         await self.save_raw_csv(raw)
         logger.info("Đã thêm từ mới vào word bank: word=%s topic=%s", entry.word, entry.topic)
 
+    async def get_entry(self, word: str) -> WordEntry | None:
+        """Tìm 1 từ theo tên (không phân biệt hoa/thường)."""
+        entries = await self._get_entries()
+        for e in entries:
+            if e.word.strip().lower() == word.strip().lower():
+                return e
+        return None
+
+    async def update_entry(self, word: str, new_entry: WordEntry) -> bool:
+        """Sửa 1 từ đã có (tìm theo `word`, ghi đè toàn bộ bằng `new_entry`).
+        Trả về False nếu không tìm thấy từ cần sửa."""
+        entries = await self._get_entries()
+        found = False
+        for i, e in enumerate(entries):
+            if e.word.strip().lower() == word.strip().lower():
+                entries[i] = new_entry
+                found = True
+                break
+        if not found:
+            logger.warning("Không tìm thấy từ '%s' để sửa", word)
+            return False
+        await self._save_entries(entries)
+        logger.info("Đã sửa từ '%s' -> word=%s topic=%s", word, new_entry.word, new_entry.topic)
+        return True
+
+    async def delete_entry(self, word: str) -> bool:
+        """Xóa 1 từ theo tên. Trả về False nếu không tìm thấy."""
+        entries = await self._get_entries()
+        new_entries = [e for e in entries if e.word.strip().lower() != word.strip().lower()]
+        if len(new_entries) == len(entries):
+            logger.warning("Không tìm thấy từ '%s' để xóa", word)
+            return False
+        await self._save_entries(new_entries)
+        logger.info("Đã xóa từ '%s' khỏi word bank", word)
+        return True
+
+    async def _save_entries(self, entries: list[WordEntry]) -> None:
+        buf = [CSV_HEADER]
+        for e in entries:
+            buf.append(self._serialize_row(e))
+        raw = "\n".join(buf) + "\n"
+        await self.save_raw_csv(raw)
+
     async def _get_entries(self) -> list[WordEntry]:
         raw = await self.load_raw_csv()
         return self.parse_csv(raw)
