@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>Ai Là Người Giấu Mặt — Pass &amp; Play</title>
-<link rel="icon" type="image/png" href="logo.png">
 <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -17,12 +16,18 @@
 
   <!-- Màn 1: Thiết lập -->
   <div id="screen-setup" class="screen active">
-    <div style="text-align:center; margin-bottom:8px;">
-      <img src="logo.png" alt="Logo" width="64" height="64" style="border-radius:16px; box-shadow:0 4px 16px rgba(0,0,0,0.2);">
-    </div>
     <div class="eyebrow">Trò chơi truyền tay</div>
     <h1 class="game-title">Ai Là Người Giấu Mặt</h1>
     <p class="subtitle">Mỗi người một bí mật. Một người không có gì cả.</p>
+
+    <div id="resume-banner" class="card" style="display:none; border-color:var(--gold);">
+      <div class="control-label" style="margin-bottom:6px;">Có ván chơi dang dở</div>
+      <div class="control-sub" id="resume-info" style="margin-bottom:10px;"></div>
+      <div class="btn-group" style="margin:0;">
+        <button class="btn btn-primary" onclick="App.resumeGame()">Tiếp tục ván này</button>
+        <button class="btn btn-outline" onclick="App.dismissResume()">Bỏ qua, chơi mới</button>
+      </div>
+    </div>
 
     <div class="card">
       <div class="control-row">
@@ -105,6 +110,14 @@
     <div id="name-list" style="margin-bottom:10px;"></div>
 
     <button class="btn btn-outline" onclick="App.shufflePlayers()" style="margin-bottom:8px;">🎲 Xáo thứ tự</button>
+
+    <div class="toggle-row" onclick="App.toggleRevealRole()" style="margin-top:10px;">
+      <div>
+        <div class="control-label">Tiết lộ vai trò khi bị loại</div>
+        <div class="control-sub">Bật: sau khi loại sẽ hiện người đó là Dân thường hay Kẻ giấu mặt. Từ bí mật luôn được giữ kín tới khi kết thúc ván.</div>
+      </div>
+      <span id="badge-reveal-role" class="toggle-badge">Bật</span>
+    </div>
 
     <div class="btn-group">
       <button class="btn btn-primary" onclick="App.goHandover()">Tiếp tục</button>

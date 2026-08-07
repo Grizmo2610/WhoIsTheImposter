@@ -13,10 +13,11 @@ const App = {
   multiRound: true,
   timerEnabled: false,
   timerMinutes: 3,
+  revealRoleMode: true, // Bật: sau khi loại sẽ hiện role (không bao giờ hiện từ giữa ván)
 
   roomId: null,
   hostToken: null,
-  players: [],           // { name, color, playerId, playerToken, eliminated }
+  players: [],           // { name, color, playerId, playerToken, eliminated, secret }
   currentPlayerIndex: 0,
   votedIndex: null,
   pendingGameOver: false,
@@ -24,6 +25,103 @@ const App = {
   timerId: null,
   timerRemaining: 0,
   confettiRunning: false,
+  offlineMode: false,    // true khi đang chạy fallback cục bộ vì backend lỗi
+  realWord: null,        // từ thật (dân thường) — cache khi lấy được từ server
+  realMeaning: null,
+
+  /* ----- LocalStorage: lưu lại toàn bộ tiến trình để chơi tiếp nếu backend die -----
+     An toàn vì đây là game truyền tay 1 thiết bị: tới lúc voting thì mọi người chơi
+     đã tự xem xong bí mật của mình trên chính máy này rồi, không lộ thêm gì mới. */
+  STORAGE_KEY: 'imposter_game_state_v1',
+  saveProgress() {
+    if (!this.roomId) return;
+    try {
+      const snapshot = {
+        roomId: this.roomId, hostToken: this.hostToken,
+        numPlayers: this.numPlayers, numImposters: this.numImposters,
+        imposterMode: this.imposterMode, hiddenTopicMode: this.hiddenTopicMode,
+        multiRound: this.multiRound, timerEnabled: this.timerEnabled,
+        timerMinutes: this.timerMinutes, revealRoleMode: this.revealRoleMode,
+        players: this.players, currentPlayerIndex: this.currentPlayerIndex,
+        realWord: this.realWord, realMeaning: this.realMeaning,
+        screen: document.querySelector('.screen.active')?.id || 'screen-setup',
+        savedAt: Date.now(),
+      };
+      localStorage.setItem(this.STORAGE_KEY, JSON.stringify(snapshot));
+    } catch (e) { /* localStorage đầy hoặc bị chặn -> bỏ qua, không chặn game */ }
+  },
+  clearProgress() {
+    try { localStorage.removeItem(this.STORAGE_KEY); } catch (e) {}
+  },
+  loadSavedSnapshot() {
+    try {
+      const raw = localStorage.getItem(this.STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch (e) { return null; }
+  },
+  checkResumable() {
+    const snap = this.loadSavedSnapshot();
+    if (!snap || !snap.roomId) return;
+    // Nếu ván đã ở màn kết quả cuối thì không cần resume nữa.
+    if (snap.screen === 'screen-result' || snap.screen === 'screen-setup') { this.clearProgress(); return; }
+    const banner = document.getElementById('resume-banner');
+    const info = document.getElementById('resume-info');
+    const finishedCount = (snap.players || []).filter(p => p.eliminated).length;
+    info.textContent = `Phòng ${snap.roomId} · ${snap.players.length} người chơi · đã loại ${finishedCount} người`;
+    banner.style.display = 'block';
+    this._resumeSnapshot = snap;
+  },
+  dismissResume() {
+    this.clearProgress();
+    document.getElementById('resume-banner').style.display = 'none';
+  },
+  resumeGame() {
+    const snap = this._resumeSnapshot;
+    if (!snap) return;
+    Object.assign(this, {
+      roomId: snap.roomId, hostToken: snap.hostToken,
+      numPlayers: snap.numPlayers, numImposters: snap.numImposters,
+      imposterMode: snap.imposterMode, hiddenTopicMode: snap.hiddenTopicMode,
+      multiRound: snap.multiRound, timerEnabled: snap.timerEnabled,
+      timerMinutes: snap.timerMinutes, revealRoleMode: snap.revealRoleMode !== false,
+      players: snap.players, currentPlayerIndex: snap.currentPlayerIndex,
+      realWord: snap.realWord, realMeaning: snap.realMeaning,
+    });
+    document.getElementById('resume-banner').style.display = 'none';
+    this.setRoomLink(this.roomId);
+    const screen = snap.screen || 'screen-vote';
+    if (screen === 'screen-handover' || screen === 'screen-reveal') {
+      this.showHandover();
+      this.showScreen('screen-handover');
+    } else if (screen === 'screen-vote' || screen === 'screen-discuss') {
+      this.goVote();
+    } else {
+      this.showScreen(screen);
+    }
+  },
+
+  /* ----- Link phòng: hiện trên URL để dễ chia sẻ/bookmark, dùng để resume ----- */
+  setRoomLink(roomId) {
+    try {
+      const url = new URL(location.href);
+      url.searchParams.set('room', roomId);
+      history.replaceState(null, '', url.toString());
+    } catch (e) {}
+  },
+  clearRoomLink() {
+    try {
+      const url = new URL(location.href);
+      url.searchParams.delete('room');
+      history.replaceState(null, '', url.toString());
+    } catch (e) {}
+  },
+
+  toggleRevealRole() {
+    this.revealRoleMode = !this.revealRoleMode;
+    const badge = document.getElementById('badge-reveal-role');
+    badge.classList.toggle('off', !this.revealRoleMode);
+    badge.textContent = this.revealRoleMode ? 'Bật' : 'Tắt';
+  },
 
   /* ----- Setup ----- */
   stepPlayers(delta) {
@@ -87,14 +185,32 @@ const App = {
     document.getElementById('timerInputWrap').classList.toggle('show', this.timerEnabled);
   },
 
+  /* ----- Cache tên người chơi gần nhất -> tự điền lại khi tạo phòng mới
+     hoặc bấm "Chơi lại", khỏi phải gõ lại từ đầu ----- */
+  NAMES_STORAGE_KEY: 'imposter_last_names_v1',
+  saveNamesCache() {
+    try {
+      const names = this.players.map(p => p.name).filter(Boolean);
+      localStorage.setItem(this.NAMES_STORAGE_KEY, JSON.stringify(names));
+    } catch (e) {}
+  },
+  loadNamesCache() {
+    try {
+      const raw = localStorage.getItem(this.NAMES_STORAGE_KEY);
+      const arr = raw ? JSON.parse(raw) : [];
+      return Array.isArray(arr) ? arr : [];
+    } catch (e) { return []; }
+  },
+
   /* ----- Names ----- */
   goNames() {
     this.timerMinutes = parseInt(document.getElementById('timerMinutes').value) || 3;
     this.validateConfig();
+    const cached = this.loadNamesCache();
     this.players = [];
     for (let i = 0; i < this.numPlayers; i++) {
       this.players.push({
-        name: `Người chơi ${i+1}`,
+        name: cached[i] || `Người chơi ${i+1}`,
         color: PALETTE[i % PALETTE.length],
         playerId: null,
         playerToken: null,
@@ -160,6 +276,7 @@ const App = {
     this.players.forEach((p, i) => {
       if (!p.name.trim()) p.name = `Người chơi ${i+1}`;
     });
+    this.saveNamesCache();
 
     this.setBusy(true, 'Đang tạo phòng...');
     try {
@@ -188,6 +305,7 @@ const App = {
         multi_round: this.multiRound,
         timer_enabled: this.timerEnabled,
         timer_minutes: this.timerMinutes,
+        reveal_role_on_elimination: this.revealRoleMode,
       });
 
       // 4) Server random từ + gán vai trò cho tất cả người chơi
@@ -199,10 +317,15 @@ const App = {
       return;
     }
     this.setBusy(false);
+    this.offlineMode = false;
+    this.realWord = null;
+    this.realMeaning = null;
+    this.setRoomLink(this.roomId);
 
     this.currentPlayerIndex = 0;
     this.showHandover();
     this.showScreen('screen-handover');
+    this.saveProgress();
   },
 
   showHandover() {
@@ -233,6 +356,15 @@ const App = {
     }
     this.setBusy(false);
 
+    // Cache lại bí mật của người này trên chính máy này — dùng để chơi tiếp
+    // cục bộ (offline) nếu sau này backend gặp sự cố giữa ván.
+    p.secret = secret;
+    if (secret.role === 'civilian') {
+      this.realWord = secret.word;
+      this.realMeaning = secret.meaning;
+    }
+    this.saveProgress();
+
     if (secret.role === 'imposter' && secret.is_imposter_aware) {
       wordEl.textContent = 'KẺ GIẤU MẶT';
       wordEl.style.color = 'var(--coral-soft)';
@@ -254,6 +386,7 @@ const App = {
   },
   finishReveal() {
     this.currentPlayerIndex++;
+    this.saveProgress();
     if (this.currentPlayerIndex >= this.numPlayers) {
       if (this.timerEnabled) {
         this.startDiscussion();
@@ -307,6 +440,7 @@ const App = {
     this.votedIndex = null;
     this.renderVoteGrid();
     this.showScreen('screen-vote');
+    this.saveProgress();
   },
   renderVoteGrid() {
     const grid = document.getElementById('vote-grid');
@@ -352,7 +486,9 @@ const App = {
     document.getElementById('modal-rules').classList.remove('active');
   },
 
-  /* ----- Loại người chơi: SERVER quyết định đúng/sai + thắng/thua ----- */
+  /* ----- Loại người chơi: SERVER quyết định đúng/sai + thắng/thua
+     (nếu backend lỗi/không kết nối được, tự tính cục bộ bằng dữ liệu
+     đã cache từ lúc từng người xem bí mật, để ván vẫn chơi tiếp được) ----- */
   async doEliminate() {
     this.closeModal();
     const idx = this.votedIndex;
@@ -363,36 +499,54 @@ const App = {
     let result;
     try {
       result = await api.eliminate(this.roomId, this.hostToken, p.playerId);
+      this.offlineMode = false;
     } catch (e) {
-      this.setBusy(false);
-      this.showApiError(e);
-      return;
+      if (this.canRunOffline()) {
+        result = this.localEliminate(p);
+        this.offlineMode = true;
+      } else {
+        this.setBusy(false);
+        this.showApiError(e);
+        return;
+      }
     }
     this.setBusy(false);
 
     p.eliminated = true;
     this.pendingGameOver = result.game_over;
     this.pendingWinner = result.winner;
+    this.saveProgress();
 
     document.getElementById('elim-avatar').style.background = p.color;
     document.getElementById('elim-avatar').textContent = this.getInitials(p.name);
     document.getElementById('elim-name').textContent = p.name;
-    document.getElementById('elim-word').textContent = result.revealed_word;
+
+    const showRole = this.revealRoleMode || result.game_over;
+    const roleEl = document.getElementById('elim-role');
+    const verdict = document.getElementById('elim-verdict');
+    if (showRole) {
+      roleEl.style.display = '';
+      roleEl.textContent = result.role_label;
+      roleEl.className = 'badge-role ' + (result.was_imposter ? 'badge-imposter' : 'badge-civilian');
+      if (result.was_imposter) {
+        verdict.textContent = '✅ Chính xác! Bạn đã tìm ra Kẻ giấu mặt.';
+        verdict.className = 'elim-verdict correct';
+      } else {
+        verdict.textContent = '❌ Đoán sai rồi! Đây là Dân thường.';
+        verdict.className = 'elim-verdict wrong';
+      }
+    } else {
+      roleEl.style.display = 'none';
+      verdict.textContent = 'Người chơi đã bị loại khỏi ván đấu.';
+      verdict.className = 'elim-verdict';
+    }
+
+    // Từ chỉ được lộ khi ván đã kết thúc hẳn (game_over) — không bao giờ
+    // lộ giữa ván, kể cả khi bật "tiết lộ vai trò".
+    document.getElementById('elim-word').textContent = result.game_over ? (result.revealed_word || '') : '';
     const elimMeaningEl = document.getElementById('elim-meaning');
     if (elimMeaningEl) {
-      elimMeaningEl.textContent = result.revealed_meaning ? `Giải thích: ${result.revealed_meaning}` : '';
-    }
-    const roleEl = document.getElementById('elim-role');
-    roleEl.textContent = result.role_label;
-    roleEl.className = 'badge-role ' + (result.was_imposter ? 'badge-imposter' : 'badge-civilian');
-
-    const verdict = document.getElementById('elim-verdict');
-    if (result.was_imposter) {
-      verdict.textContent = '✅ Chính xác! Bạn đã tìm ra Kẻ giấu mặt.';
-      verdict.className = 'elim-verdict correct';
-    } else {
-      verdict.textContent = '❌ Đoán sai rồi! Đây là Dân thường.';
-      verdict.className = 'elim-verdict wrong';
+      elimMeaningEl.textContent = (result.game_over && result.revealed_meaning) ? `Giải thích: ${result.revealed_meaning}` : '';
     }
 
     const btn = document.getElementById('btn-elim-next');
@@ -400,6 +554,51 @@ const App = {
     btn.onclick = result.game_over ? () => this.goResults() : () => this.goNextRound();
 
     this.showScreen('screen-elimination');
+  },
+
+  /* ----- Fallback cục bộ: chỉ dùng được nếu MỌI người chơi đã xem bí mật
+     trên chính máy này (nên có đủ role/word để tự tính đúng-sai/thắng-thua) ----- */
+  canRunOffline() {
+    return this.roomId && this.players.length > 0 && this.players.every(p => p && p.secret);
+  },
+  localEliminate(p) {
+    const wasImposter = p.secret.role === 'imposter';
+    const activeImpCount = this.players.filter(x => !x.eliminated && x.secret.role === 'imposter').length
+      - (wasImposter ? 1 : 0);
+    const activeCivCount = this.players.filter(x => !x.eliminated && x.secret.role === 'civilian').length
+      - (!wasImposter ? 1 : 0);
+
+    let gameOver, winner;
+    if (!this.multiRound) {
+      gameOver = true; winner = wasImposter ? 'civilian' : 'imposter';
+    } else if (activeImpCount === 0) {
+      gameOver = true; winner = 'civilian';
+    } else if (activeImpCount >= activeCivCount) {
+      gameOver = true; winner = 'imposter';
+    } else {
+      gameOver = false; winner = null;
+    }
+
+    let revealedWord = '', revealedMeaning = null;
+    if (gameOver) {
+      if (wasImposter) {
+        revealedWord = p.secret.is_imposter_aware ? p.secret.hint : p.secret.word;
+        revealedMeaning = p.secret.is_imposter_aware ? null : p.secret.meaning;
+      } else {
+        revealedWord = this.realWord || p.secret.word;
+        revealedMeaning = this.realMeaning || p.secret.meaning;
+      }
+    }
+
+    return {
+      eliminated_player_id: p.playerId,
+      was_imposter: wasImposter,
+      role_label: wasImposter ? 'Kẻ giấu mặt' : 'Dân thường',
+      revealed_word: revealedWord,
+      revealed_meaning: revealedMeaning,
+      game_over: gameOver,
+      winner: winner,
+    };
   },
 
   goNextRound() {
@@ -410,19 +609,28 @@ const App = {
     }
   },
 
-  /* ----- Results: lấy đầy đủ vai trò/từ từ server (chỉ cho phép khi đã finished) ----- */
+  /* ----- Results: lấy đầy đủ vai trò/từ từ server (chỉ cho phép khi đã finished);
+     fallback dựng lại từ cache cục bộ nếu backend không phản hồi được ----- */
   async goResults() {
     this.setBusy(true, 'Đang tải kết quả...');
     let reveal;
     try {
       reveal = await api.reveal(this.roomId);
+      this.offlineMode = false;
     } catch (e) {
-      this.setBusy(false);
-      this.showApiError(e);
-      return;
+      if (this.canRunOffline()) {
+        reveal = this.localReveal();
+        this.offlineMode = true;
+      } else {
+        this.setBusy(false);
+        this.showApiError(e);
+        return;
+      }
     }
     this.setBusy(false);
     this.showScreen('screen-result');
+    this.clearProgress();
+    this.clearRoomLink();
 
     const title = document.getElementById('result-title');
     const banner = document.getElementById('result-banner');
@@ -460,9 +668,30 @@ const App = {
     this.startConfetti();
   },
 
+  localReveal() {
+    return {
+      winner: this.pendingWinner,
+      players: this.players.map(p => {
+        const wasImposter = p.secret.role === 'imposter';
+        return {
+          id: p.playerId, name: p.name, color: p.color, role: p.secret.role,
+          revealed_word: wasImposter
+            ? (p.secret.is_imposter_aware ? p.secret.hint : p.secret.word)
+            : (this.realWord || p.secret.word),
+          revealed_meaning: wasImposter
+            ? (p.secret.is_imposter_aware ? null : p.secret.meaning)
+            : (this.realMeaning || p.secret.meaning),
+          eliminated: p.eliminated,
+        };
+      }),
+    };
+  },
+
   /* ----- Replay ----- */
   async replayKeepConfig() {
     this.confettiRunning = false;
+    this.clearProgress();
+    this.clearRoomLink();
     this.setBusy(true, 'Đang chuẩn bị ván mới...');
     try {
       // Giữ config trên server, xoá hết người chơi để nhập tên lại
@@ -474,17 +703,21 @@ const App = {
     }
     this.setBusy(false);
 
-    this.players.forEach((p, i) => {
-      p.name = `Người chơi ${i+1}`;
+    // Giữ nguyên tên cũ (đã cache) — chỉ xoá playerId/token/secret vì phòng
+    // đã reset trên server, cần join lại để nhận id/token mới.
+    this.players.forEach((p) => {
       p.eliminated = false;
       p.playerId = null;
       p.playerToken = null;
+      p.secret = null;
     });
     this.renderNames();
     this.showScreen('screen-names');
   },
   replayNewGame() {
     this.confettiRunning = false;
+    this.clearProgress();
+    this.clearRoomLink();
     this.resetToSetup();
     this.showScreen('screen-setup');
   },
@@ -572,6 +805,7 @@ document.addEventListener('visibilitychange', () => {
 
 /* ===== Khởi động ===== */
 App.renderSetup();
+App.checkResumable();
 window.addEventListener('resize', () => {
   const cvs = document.getElementById('confetti');
   if (cvs) { cvs.width = window.innerWidth; cvs.height = window.innerHeight; }
