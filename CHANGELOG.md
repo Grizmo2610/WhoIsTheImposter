@@ -8,6 +8,7 @@ All notable changes to **Who Is The Imposter?** will be documented in this file.
 
 - Cập nhật logo, favicon, ảnh chụp màn hình và demo link.
 - Chỉnh giao diện và một số cải tiến nhỏ.
+- Chỉnh sửa tài liệu và update `license` 
 
 ## [0.3.1]
 

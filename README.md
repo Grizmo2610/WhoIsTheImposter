@@ -19,14 +19,14 @@
   <p align="center">
     Real-time & Pass-and-play party game — find the imposter among your friends
     <br />
-    <a href="https://github.com/Grizmo2610/WhoIsTheImposter"><strong>Explore the docs »</strong></a>
+    <a href="docs/architecture.md"><strong>Explore the docs »</strong></a>
     <br />
     <br />
     <a href="https://whoistheimposter.hoangtuantu893.workers.dev/">View Demo</a>
     &middot;
-    <a href="https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
+    <a href="https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=bug&template=bug-report.md">Report Bug</a>
     &middot;
-    <a href="https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=enhancement&template=feature-request---.md">Request Feature</a>
+    <a href="https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=enhancement&template=feature-request.md">Request Feature</a>
   </p>
 </div>
 
@@ -55,6 +55,18 @@ The project supports two flexible deployment modes:
 
 Pipeline:
 Setup → Names → Handover → Reveal → Discuss → Vote → Eliminate → Results
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## Documentation
+
+Explore the project documentation for deeper insights:
+* 🏛️ [System Architecture](docs/architecture.md)
+* 📚 [Word Bank & CLI Management](docs/wordbank.md)
+* 🔌 [REST API & WebSocket Reference](docs/api.md)
+* 📋 [Changelog](CHANGELOG.md)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -195,7 +207,7 @@ See the [open issues](https://github.com/Grizmo2610/WhoIsTheImposter/issues)
 
 ## License
 
-Distributed under the MIT License. See `LICENSE.txt` for more information.
+Distributed under the MIT License. See [LICENSE.txt](LICENSE.txt) for more information.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -231,7 +243,7 @@ https://github.com/Grizmo2610/WhoIsTheImposter
 [issues-shield]: https://img.shields.io/github/issues/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
 [issues-url]: https://github.com/Grizmo2610/WhoIsTheImposter/issues
 [license-shield]: https://img.shields.io/github/license/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
-[license-url]: https://github.com/Grizmo2610/WhoIsTheImposter/blob/master/LICENSE.txt
+[license-url]: https://github.com/Grizmo2610/WhoIsTheImposter/blob/main/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
 [product-screenshot]: images/screenshot.png

@@ -19,14 +19,14 @@
   <p align="center">
     Trò chơi truyền tay & thời gian thực — tìm người giả mạo trong bè bạn
     <br />
-    <a href="https://github.com/Grizmo2610/WhoIsTheImposter"><strong>Khám phá tài liệu »</strong></a>
+    <a href="docs/architecture.md"><strong>Khám phá tài liệu »</strong></a>
     <br />
     <br />
     <a href="https://whoistheimposter.hoangtuantu893.workers.dev/">Xem Demo</a>
     &middot;
-    <a href="https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=bug&template=bug-report---.md">Báo Lỗi</a>
+    <a href="https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=bug&template=bug-report.md">Báo Lỗi</a>
     &middot;
-    <a href="https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=enhancement&template=feature-request---.md">Yêu Cầu Tính Năng</a>
+    <a href="https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=enhancement&template=feature-request.md">Yêu Cầu Tính Năng</a>
   </p>
 </div>
 
@@ -55,6 +55,18 @@ Dự án hỗ trợ 2 chế độ linh hoạt:
 
 Quy trình:
 Cài đặt → Nhập Tên → Truyền Máy → Xem Bí Mật → Thảo Luận → Bỏ Phiếu → Loại → Kết Quả
+
+<p align="right">(<a href="#readme-top">lên đầu trang</a>)</p>
+
+---
+
+## Tài Liệu Dự Án
+
+Khám phá tài liệu chi tiết của dự án:
+* 🏛️ [Kiến Trúc Hệ Thống (Architecture)](docs/architecture.md)
+* 📚 [Kho Từ Vựng & Quản Lý CLI (Word Bank)](docs/wordbank.md)
+* 🔌 [Tham Khảo API & WebSocket (API Reference)](docs/api.md)
+* 📋 [Nhật Ký Thay Đổi (Changelog)](CHANGELOG.md)
 
 <p align="right">(<a href="#readme-top">lên đầu trang</a>)</p>
 
@@ -195,7 +207,7 @@ Xem các [vấn đề mở](https://github.com/Grizmo2610/WhoIsTheImposter/issue
 
 ## Giấy Phép
 
-Phân phối theo Giấy Phép MIT. Xem `LICENSE.txt` để biết thêm chi tiết.
+Phân phối theo Giấy Phép MIT. Xem [LICENSE.txt](LICENSE.txt) để biết thêm chi tiết.
 
 <p align="right">(<a href="#readme-top">lên đầu trang</a>)</p>
 
@@ -231,7 +243,7 @@ https://github.com/Grizmo2610/WhoIsTheImposter
 [issues-shield]: https://img.shields.io/github/issues/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
 [issues-url]: https://github.com/Grizmo2610/WhoIsTheImposter/issues
 [license-shield]: https://img.shields.io/github/license/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
-[license-url]: https://github.com/Grizmo2610/WhoIsTheImposter/blob/master/LICENSE.txt
+[license-url]: https://github.com/Grizmo2610/WhoIsTheImposter/blob/main/LICENSE.txt
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/linkedin_username
 [product-screenshot]: images/screenshot.png
