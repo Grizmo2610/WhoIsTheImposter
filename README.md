@@ -22,7 +22,7 @@
     <a href="https://github.com/Grizmo2610/WhoIsTheImposter"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Grizmo2610/WhoIsTheImposter">View Demo</a>
+    <a href="https://whoistheimposter.hoangtuantu893.workers.dev/">View Demo</a>
     &middot;
     <a href="https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=bug&template=bug-report---.md">Report Bug</a>
     &middot;
@@ -34,7 +34,7 @@
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](https://whoistheimposter.hoangtuantu893.workers.dev/)
 
 **Who Is The Imposter?** is a party game inspired by classic social deduction formats (Mafia / Among Us). Players take turns viewing their secret word, discussing, and voting to eliminate the imposter before they sabotage the group.
 

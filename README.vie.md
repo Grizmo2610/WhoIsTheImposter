@@ -22,7 +22,7 @@
     <a href="https://github.com/Grizmo2610/WhoIsTheImposter"><strong>Khám phá tài liệu »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/Grizmo2610/WhoIsTheImposter">Xem Demo</a>
+    <a href="https://whoistheimposter.hoangtuantu893.workers.dev/">Xem Demo</a>
     &middot;
     <a href="https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=bug&template=bug-report---.md">Báo Lỗi</a>
     &middot;
@@ -34,7 +34,7 @@
 
 ## Giới Thiệu Dự Án
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+[![Product Name Screen Shot][product-screenshot]](https://whoistheimposter.hoangtuantu893.workers.dev/)
 
 **Ai Là Người Giả Mạo?** (Who Is The Imposter?) là trò chơi tiệc tùng lấy cảm hứng từ các thể loại suy luận xã hội cổ điển (Mafia / Among Us). Người chơi lần lượt xem từ bí mật, thảo luận và bỏ phiếu để loại bỏ kẻ giả mạo trước khi chúng phá hoại cả nhóm.
 
