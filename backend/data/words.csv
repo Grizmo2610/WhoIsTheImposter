@@ -20,8 +20,8 @@ Tam Đảo,Du lịch,Gần Hà Nội;Có nhà thờ đá cổ,"Thị trấn ngh�
 Karaoke,Giải trí,Hoạt động giải trí có âm nhạc;Thường đi vào cuối tuần,"Hoạt động giải trí hát theo nhạc nền trong phòng riêng, thường đi theo nhóm bạn bè."
 Board game,Giải trí,Chơi theo nhóm bạn;Cần bàn và quân cờ/thẻ bài,"Trò chơi bàn cờ hoặc thẻ bài chơi theo nhóm, cần không gian bàn để chơi cùng nhau."
 Bánh mì,Ẩm thực,"Món ăn nhanh, tiện lợi;Có thể ăn kèm nhiều loại nhân","Bánh làm từ bột mì, xẻ giữa để kẹp nhân như pate, thịt, rau, đồ chua."
-Game Ma sói,Giải trí,"Một Board game; The mafia game","Board game trong đó có 2 phe là dân làng và sói giả dân làng. Nhiệm vụ của sói là ăn thịt hết dân (hoặc số dân = số sói), nhiệm vụ của dân là tìm ra sói trước khi bị ăn thịt"
-Loa,Thiết bị,"Âm thanh; Cơ học hoặc điện tử","Thiết bị phóng đại âm thanh"
+Game Ma sói,Giải trí,Một Board game; The mafia game,"Board game trong đó có 2 phe là dân làng và sói giả dân làng. Nhiệm vụ của sói là ăn thịt hết dân (hoặc số dân = số sói), nhiệm vụ của dân là tìm ra sói trước khi bị ăn thịt"
+Loa,Thiết bị,Âm thanh; Cơ học hoặc điện tử,Thiết bị phóng đại âm thanh
 Cơm tấm,Ẩm thực,Cơm nửa hạt;Ăn kèm sườn nướng,"Cơm làm từ hạt gãy, thường ăn kèm sườn nướng, trứng ốp la, cà chua ở miền Nam."
 Bún chả,Ẩm thực,Đặc sản Hà Nội;Ăn kèm nước chấm,"Bún kèm thịt nướng, dùng chung với nước chấm mặn ngọt, đặc sản ẩm thực Hà Nội."
 Bánh chưng,Ẩm thực,Bánh Tết truyền thống;Hình vuông,"Bánh Tết Việt Nam làm từ nếp, đậu xanh và thịt lợn, hình vuông tượng trưng đất trời."
@@ -32,11 +32,10 @@ Sinh tố,Đồ uống,Nước ép hoa quả;Uống lạnh,"Thức uống làm t
 Bia,Đồ uống,Thức uống có cồn;Hay uống ở quán nhậu,"Thức uống có cồn làm từ lúa mạch hoặc gạo, phổ biến ở các quán bar, nhậu."
 Rượu,Đồ uống,Thức uống có cồn cao;Chứa cồn nhiều,"Thức uống chứa độ cồn cao, làm từ nho, gạo hoặc các loại trái cây khác."
 Nước ngọt,Đồ uống,Thức uống có gas;Vị ngọt dễ chịu,"Thức uống nước có gas, vị ngọt, uống lạnh để giải khát."
-Nước cam,Đồ uống,Ép từ trái cam;Vị chua ngọt,"Nước ép từ trái cam tươi, chứa vitamin C, vị chua ngọt tự nhiên."
+Nước cam và nước quýt,Đồ uống,Nước ép trái cây có múi;Giàu vitamin C,"Thức uống ép từ cam hoặc quýt tươi, có vị chua ngọt tự nhiên và nhiều vitamin C."
 Nước dừa,Đồ uống,Nước trong quả dừa;Mát, lợi tiểu,"Nước trong quả dừa tươi, mát lạnh tự nhiên, tốt cho sức khỏe."
 Trà xanh,Đồ uống,Trà không ferment;Vị đắng nhẹ,"Trà làm từ lá chè xanh tươi không qua quá trình lên men, vị đắng nhẹ."
 Trà hoa,Đồ uống,Trà pha với các loại hoa;Thơm nhẹ,"Trà pha kèm hoa như hoa cúc, hoa hồng, hoa nhài, vị thơm nhẹ dễ chịu."
-Nước quýt,Đồ uống,Ép từ trái quýt;Vị chua thanh,"Nước ép từ trái quýt, chứa vitamin, vị chua thanh lý thích."
 Cơm chiên,Ẩm thực,Cơm rang với các loại nhân;Ăn nhanh tiện,"Cơm chiên với thịt, tôm, trứng, hành, đậu, ăn nhanh tiện lợi."
 Mì xào,Ẩm thực,Mì tươi xào;Có vị mặn,"Mì tươi xào với các loại rau và thịt, vị mặn đậm, ăn nóng."
 Cơm cà ri,Ẩm thực,Cơm nấu với nước cà ri;Vị cay thơm,"Cơm nấu với nước cà ri dừa và gia vị, vị cay thơm, đặc sản Ấn Độ."
@@ -80,7 +79,6 @@ Hạt hướng dương,Ẩm thực,Hạt nhỏ dài;Ăn vặt,"Hạt từ hoa h�
 Ngô nướng,Ẩm thực,Ngô rang nóng;Vị bơ,"Hạt ngô nướng hoặc rang, vị bơ mặn, ăn vặt phổ biến."
 Khoai tây chiên,Ẩm thực,Khoai tây cắt dài chiên;Vàng giòn,"Khoai tây cắt thành sợi chiên vàng giòn, ăn kèm cà chua hoặc muối."
 Bánh táo,Ẩm thực,Bánh với nhân táo;Vị chua ngọt,"Bánh làm từ bột, có nhân từ trái táo, vị chua ngọt dễ chịu."
-Bánh dâu,Ẩm thực,Bánh với nhân dâu;Vị ngọt,"Bánh với nhân từ trái dâu hoặc mứt dâu, vị ngọt nhẹ."
 Tủ lạnh,Đồ vật trong nhà,Bảo quản thực phẩm;Có dồng cơ,"Thiết bị điện bảo quản thực phẩm lạnh, giữ thực phẩm tươi lâu hơn."
 Lò nướng,Đồ vật trong nhà,Nướng bánh;Nóng cao độ,"Thiết bị điện dùng để nướng bánh, thịt, hoặc các loại thực phẩm khác."
 Nồi cơm,Đồ vật trong nhà,Nấu cơm;Chứa nước,"Nồi điện dùng để nấu cơm từ gạo, tự động giữ ấm sau khi nấu."
@@ -106,7 +104,7 @@ Máy ảnh,Đồ vật trong nhà,Chụp ảnh;Lens,"Thiết bị dùng chụp �
 Micro,Thiết bị,Ghi âm;Kết nối amplifier,"Thiết bị ghi âm voice, dùng hát karaoke hoặc ghi âm chuyên nghiệp."
 Tai nghe,Thiết bị,Nghe âm thanh;Nhỏ gọn,"Thiết bị đeo tai dùng nghe nhạc, podcast, hoặc trò chuyện qua điện thoại."
 Máy chiếu,Thiết bị,Chiếu hình ảnh;Sáng mạnh,"Thiết bị chiếu hình ảnh lên màn hình hoặc tường, dùng trong thuyết trình."
-Máy in,Thiết bị,In tài liệu;Mực hoặc toner,"Thiết bị in tài liệu từ máy tính hoặc điện thoại ra giấy."
+Máy in,Thiết bị,In tài liệu;Mực hoặc toner,Thiết bị in tài liệu từ máy tính hoặc điện thoại ra giấy.
 Pin,Thiết bị,Cung cấp điện;Sạc được,"Thiết bị cung cấp năng lượng cho các thiết bị điện, sạc được lại."
 Bóng đèn,Thiết bị,Phát sáng;Chiếu sáng,"Thiết bị phát sáng, dùng để chiếu sáng, vít vào vì đèn."
 Dây cáp,Thiết bị,Truyền điện;Bọc cao su,"Dây dẫn điện hoặc tín hiệu, có lớp bọc cao su bảo vệ."
@@ -125,9 +123,8 @@ Kéo,Thiết bị,Cắt giấy hay vải;Hai lưỡi,"Công cụ cắt có hai l
 Cái xô,Đồ vật trong nhà,Chứa nước;Nhỏ gọn,"Vật dụng hình trụ, có quai, dùng chứa nước hoặc các chất lỏng."
 Chổi,Đồ vật trong nhà,Quét nhà;Có sợi,"Dụng cụ quét sạch, có các sợi đan lại, gắn vào cán dài."
 Cây lau nhà,Đồ vật trong nhà,Lau sàn;Vắt được,"Dụng cụ lau sàn, có phần mềm chứa nước, có cây cầm dài."
-Xà bông,Đồ vật trong nhà,Rửa tay;Làm từ dầu,"Sản phẩm làm sạch tay hoặc cơ thể, làm từ dầu và muối."
+Xà bông & xà phòng tắm,Đồ vật trong nhà,Sản phẩm làm sạch cơ thể;Làm từ dầu và hương liệu,"Sản phẩm dùng để rửa tay hoặc tắm, làm sạch da và tạo hương thơm."
 Dầu gội,Đồ vật trong nhà,Gội đầu;Làm từ hóa chất,"Sản phẩm gội đầu, làm sạch tóc, có các hương thơm khác nhau."
-Xà phòng tắm,Đồ vật trong nhà,Tắm cơ thể;Làm từ dầu,"Sản phẩm tắm, làm sạch da, có các loại cho da khác nhau."
 Kem đánh răng,Đồ vật trong nhà,Đánh răng;Có fluoride,"Sản phẩm đánh răng, làm sạch răng, ngừa sâu răng."
 Bàn chải đánh răng,Đồ vật trong nhà,Đánh răng;Lông chải,"Dụng cụ đánh răng, có lông chải nhỏ, cần thay 3 tháng một lần."
 Khăn tắm,Đồ vật trong nhà,Lau cơ thể;Vải dệt,"Khăn vải dùng lau cơ thể sau khi tắm, hút nước tốt."
@@ -140,7 +137,7 @@ Vòi nước,Đồ vật trong nhà,Chảy nước;Kim loại,"Thiết bị ch�
 Xối sen,Đồ vật trong nhà,Tắm cơ thể;Nước rơi,"Thiết bị phun nước, gắn lên trần hoặc tường, dùng tắm."
 Túi vải,Đồ vật trong nhà,Đựng đồ;Bền bỉ,"Túi làm từ vải, dùng đựng đồ, có quai để xách."
 Thùng rác,Đồ vật trong nhà,Chứa rác;Có nắp,"Thùng chứa rác, thường có nắp để đậy, ngăn mùi hôi."
-Bàn tính tiền,Thiết bị,Tính toán;Bàn phím,"Máy tính chuyên dụng dùng tính tiền ở cửa hàng hoặc quán ăn."
+Bàn tính tiền,Thiết bị,Tính toán;Bàn phím,Máy tính chuyên dụng dùng tính tiền ở cửa hàng hoặc quán ăn.
 Cân điện tử,Thiết bị,Cân trọng lượng;Màn hình số,"Máy cân trọng lượng các vật dụng, hiển thị kết quả trên màn hình."
 Bóng bàn,Thể thao,Bóng nhỏ trắng;Chơi bàn,"Bóng dùng chơi bàn pong, nhỏ và nhẹ, phục vụ chính quy."
 Vợt bóng bàn,Thể thao,Vợt chơi bóng bàn;Có cao su,"Vợt chơi bóng bàn, có mặt cao su chắp, cầm dễ dàng."
@@ -178,8 +175,7 @@ Ván trượt,Thể thao,Ván chơi trượt;Gỗ hoặc nhôm,"Ván trượt, c
 Bánh xe trượt,Thể thao,Bánh xe trượt patin;Cao su,"Bánh xe trượt patin, lớn và cứng, giúp trượt nhanh."
 Giày trượt patin,Thể thao,Giày trượt patin;Bánh xe,"Giày trượt patin, có bánh xe, giúp trượt trên mặt phẳng."
 Mũ bảo hiểm trượt,Thể thao,Mũ bảo vệ đầu;Nhựa cứng,"Mũ bảo hiểm, bảo vệ đầu khi trượt, chất liệu nhựa cứng."
-Tạ tay,Thể thao,Tạ tập lực;Kim loại,"Tạ tay, có trọng lượng khác nhau, dùng tập lực."
-Tạ đơn,Thể thao,Tạ chỉ có một đầu;Kim loại,"Tạ đơn, chỉ có một đầu nặng, dùng tập lực một tay."
+Tạ tay và tạ đơn,Thể thao,Dụng cụ tập thể hình cầm tay;Nhiều mức trọng lượng,Dụng cụ tập luyện cơ bắp bằng kim loại với các mức trọng lượng khác nhau cho tay.
 Thanh tạ,Thể thao,Thanh đầu tạ;Kim loại,"Thanh tạ, gắn tạ vào hai đầu, dùng tập lực với cả hai tay."
 Tạp dề tập thể dục,Thể thao,Áo tập thể dục;Vải thể thao,"Áo tập thể dục, vải thấm hút mồ hôi, thoáng khí."
 Giày thể thao,Thể thao,Giày tập thể dục;Nhẹ nhàng,"Giày thể thao, nhẹ, thoáng khí, có đệm tốt."
@@ -217,8 +213,7 @@ Ballerina,Nghệ thuật,Vũ công nữ;Ballet,"Người nhảy múa ballet nữ
 Tranh sơn dầu,Nghệ thuật,Tranh vẽ bằng sơn dầu;Màu sắc sâu,"Tác phẩm vẽ tranh bằng sơn dầu, màu sắc sâu, vẽ trên canvas."
 Tranh mực,Nghệ thuật,Tranh vẽ bằng mực;Đen trắng,"Tác phẩm vẽ tranh bằng mực, thường đen trắng, mang vẻ cổ điển."
 Gốm sứ,Nghệ thuật,Vật dụng từ đất sét;Nóng chảy,"Vật dụng làm từ đất sét, nóng chảy trong lò, tạo ra lớp glaze."
-Tượng mộc,Nghệ thuật,Tượng điêu khắc từ gỗ;Tự nhiên,"Tác phẩm điêu khắc từ gỗ, tự nhiên, không sơn."
-Tượng đá,Nghệ thuật,Tượng điêu khắc từ đá;Bền bỉ,"Tác phẩm điêu khắc từ đá, bền bỉ, kéo dài hàng trăm năm."
+Tượng gỗ & tượng đá,Nghệ thuật,Tượng điêu khắc từ gỗ hoặc đá;Bền bỉ tự nhiên,Tác phẩm điêu khắc nghệ thuật làm từ chất liệu gỗ tự nhiên hoặc đá bền vững theo thời gian.
 Nhà hát,Du lịch,Địa điểm xem kịch;Kiến trúc cổ,"Tòa nhà dùng để xem kịch, opera, ballet, có kiến trúc đẹp."
 Bảo tàng,Du lịch,Nơi lưu giữ di tích;Giáo dục,"Nơi lưu giữ các vật dụng cổ, tranh, điêu khắc, có giá trị lịch sử."
 Thư viện,Du lịch,Nơi lưu giữ sách;Kiến thức,"Nơi lưu giữ và cho mượn sách, tài liệu, tham khảo kiến thức."
@@ -274,3 +269,33 @@ Anime,Giải trí,Phim hoạt hình Nhật;Vui nhộn,"Phim hoạt hình Nhật 
 Manga,Giải trí,Truyện tranh Nhật;Vui thích,"Truyện tranh Nhật Bản, vui thích, nhiều thể loại."
 Webtoon,Giải trí,Truyện tranh web;Hiện đại,"Truyện tranh đăng trên web, hiện đại, cập nhật thường xuyên."
 Esports,Giải trí,Thi đấu điện tử chuyên nghiệp;Giải thưởng,"Thi đấu video game chuyên nghiệp, có giải thưởng tiền tệ lớn."
+Bánh xèo,Ẩm thực,Bánh chiên giòn cuốn rau sống;Vị béo ngậy,"Bánh bột gạo chiên giòn nhân tôm thịt, ăn kèm rau sống và nước mắm chua ngọt."
+Bún mắm,Ẩm thực,Món nước đậm đà mùi mắm;Đặc sản miền Tây,"Món bún nước dùng nấu từ mắm cá linh hoặc cá sặc, ăn kèm hải sản và heo quay."
+Cao lầu,Ẩm thực,Đặc sản Hội An;Sợi mì vàng đậm,"Món mì đặc trưng của Hội An với sợi mì vàng dai, thịt xá xíu và ít nước dùng đậm đà."
+Bánh tráng nướng,Ẩm thực,Pizza Việt Nam;Nướng trên than hoa,"Bánh tráng nướng với trứng cút, mỡ hành, xúc xích và tép khô trên bếp than."
+Nước sâm,Đồ uống,Thức uống thảo mộc giải nhiệt;Vị ngọt mát,"Thức uống nấu từ các loại rễ cây và lá thảo mộc, có tác dụng giải nhiệt cơ thể."
+Trà tắc,Đồ uống,Trà chanh phiên bản tắc;Giải khát mùa hè,"Trà pha với quả tắc (quất) tươi, thêm đường và đá lạnh, giải khát rất tốt."
+Xe đạp thể thao,Phương tiện,Xe đạp địa hình;Có nhiều cấp độ số,Xe đạp chuyên dụng cho việc tập luyện thể thao hoặc đi địa hình gồ ghề.
+Xe máy điện,Phương tiện,Xe máy chạy bằng điện;Không tiếng ồn,"Phương tiện 2 bánh chạy bằng động cơ điện công suất lớn, không phát thải khói bụi."
+Áo bà ba cách tân,Trang phục,Biến tấu từ áo bà ba truyền thống;Hiện đại trẻ trung,"Trang phục truyền thống được cách tân với kiểu dáng hiện đại hơn, hợp thời trang."
+Nha Trang,Du lịch,Thành phố biển miền Trung;Vịnh đẹp nổi tiếng,"Thành phố ven biển Khánh Hòa, nổi tiếng với các vịnh biển đẹp và hải sản tươi ngon."
+Phú Yên,Du lịch,Xứ hoa vàng trên cỏ xanh;Cảnh quan hoang sơ,Tỉnh duyên hải miền Trung nổi tiếng với cảnh quan thiên nhiên hoang sơ và bình yên.
+Ninh Bình,Du lịch,Cố đô Hoa Lư;Danh thắng Tràng An,"Vùng đất cố đô với quần thể danh thắng Tràng An, Tam Cốc Bích Động hùng vĩ."
+Bà Nà,Du lịch,Khu du lịch trên núi;Có Cầu Vàng nổi tiếng,Khu nghỉ dưỡng nổi tiếng trên đỉnh Núi Chúa với kiến trúc châu Âu và Cầu Vàng độc đáo.
+Lô tô,Giải trí,Trò chơi dân gian có gọi số;Thường chơi dịp Tết,Trò chơi giải trí truyền thống có người gọi số và người chơi dò vé số.
+Đố vui,Giải trí,Trò chơi câu đố trí tuệ;Thử thách tư duy,Trò chơi đặt ra các câu đố mẹo hoặc kiến thức để thử sự nhạy bén.
+Máy hút bụi,Thiết bị,Dọn dẹp nhà cửa tự động;Lực hút mạnh,Thiết bị điện gia dụng dùng để hút sạch bụi bẩn trên sàn nhà và thảm.
+Quạt hơi nước,Thiết bị,Quạt làm mát bằng hơi nước;Giải nhiệt ngày hè,Thiết bị làm mát kết hợp phun hơi nước hoặc sương tạo cảm giác dễ chịu.
+Bàn trang điểm,Đồ vật trong nhà,Có gương soi;Đựng mỹ phẩm,Bàn có gương lớn và các ngăn kéo dùng để trang điểm và sắp xếp mỹ phẩm.
+Ghế sofa,Đồ vật trong nhà,Ghế phòng khách êm ái;Bọc nệm dày,Ghế dài bọc nệm êm ái đặt ở phòng khách để nghỉ ngơi hoặc tiếp khách.
+Vợt cầu lông,Thể thao,Vợt nhẹ chơi cầu lông;Đan lưới cước,"Vợt chuyên dụng dùng trong môn thể thao cầu lông, trọng lượng nhẹ."
+Cầu lông,Thể thao,Quả cầu có lông vũ;Đánh qua lại lưới,Môn thể thao dùng vợt đánh quả cầu lông qua lại qua một chiếc lưới cao.
+Bóng pickleball,Thể thao,Môn thể thao kết hợp tennis và bóng bàn;Đang thịnh hành,Môn thể thao dùng vợt mặt phẳng đánh quả bóng có lỗ trên sân nhỏ.
+Đàn sến,Nhạc cụ & Âm nhạc,Nhạc cụ dây truyền thống;Âm hưởng dân ca,Nhạc cụ dây truyền thống của Việt Nam thường dùng trong cải lương và âm nhạc dân gian.
+Đàn cò,Nhạc cụ & Âm nhạc,Nhạc cụ 2 dây có cần kéo;Âm thanh lảnh lót,"Nhạc cụ truyền thống 2 dây chơi bằng cung vĩ, âm thanh cao và biểu cảm."
+Điêu khắc gỗ,Nghệ thuật,Chạm trổ tác phẩm trên gỗ;Tỉ mỉ tinh xảo,Nghệ thuật tạo hình và chạm khắc các chi tiết tinh xảo trên chất liệu gỗ.
+Bình hoa ceramic,Nghệ thuật,Lọ cắm hoa bằng gốm sứ;Trang trí phòng,Bình gốm sứ nghệ thuật dùng để cắm hoa trang trí nội thất nhà cửa.
+Thanh long,Hoa quả,Trái cây vỏ đỏ ruột trắng/đỏ;Nhiều hạt nhỏ,"Trái cây vỏ màu hồng đỏ, tai xanh, thịt quả có nhiều hạt đen nhỏ li ti."
+Sầu riêng,Hoa quả,Vua trái cây có mùi đặc trưng;Múi vàng béo ngậy,"Trái cây có gai nhọn, phần múi vàng óng, vị béo ngọt và mùi hương rất nồng."
+Măng cụt,Hoa quả,Nữ hoàng trái cây vỏ tím;Múi trắng ngọt thanh,"Trái cây có vỏ ngoài màu tím đậm dày, bên trong là các múi trắng ngà ngọt thanh."
+Vải thiều,Hoa quả,Trái nhỏ vỏ sần màu đỏ;Ngọt đậm mùa hè,"Trái cây đặc sản mùa hè có vỏ sần đỏ, hạt nhỏ, cùi mọng nước ngọt lịm."
