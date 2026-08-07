@@ -2,6 +2,21 @@
 
 All notable changes to **Who Is The Imposter?** will be documented in this file.
 
+## [0.3.2-beta.2] - 2026-08-08
+
+### Added
+
+- **Khôi phục ván chơi (Resume Game):** Tự động lưu tiến trình ván đấu vào `localStorage` giúp người chơi tiếp tục ván cũ nếu vô tình F5 hoặc đóng trình duyệt.
+- **Chế độ chạy ngoại tuyến (Offline Fallback):** Cho phép client tự tính toán kết quả loại người chơi dựa trên dữ liệu đã cache nếu backend gặp sự cố mất kết nối giữa ván.
+- **Ghi nhớ tên người chơi:** Tự động lưu danh sách tên người chơi gần nhất giúp tiết kiệm thời gian nhập liệu ở các ván tiếp theo.
+- **Tùy chọn tiết lộ vai trò:** Bổ sung cấu hình `reveal_role_on_elimination` cho phép bật/tắt hiển thị vai trò (Dân thường / Kẻ giấu mặt) khi loại người chơi.
+
+### Changed
+
+- **Đồng bộ Imposter:** Đảm bảo khi có từ 2 kẻ giấu mặt trở lên trong phòng, tất cả sẽ nhận chung một từ hoặc gợi ý thay vì random độc lập.
+- **Bảo mật từ bí mật:** Đảm bảo từ bí mật tuyệt đối không bị lộ giữa ván dù chế độ hiển thị vai trò khi bị loại đang bật hay tắt (chỉ lộ khi ván kết thúc hoàn toàn).
+- **Quản lý URL phòng:** Cập nhật đồng bộ `roomId` lên thanh địa chỉ (`?room=...`) để dễ dàng chia sẻ hoặc theo dõi.
+
 ## [0.3.2-beta.1] - 2026-08-07
 
 ### Changed

@@ -135,20 +135,29 @@ class GameEngine:
         n_imp = min(room.config.num_imposters, max(1, len(player_ids) - 1))
         imposter_ids = set(player_ids[:n_imp])
 
+        # Nếu có từ 2 imposter trở lên, TẤT CẢ phải nhận cùng 1 từ/gợi ý —
+        # random 1 lần duy nhất rồi gán chung, thay vì random riêng từng người.
+        shared_word: Optional[str] = None
+        shared_meaning: Optional[str] = None
+        if imposter_ids:
+            if room.config.imposter_mode == ImposterMode.aware:
+                shared_word = random.choice(real_entry.hints)
+            else:
+                related = await self.word_repo.get_related_entry(
+                    real_entry.topic, exclude_word=real_entry.word,
+                    same_topic=(room.config.hidden_topic_mode == HiddenTopicMode.same_topic),
+                )
+                shared_word = related.word
+                shared_meaning = related.meaning
+
         role_log = []
         for pid, player in room.players.items():
             player.eliminated = False
             if pid in imposter_ids:
                 player.role = Role.imposter
-                if room.config.imposter_mode == ImposterMode.aware:
-                    room.assigned_word[pid] = random.choice(real_entry.hints)
-                else:
-                    related = await self.word_repo.get_related_entry(
-                        real_entry.topic, exclude_word=real_entry.word,
-                        same_topic=(room.config.hidden_topic_mode == HiddenTopicMode.same_topic),
-                    )
-                    room.assigned_word[pid] = related.word
-                    room.assigned_meaning[pid] = related.meaning
+                room.assigned_word[pid] = shared_word
+                if shared_meaning is not None:
+                    room.assigned_meaning[pid] = shared_meaning
             else:
                 player.role = Role.civilian
             role_log.append(f"{player.name}={player.role.value}")
@@ -261,19 +270,22 @@ class GameEngine:
 
         logger.info(
             "Loại người chơi: room_id=%s player=%s role=%s was_imposter=%s "
-            "round=%d game_over=%s winner=%s",
+            "round=%d game_over=%s winner=%s reveal_role_mode=%s",
             room.id, player.name, player.role.value, was_imposter,
-            room.round_number, game_over, winner,
+            room.round_number, game_over, winner, room.config.reveal_role_on_elimination,
         )
 
         return EliminationResult(
             eliminated_player_id=player.id,
             was_imposter=was_imposter,
             role_label="Kẻ giấu mặt" if was_imposter else "Dân thường",
-            revealed_word=revealed_word,
-            revealed_meaning=revealed_meaning,
+            # Từ bí mật chỉ được trả về khi ván ĐÃ KẾT THÚC — không bao giờ lộ
+            # giữa ván dù chế độ reveal_role_on_elimination đang bật hay tắt.
+            revealed_word=(revealed_word if game_over else ""),
+            revealed_meaning=(revealed_meaning if game_over else None),
             game_over=game_over,
             winner=winner,
+            reveal_role=(room.config.reveal_role_on_elimination or game_over),
         )
 
     # ---------- Reveal (chỉ sau khi kết thúc) ----------

@@ -48,6 +48,10 @@ class RoomConfig(BaseModel):
     multi_round: bool = True
     timer_enabled: bool = False
     timer_minutes: int = Field(default=3, ge=1, le=15)
+    # Bật: sau khi loại 1 người, hiện họ là Dân thường hay Kẻ giấu mặt.
+    # Tắt: chỉ báo đã loại, không lộ vai trò. Dù bật/tắt, TỪ BÍ MẬT không
+    # bao giờ bị lộ giữa ván — chỉ lộ khi ván đã kết thúc hẳn (game_over).
+    reveal_role_on_elimination: bool = True
 
 
 class Player(BaseModel):
@@ -97,10 +101,13 @@ class EliminationResult(BaseModel):
     eliminated_player_id: str
     was_imposter: bool
     role_label: str
-    revealed_word: str
+    # Chỉ có giá trị khi game_over=True — không lộ từ bí mật giữa ván dù
+    # reveal_role_on_elimination đang bật hay tắt.
+    revealed_word: str = ""
     revealed_meaning: Optional[str] = None  # None nếu revealed_word thực chất là 1 gợi ý (aware mode)
     game_over: bool
     winner: Optional[str] = None  # "civilian" | "imposter"
+    reveal_role: bool = True  # server cho biết client có nên hiển thị was_imposter/role_label không
 
 
 class RoomStateResponse(BaseModel):
