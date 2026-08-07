@@ -40,7 +40,7 @@
 
 The project supports two flexible deployment modes:
 1. **Classic Pass-and-Play (Frontend-Only)**: Runs entirely client-side on a single device — zero setup, no network required.
-2. **Authoritative Backend (FastAPI + WebSocket)**: Server-managed state with secure role/secret distribution and multi-device real-time sync across phones.
+2. **Authoritative Backend (FastAPI + WebSocket)**: Server-managed state with secure role/secret distribution, multi-device real-time sync across phones, and extensible storage backends (Local CSV, Cloudflare R2, Cloudflare D1 SQLite).
 
 ### Core Features
 
@@ -50,7 +50,7 @@ The project supports two flexible deployment modes:
   * **Aware**: Imposter knows their role and receives a related clue to bluff with.
   * **Hidden**: Imposter only sees a word similar to the civilians' word with no role indication.
 * **Anti-Cheat Protection**: Automatically hides the screen when switching browser tabs.
-* **Word Bank**: 50+ Vietnamese word pairs stored in CSV (local or Cloudflare R2 S3-compatible storage).
+* **Word Bank & CLI Management**: 50+ Vietnamese word pairs managed via local CSV, Cloudflare R2, or Cloudflare D1 (`manage_words.py` console command).
 * **Interactive UI**: Confetti celebration on game victory and smooth multi-round support.
 
 Pipeline:
@@ -70,6 +70,7 @@ Setup → Names → Handover → Reveal → Discuss → Vote → Eliminate → R
   <img src="https://img.shields.io/badge/FastAPI-0.100%2B-009688?style=for-the-badge&logo=fastapi&logoColor=white" />
   <img src="https://img.shields.io/badge/WebSocket-Realtime-orange?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Cloudflare_R2-S3-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" />
+  <img src="https://img.shields.io/badge/Cloudflare_D1-SQLite-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" />
 </p>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -124,7 +125,7 @@ To run with secure server-side state and multi-device WebSocket support:
   ```
   Then open `http://localhost:5500` in your browser.
 
-* For detailed architecture and Cloudflare R2 word bank configuration, see [backend/README.md](backend/README.md).
+* For detailed architecture, storage backends (Cloudflare R2/D1), and console management commands (`manage_words.py`), see [backend/README.md](backend/README.md).
 * For frontend client architecture, see [frontend/README.md](frontend/README.md).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -144,14 +145,11 @@ To run with secure server-side state and multi-device WebSocket support:
 7. **Eliminate** — The voted player is revealed as civilian or imposter.
 8. **Results** — The game ends when all imposters are eliminated (civilians win) or imposters outnumber civilians.
 
-### Word Bank
+### Word Bank & CLI Management
 
-Words are loaded from `words.csv` (managed locally or via Cloudflare R2). Each row contains:
-
-```csv
-tu_that,tu_lien_quan,goi_y
-Phở,Bánh mì,Món ăn đường phố Việt Nam
-Biển,Nhà tắm,Quán cà phê có view biển
+Words are loaded via `WordRepository` (supporting Local CSV, Cloudflare R2, or Cloudflare D1). You can manage words using the backend CLI tool:
+```bash
+python backend/manage_words.py --backend local list
 ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -162,7 +160,8 @@ Biển,Nhà tắm,Quán cà phê có view biển
 
 * [x] Client-side pass-and-play mode
 * [x] FastAPI authoritative backend with WebSocket real-time sync
-* [x] Cloudflare R2 storage integration for word banks
+* [x] Cloudflare R2 and Cloudflare D1 storage integrations for word banks
+* [x] CLI word bank management (`manage_words.py`)
 * [ ] Localization support (English, Japanese, Korean, etc.)
 * [ ] Sound effects and background music
 * [ ] Custom word packs
@@ -217,7 +216,7 @@ https://github.com/Grizmo2610/WhoIsTheImposter
 
 * Among Us / Mafia / Werewolf game formats
 * FastAPI & Python ecosystem
-* Cloudflare R2
+* Cloudflare R2 & D1
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 

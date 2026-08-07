@@ -40,7 +40,7 @@
 
 Dự án hỗ trợ 2 chế độ linh hoạt:
 1. **Truyền tay cổ điển (Chỉ Frontend)**: Chạy hoàn toàn ở phía client trên một thiết bị duy nhất — không cần cài đặt hay kết nối mạng.
-2. **Backend thẩm quyền (FastAPI + WebSocket)**: Quản lý trạng thái trên server với cơ chế phân phối từ/vai trò bảo mật và đồng bộ thời gian thực đa thiết bị qua điện thoại.
+2. **Backend thẩm quyền (FastAPI + WebSocket)**: Quản lý trạng thái trên server với cơ chế phân phối từ/vai trò bảo mật, đồng bộ thời gian thực đa thiết bị qua điện thoại, và hỗ trợ nhiều nguồn lưu trữ (Local CSV, Cloudflare R2, Cloudflare D1 SQLite).
 
 ### Tính Năng Nổi Bật
 
@@ -50,7 +50,7 @@ Dự án hỗ trợ 2 chế độ linh hoạt:
   * **Biết Mình Là Ai**: Kẻ giả mạo biết vai trò và nhận gợi ý liên quan để đánh lạc hướng.
   * **Ẩn Danh**: Kẻ giả mạo chỉ thấy từ tương tự từ của dân thường, không có dấu hiệu nhận biết.
 * **Chống gian lận**: Tự động ẩn màn hình khi người chơi chuyển tab trình duyệt.
-* **Kho từ vựng**: 50+ cặp từ tiếng Việt lưu trữ qua CSV (local hoặc Cloudflare R2 S3-compatible).
+* **Kho từ vựng & Quản lý CLI**: Hơn 50 cặp từ tiếng Việt quản lý qua file CSV local, Cloudflare R2 hoặc Cloudflare D1 (`manage_words.py`).
 * **Giao diện tương tác**: Hiệu ứng confetti chúc mừng chiến thắng và hỗ trợ chơi nhiều ván liên tục.
 
 Quy trình:
@@ -70,6 +70,7 @@ Cài đặt → Nhập Tên → Truyền Máy → Xem Bí Mật → Thảo Luậ
   <img src="https://img.shields.io/badge/FastAPI-0.100%2B-009688?style=for-the-badge&logo=fastapi&logoColor=white" />
   <img src="https://img.shields.io/badge/WebSocket-Realtime-orange?style=for-the-badge" />
   <img src="https://img.shields.io/badge/Cloudflare_R2-S3-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" />
+  <img src="https://img.shields.io/badge/Cloudflare_D1-SQLite-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" />
 </p>
 
 <p align="right">(<a href="#readme-top">lên đầu trang</a>)</p>
@@ -124,7 +125,7 @@ Không cần cài đặt hay biên dịch. Chỉ cần mở file `index.html` tr
   ```
   Sau đó mở `http://localhost:5500` trên trình duyệt của bạn.
 
-* Xem chi tiết kiến trúc và cấu hình Cloudflare R2 tại [backend/README.md](backend/README.md).
+* Xem chi tiết kiến trúc, các backend lưu trữ (Cloudflare R2/D1) và lệnh console quản lý từ vựng (`manage_words.py`) tại [backend/README.md](backend/README.md).
 * Xem kiến trúc client frontend tại [frontend/README.md](frontend/README.md).
 
 <p align="right">(<a href="#readme-top">lên đầu trang</a>)</p>
@@ -144,14 +145,11 @@ Không cần cài đặt hay biên dịch. Chỉ cần mở file `index.html` tr
 7. **Loại** — Tiết lộ vai trò dân thường hoặc kẻ giả mạo của người bị chọn.
 8. **Kết Quả** — Trò chơi kết thúc khi loại hết kẻ giả mạo (dân thắng) hoặc kẻ giả mạo đông hơn.
 
-### Kho Từ Vựng
+### Kho Từ Vựng & Quản Lý CLI
 
-Từ được tải từ `words.csv` (quản lý local hoặc qua Cloudflare R2). Mỗi hàng chứa:
-
-```csv
-tu_that,tu_lien_quan,goi_y
-Phở,Bánh mì,Món ăn đường phố Việt Nam
-Biển,Nhà tắm,Quán cà phê có view biển
+Từ vựng được quản lý thông qua `WordRepository` (hỗ trợ Local CSV, Cloudflare R2 hoặc Cloudflare D1). Bạn có thể quản lý kho từ bằng công cụ dòng lệnh:
+```bash
+python backend/manage_words.py --backend local list
 ```
 
 <p align="right">(<a href="#readme-top">lên đầu trang</a>)</p>
@@ -162,7 +160,8 @@ Biển,Nhà tắm,Quán cà phê có view biển
 
 * [x] Chế độ chơi truyền tay client-side
 * [x] Backend thẩm quyền FastAPI kết hợp đồng bộ WebSocket real-time
-* [x] Tích hợp lưu trữ Cloudflare R2 cho kho từ vựng
+* [x] Tích hợp lưu trữ Cloudflare R2 và Cloudflare D1 cho kho từ vựng
+* [x] Công cụ dòng lệnh quản lý từ vựng (`manage_words.py`)
 * [ ] Hỗ trợ đa ngôn ngữ (Tiếng Anh, Tiếng Nhật, Tiếng Hàn, v.v.)
 * [ ] Hiệu ứng âm thanh và nhạc nền
 * [ ] Gói từ vựng tùy chỉnh
@@ -217,7 +216,7 @@ https://github.com/Grizmo2610/WhoIsTheImposter
 
 * Các định dạng trò chơi Among Us / Mafia / Werewolf
 * Hệ sinh thái FastAPI & Python
-* Cloudflare R2
+* Cloudflare R2 & D1
 
 <p align="right">(<a href="#readme-top">lên đầu trang</a>)</p>
 

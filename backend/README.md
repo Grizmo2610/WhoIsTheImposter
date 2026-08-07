@@ -1,21 +1,21 @@
-# 🚀 Ai Là Người Giấu Mặt — Backend (FastAPI)
+# 🚀 Who Is The Imposter? — Backend (FastAPI)
 
 [![Python](https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
 [![WebSocket](https://img.shields.io/badge/WebSocket-Realtime-orange?style=for-the-badge)](https://developer.mozilla.org/en-US/docs/Web/API/WebSockets_API)
 [![Cloudflare R2](https://img.shields.io/badge/Cloudflare_R2-S3_Compatible-F38020?style=for-the-badge&logo=cloudflare&logoColor=white)](https://www.cloudflare.com/developer-platform/products/r2/)
 
-Authoritative backend service for **Who Is The Imposter?**, replacing the previous client-side pass-and-play state management to ensure secure role/secret distribution and multi-device real-time gameplay.
+Authoritative backend service for **Who Is The Imposter?**, replacing client-side pass-and-play state management with secure role/secret distribution and multi-device real-time WebSocket gameplay.
 
 ---
 
 ## 💡 Why Backend?
 
-In the previous frontend-only version, secret words and roles for **all players** were stored directly in browser state (`App.players`), making them easily inspectable via developer tools. The new authoritative architecture introduces:
+In the client-only version, secret words and roles for all players were stored directly in browser state (`App.players`), making them easily inspectable via developer tools. The authoritative architecture introduces:
 
-* **Secure State Isolation**: The server maintains the room state (`Room`) and delivers each player's secret word/clue exclusively to the authenticated caller via a token-secured endpoint (`GET /api/rooms/{id}/players/{pid}/secret`, header `X-Player-Token`).
+* **Secure State Isolation**: The server maintains room state (`Room`) and delivers each player's secret word/clue exclusively to the authenticated caller via a token-secured endpoint (`GET /api/rooms/{id}/players/{pid}/secret`, header `X-Player-Token`).
 * **Multi-Device & Real-Time Sync**: Supports playing across multiple independent devices (one phone per player) via real-time WebSocket state broadcasting (`WS /api/rooms/{id}/ws`). Pass-and-play mode remains fully supported by calling endpoints sequentially on a single device.
-* **Extensible Word Bank**: Decoupled via the `WordRepository` interface supporting multiple backends (`local` CSV file or Cloudflare R2 / S3-compatible storage) switchable via environment variables without code modification.
+* **Extensible Word Bank**: Decoupled via the `WordRepository` interface supporting multiple storage backends (`local` CSV file, Cloudflare R2 / S3-compatible storage, or Cloudflare D1 SQLite database) switchable via environment variables without code changes.
 
 ---
 
@@ -27,18 +27,20 @@ backend/
 │   ├── main.py            # FastAPI app setup & CORS middleware
 │   ├── config.py          # Environment settings (.env parser & storage selection)
 │   ├── models.py          # Pydantic schemas (Room, Player, WordEntry, etc.)
-│   ├── game_engine.py     # Pure Python game logic (decoupled from FastAPI for unit testing)
+│   ├── game_engine.py     # Pure Python game logic (decoupled for unit testing)
 │   ├── ws.py              # WebSocket connection manager & room broadcasting
+│   ├── logging_config.py  # Structured logging configuration
 │   ├── routers/
 │   │   └── rooms.py       # REST API & WebSocket endpoints
 │   └── storage/
 │       ├── base.py        # Abstract WordRepository interface
-│       ├── local.py       # Local CSV file reader
-│       ├── r2.py          # Cloudflare R2 / S3 reader with TTL caching
+│       ├── local.py       # Local CSV file reader/writer
+│       ├── r2.py          # Cloudflare R2 / S3 reader/writer with TTL caching
 │       ├── d1.py          # Cloudflare D1 (SQLite) reader/writer via REST API
 │       └── factory.py     # Factory pattern for selecting storage backend
 ├── data/
 │   └── words.csv          # Default word bank (used when WORDBANK_BACKEND=local)
+├── manage_words.py        # CLI tool for Word Bank CRUD & management
 ├── requirements.txt       # Python dependencies
 ├── .env.example           # Environment variables template
 └── README.md
@@ -109,17 +111,17 @@ To store and load the word bank remotely via Cloudflare R2 (or AWS S3, MinIO, Ba
    WORDBANK_OBJECT_KEY=words.csv
    WORDBANK_CACHE_TTL=300
    ```
-4. Restart the server — `R2WordRepository` automatically caches CSV data in-memory according to `WORDBANK_CACHE_TTL` to minimize API calls.
+4. Restart the server — `R2WordRepository` automatically caches CSV data in-memory according to `WORDBANK_CACHE_TTL`.
 
 ---
 
-## 🗄️ Cloudflare D1 Storage Integration (recommended for structured data)
+## 🗄️ Cloudflare D1 Storage Integration (Recommended for Structured Data)
 
-D1 is Cloudflare's managed SQLite. Unlike R2 (which rewrites the whole CSV file on every edit), D1 does real row-level `INSERT`/`UPDATE`/`DELETE`, which is faster and avoids overwrite conflicts when several people edit at once. There's no native Python driver for D1, so `D1WordRepository` talks to the [D1 REST API](https://developers.cloudflare.com/api/operations/cloudflare-d1-list-databases) over HTTP via `httpx`.
+D1 is Cloudflare's managed SQLite database. Unlike R2 (which rewrites the entire CSV file on every edit), D1 performs row-level `INSERT`/`UPDATE`/`DELETE`, avoiding overwrite conflicts during concurrent edits. `D1WordRepository` interacts with the [D1 REST API](https://developers.cloudflare.com/api/operations/cloudflare-d1-list-databases) over HTTP via `httpx`.
 
 1. Create a database: Cloudflare Dashboard > Workers & Pages > D1 > Create database. Note its **Database ID**.
-2. Create an API Token: My Profile > API Tokens > Create Token > permission **D1 Edit** (scoped to the account, or that specific database).
-3. Get your **Account ID** (top-right of any Cloudflare Dashboard page).
+2. Create an API Token: My Profile > API Tokens > Create Token > permission **D1 Edit**.
+3. Get your **Account ID** from the Cloudflare Dashboard.
 4. Update `.env`:
    ```env
    WORDBANK_BACKEND=d1
@@ -128,11 +130,11 @@ D1 is Cloudflare's managed SQLite. Unlike R2 (which rewrites the whole CSV file 
    D1_API_TOKEN=your_api_token
    WORDBANK_CACHE_TTL=300
    ```
-5. Create the `words` table (one-time):
+5. Create the `words` table (one-time initialization):
    ```bash
    python manage_words.py --backend d1 init-schema
    ```
-6. Import your existing CSV:
+6. Import your existing CSV word bank:
    ```bash
    python manage_words.py --backend d1 import --file data/words.csv -y
    ```
@@ -140,38 +142,71 @@ D1 is Cloudflare's managed SQLite. Unlike R2 (which rewrites the whole CSV file 
 
 ---
 
-## 🛠️ Managing the Word Bank from Local (`manage_words.py`)
+## 🛠️ Console Command & Word Bank Management (`manage_words.py`)
 
-Full CRUD from your machine against any backend, selected via `--backend local|r2|d1` (uses the same `.env` credentials as the server). Examples below use `d1`; swap for `r2` or `local` freely.
+The `manage_words.py` command-line interface provides full CRUD operations against any storage backend (`local`, `r2`, or `d1`), using credentials configured in `.env`.
 
+### General Syntax
 ```bash
-# (D1 only, one-time) create the table
-python manage_words.py --backend d1 init-schema
-
-# Add a word
-python manage_words.py --backend d1 add --word "Phở" --topic "Ẩm thực" \
-  --hints "Món nước có sợi" "Ăn sáng" --meaning "Món ăn Việt Nam..."
-
-# View one word
-python manage_words.py --backend d1 get --word "Phở"
-
-# List everything, grouped by topic
-python manage_words.py --backend d1 list
-
-# Edit a word (only pass the fields you want to change)
-python manage_words.py --backend d1 update --word "Phở" --meaning "Nghĩa mới"
-
-# Delete a word (prompts for confirmation; skip with -y)
-python manage_words.py --backend d1 delete --word "Phở"
-
-# Download the current word bank to a local CSV file (backup)
-python manage_words.py --backend d1 export --out backup.csv
-
-# Push a local CSV up, overwriting everything on that backend (prompts unless -y)
-python manage_words.py --backend d1 import --file data/words.csv
+python manage_words.py [--backend local|r2|d1] <command> [options]
 ```
 
-Since `WordRepository` is the same abstraction the API server uses, `import`/`export` work across all three backends — handy for migrating data (e.g. export from `r2`, import into `d1`). Switching the running server between backends is just the `WORDBANK_BACKEND` env var — no code changes needed.
+### Available Subcommands & Options
+
+1. **`init-schema`** (D1 only): Creates the `words` database table.
+   ```bash
+   python manage_words.py --backend d1 init-schema
+   ```
+
+2. **`add`**: Add a new word entry to the word bank.
+   * `--word`: The word (secret word or imposter word).
+   * `--topic`: Category topic (imposters receive a related word from the same topic).
+   * `--hints`: List of hint phrases (used in "Aware" imposter mode).
+   * `--meaning`: Definition or description shown when players receive the word.
+   ```bash
+   python manage_words.py --backend local add --word "Phở" --topic "Ẩm thực" --hints "Món nước có sợi" "Ăn sáng" --meaning "Món ăn truyền thống Việt Nam"
+   ```
+
+3. **`list`**: Display all words grouped by topic with their definitions and hints.
+   ```bash
+   python manage_words.py --backend local list
+   ```
+
+4. **`get`**: View detailed information for a specific word.
+   * `--word`: Target word to retrieve.
+   ```bash
+   python manage_words.py --backend local get --word "Phở"
+   ```
+
+5. **`update`**: Modify an existing word entry (only specify fields you want to change).
+   * `--word`: Current word (used for lookup).
+   * `--new-word`: New word name (optional).
+   * `--topic`: New topic (optional).
+   * `--hints`: New list of hints (optional).
+   * `--meaning`: New definition (optional).
+   ```bash
+   python manage_words.py --backend local update --word "Phở" --meaning "Món phở truyền thống nổi tiếng"
+   ```
+
+6. **`delete`**: Remove a word entry.
+   * `--word`: Word to delete.
+   * `-y, --yes`: Skip confirmation prompt.
+   ```bash
+   python manage_words.py --backend local delete --word "Phở"
+   ```
+
+7. **`export`**: Download the word bank into a local CSV backup file.
+   * `--out`: Output CSV file path.
+   ```bash
+   python manage_words.py --backend r2 --out backup.csv export
+   ```
+
+8. **`import`**: Upload a local CSV file to the backend (**WARNING**: Overwrites all existing data on the target backend).
+   * `--file`: Source CSV file path.
+   * `-y, --yes`: Skip confirmation prompt.
+   ```bash
+   python manage_words.py --backend d1 import --file data/words.csv -y
+   ```
 
 ---
 
@@ -195,10 +230,5 @@ Since `WordRepository` is the same abstraction the API server uses, `import`/`ex
 
 ## 🔮 Future Architecture Roadmap
 
-* **Distributed Room Store**: Current `RoomStore` is in-memory. The `get/create/delete` interface is fully decoupled, ready to be swapped with a Redis-backed implementation (`ROOM_STORE_BACKEND`) for horizontal scaling across multiple instances.
-* **Frontend Integration**: Frontend (`index.html` / `script.js`) can seamlessly integrate by mapping local state calls to these REST/WS endpoints, preserving the complete pass-and-play UI/UX experience.
-
-
-python manage_words.py --backend d1 init-schema
-python manage_words.py --backend d1 import --file data/words.csv -y
-python manage_words.py --backend d1 list 
+* **Distributed Room Store**: Current `RoomStore` is in-memory. The `get/create/delete` interface is fully decoupled, ready for a Redis-backed implementation (`ROOM_STORE_BACKEND`) for horizontal scaling across multiple instances.
+* **Frontend Integration**: Frontend (`index.html` / `script.js`) seamlessly integrates by mapping state calls to these REST/WS endpoints, preserving the complete pass-and-play UI/UX experience.
