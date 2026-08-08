@@ -178,7 +178,7 @@ python backend/manage_words.py --backend local list
 * [ ] Sound effects and background music
 * [ ] Custom word packs
 * [ ] Online multiplayer expansion (WebRTC / Cloud deployment)
-* [ ] Mobile app wrapper (Capacitor / PWA)
+* [x] Mobile app wrapper (Capacitor / PWA)
 * [ ] Score tracking and statistics
 
 See the [open issues](https://github.com/Grizmo2610/WhoIsTheImposter/issues)

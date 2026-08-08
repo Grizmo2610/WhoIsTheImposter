@@ -2,6 +2,13 @@
 
 All notable changes to **Who Is The Imposter?** will be documented in this file.
 
+## [0.4.0-beta] - 2026-08-08
+
+### Added
+
+- **Hỗ trợ ứng dụng Android (Capacitor):** Tích hợp Apache Capacitor để đóng gói trò chơi thành ứng dụng Android (`.apk`), mang lại trải nghiệm cài đặt trực tiếp trên thiết bị di động.
+- **Đồng bộ từ cho nhiều Imposter:** Nâng cấp `LocalEngine` (`api.js`) đảm bảo khi có nhiều kẻ giả mạo trong ván đấu (ở cả chế độ cùng chủ đề lẫn khác chủ đề `different_topic`), tất cả các Imposter đều nhận chung một từ thay vì ngẫu nhiên độc lập.
+
 ## [0.3.2-beta.2] - 2026-08-08
 
 ### Added

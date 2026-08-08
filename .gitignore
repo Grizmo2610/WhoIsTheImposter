@@ -137,3 +137,11 @@ logs/
 
 scripts/
 privates/
+capacitor-project/
+
+node_modules/
+android/
+ios/
+.DS_Store
+*.apk
+*.aab

@@ -178,7 +178,7 @@ python backend/manage_words.py --backend local list
 * [ ] Hiệu ứng âm thanh và nhạc nền
 * [ ] Gói từ vựng tùy chỉnh
 * [ ] Mở rộng multiplayer trực tuyến (WebRTC / Cloud deployment)
-* [ ] Ứng dụng di động (Capacitor / PWA)
+* [x] Ứng dụng di động (Capacitor / PWA)
 * [ ] Theo dõi điểm số và thống kê
 
 Xem các [vấn đề mở](https://github.com/Grizmo2610/WhoIsTheImposter/issues)

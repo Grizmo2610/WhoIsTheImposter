@@ -4,7 +4,7 @@
    mở từ domain thật -> gọi backend production trên Render.
    ======================================================== */
 const PROD_API_URL = 'https://whoistheimposter-egd1.onrender.com';
-const LOCAL_API_URL = 'http://127.0.0.1:8000';
+const LOCAL_API_URL = PROD_API_URL;
 
 const API_BASE = window.API_BASE_URL || (
   ['localhost', '127.0.0.1'].includes(location.hostname)
