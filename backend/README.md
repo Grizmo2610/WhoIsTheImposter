@@ -167,6 +167,9 @@ python manage_words.py --backend d1 delete --word "Phở"
 # Download the current word bank to a local CSV file (backup)
 python manage_words.py --backend d1 export --out backup.csv
 
+# Export word pairs to Android app assets
+python export_word_pairs.py --out ..\AndroidApp\www\word_pairs.json
+
 # Push a local CSV up, overwriting everything on that backend (prompts unless -y)
 python manage_words.py --backend d1 import --file data/words.csv
 ```
