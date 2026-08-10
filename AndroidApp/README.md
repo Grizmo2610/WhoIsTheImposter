@@ -25,6 +25,11 @@
 
 ### Lần đầu
 ```bash
+# 0. (Tùy chọn) Cập nhật kho từ vựng từ backend
+cd ../backend
+python export_word_pairs.py --out ..\AndroidApp\www\word_pairs.json
+cd ../AndroidApp
+
 # 1. Cài npm packages
 npm install
 

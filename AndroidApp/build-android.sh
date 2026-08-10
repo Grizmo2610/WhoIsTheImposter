@@ -2,6 +2,8 @@
 # ============================================================
 # Build Android APK từ dự án Capacitor
 # Chạy: bash build-android.sh
+# Lưu ý: Có thể cập nhật từ vựng trước khi build bằng lệnh:
+#   python ../backend/export_word_pairs.py --out www/word_pairs.json
 # Yêu cầu: Node.js >= 18, Android Studio + SDK đã cài
 # ============================================================
 set -e
