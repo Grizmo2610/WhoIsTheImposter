@@ -55,6 +55,8 @@ def build_repo(backend: str) -> WordRepository:
 
 
 async def cmd_export(args: argparse.Namespace) -> None:
+    if hasattr(sys.stdout, "reconfigure"):
+        sys.stdout.reconfigure(encoding="utf-8")
     repo = build_repo(args.backend)
     raw = await repo.load_raw_csv()
     entries = repo.parse_csv(raw)

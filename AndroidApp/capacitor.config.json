@@ -1,0 +1,18 @@
+{
+  "appId": "com.ailanguidaumat.app",
+  "appName": "Ai Là Người Giấu Mặt",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": false,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  },
+  "plugins": {
+    "SplashScreen": {
+      "launchShowDuration": 0
+    }
+  }
+}

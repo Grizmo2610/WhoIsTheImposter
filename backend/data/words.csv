@@ -14,9 +14,9 @@ Xe buýt,Phương tiện,Phương tiện công cộng;Có nhiều trạm dừng,
 Áo dài,Trang phục,Trang phục truyền thống Việt Nam;Hay mặc dịp lễ Tết,"Trang phục truyền thống Việt Nam, dáng dài ôm người, thường mặc trong dịp lễ Tết."
 Áo bà ba,Trang phục,Gắn liền với miền Tây;Chất liệu mềm mại,"Trang phục truyền thống gắn liền với miền Tây Nam Bộ, form đơn giản, chất liệu mềm mại."
 Áo tứ thân,Trang phục,Trang phục miền Bắc xưa;Thường đi kèm khăn mỏ quạ,"Trang phục truyền thống của phụ nữ miền Bắc xưa, gồm 4 vạt áo, thường đi cùng khăn mỏ quạ."
-Sapa,Du lịch,Điểm du lịch có khí hậu mát mẻ;Nằm ở vùng núi phía Bắc,"Thị trấn du lịch vùng núi phía Bắc Việt Nam, nổi tiếng khí hậu mát mẻ và ruộng bậc thang."
-Đà Lạt,Du lịch,Thành phố ngàn hoa;Khí hậu se lạnh quanh năm,"Thành phố cao nguyên ở Lâm Đồng, nổi tiếng khí hậu mát mẻ quanh năm và nhiều loại hoa."
-Tam Đảo,Du lịch,Gần Hà Nội;Có nhà thờ đá cổ,"Thị trấn nghỉ mát trên núi ở Vĩnh Phúc, gần Hà Nội, có nhà thờ đá cổ nổi tiếng."
+Sapa,Du lịch Việt Nam,Điểm du lịch có khí hậu mát mẻ;Nằm ở vùng núi phía Bắc,"Thị trấn du lịch vùng núi phía Bắc Việt Nam, nổi tiếng khí hậu mát mẻ và ruộng bậc thang."
+Đà Lạt,Du lịch Việt Nam,Thành phố ngàn hoa;Khí hậu se lạnh quanh năm,"Thành phố cao nguyên ở Lâm Đồng, nổi tiếng khí hậu mát mẻ quanh năm và nhiều loại hoa."
+Tam Đảo,Du lịch Việt Nam,Gần Hà Nội;Có nhà thờ đá cổ,"Thị trấn nghỉ mát trên núi ở Vĩnh Phúc, gần Hà Nội, có nhà thờ đá cổ nổi tiếng."
 Karaoke,Giải trí,Hoạt động giải trí có âm nhạc;Thường đi vào cuối tuần,"Hoạt động giải trí hát theo nhạc nền trong phòng riêng, thường đi theo nhóm bạn bè."
 Board game,Giải trí,Chơi theo nhóm bạn;Cần bàn và quân cờ/thẻ bài,"Trò chơi bàn cờ hoặc thẻ bài chơi theo nhóm, cần không gian bàn để chơi cùng nhau."
 Bánh mì,Ẩm thực,"Món ăn nhanh, tiện lợi;Có thể ăn kèm nhiều loại nhân","Bánh làm từ bột mì, xẻ giữa để kẹp nhân như pate, thịt, rau, đồ chua."
@@ -33,7 +33,7 @@ Bia,Đồ uống,Thức uống có cồn;Hay uống ở quán nhậu,"Thức u�
 Rượu,Đồ uống,Thức uống có cồn cao;Chứa cồn nhiều,"Thức uống chứa độ cồn cao, làm từ nho, gạo hoặc các loại trái cây khác."
 Nước ngọt,Đồ uống,Thức uống có gas;Vị ngọt dễ chịu,"Thức uống nước có gas, vị ngọt, uống lạnh để giải khát."
 Nước cam và nước quýt,Đồ uống,Nước ép trái cây có múi;Giàu vitamin C,"Thức uống ép từ cam hoặc quýt tươi, có vị chua ngọt tự nhiên và nhiều vitamin C."
-Nước dừa,Đồ uống,Nước trong quả dừa;Mát, lợi tiểu,"Nước trong quả dừa tươi, mát lạnh tự nhiên, tốt cho sức khỏe."
+Nước dừa,Đồ uống,Nước trong quả dừa;Mát, lợi tiểu
 Trà xanh,Đồ uống,Trà không ferment;Vị đắng nhẹ,"Trà làm từ lá chè xanh tươi không qua quá trình lên men, vị đắng nhẹ."
 Trà hoa,Đồ uống,Trà pha với các loại hoa;Thơm nhẹ,"Trà pha kèm hoa như hoa cúc, hoa hồng, hoa nhài, vị thơm nhẹ dễ chịu."
 Cơm chiên,Ẩm thực,Cơm rang với các loại nhân;Ăn nhanh tiện,"Cơm chiên với thịt, tôm, trứng, hành, đậu, ăn nhanh tiện lợi."
@@ -42,7 +42,7 @@ Cơm cà ri,Ẩm thực,Cơm nấu với nước cà ri;Vị cay thơm,"Cơm n�
 Chả giò,Ẩm thực,Cuốn chiên vàng;Ăn kèm nước chấm,"Bánh tráng cuốn nhân thịt heo và rau, chiên vàng giòn, ăn kèm nước chấm chua ngọt."
 Gỏi cuốn,Ẩm thực,Bánh tráng trộn rau sống;Ăn lạnh,"Bánh tráng cuốn với rau sống, tôm, thịt, ăn lạnh, vị chua ngọt từ nước chấm."
 Tôm rang muối,Ẩm thực,Tôm chiên cùng muối ớt;Mỡ bùng bặt,"Tôm chiên khô kèm muối ớt, ăn giòn tan, vị mặn cay đậm."
-Cua hoàng đế,Ẩm thực,Cua to ngon nhất;Chân dài, khoai chắc,"Loài cua to, chân dài, thịt chắc, ngon, được xem là loài cua quý nhất."
+Cua hoàng đế,Ẩm thực,Cua to ngon nhất;Chân dài, khoai chắc
 Bò nướng,Ẩm thực,Thịt bò nướng trên than;Thơm mùi sương,"Thịt bò cắt mỏng nướng trên than hoặc bếp nướng, ăn kèm rau sống và nước chấm."
 Lẩu,Ẩm thực,Nước dùng nóng nấu cùng;Ăn theo nhóm,"Giáo đoàn ăn: nước dùng nóng được đặt giữa bàn, mọi người nấu và ăn cùng nhau."
 Cơm hến,Ẩm thực,Cơm kèm hến khô;Đặc sản miền Trung,"Cơm trắng ăn kèm hến khô rang thơm, dầu hành, vị ngon khó quên."
@@ -52,7 +52,7 @@ Xôi,Ẩm thực,Cơm nếp dẻo;Ăn kèm mặn hoặc ngọt,"Cơm nếp nấu
 Xoài,Hoa quả,Vua của các loại trái cây;Vị ngọt dịu,"Trái có màu vàng hoặc đỏ, vị ngọt dịu, thơm, nổi tiếng tại Việt Nam."
 Đu đủ,Hoa quả,Trái lòng cam;Đốc vitamin C,"Trái có dáng bầu dục, vỏ xanh hoặc vàng, thịt cam, vị ngọt."
 Dứa,Hoa quả,Thơm ngọt; Vỏ gai gai,"Trái tròn có vỏ gai, thịt vàng cam, vị chua ngọt thơm."
-Chuối,Hoa quả,Trái dài, mềm;Giàu kali,"Trái dài, vỏ vàng khi chín, thịt mềm ăn được, giàu dinh dưỡng."
+Chuối,Hoa quả,Trái dài, mềm;Giàu kali
 Cam,Hoa quả,Trái tròn cam;Giàu vitamin C,"Trái tròn có vỏ cam, thịt cam, vị chua ngọt, rất tốt cho sức khỏe."
 Quýt,Hoa quả,Trái nhỏ vỏ mỏng;Dễ bóc,"Trái nhỏ hơn cam, vỏ mỏng dễ bóc, vị chua ngọt, thơm."
 Dâu tây,Hoa quả,Trái nhỏ đỏ;Ngọt thơm,"Trái nhỏ màu đỏ, vị ngọt thơm, chứa nhiều vitamin và chất chống oxy hóa."
@@ -225,29 +225,29 @@ Núi,Du lịch,Vùng cao;Thiên nhiên,"Vùng cao nhất trên mặt đất, có
 Rừng,Du lịch,Vùng nhiều cây;Sinh thái,"Vùng có nhiều cây cỏ, động vật hoang dã, sinh thái phong phú."
 Thác nước,Du lịch,Nước chảy từ cao xuống;Kêu rất,"Nơi nước chảy từ cao xuống tạo tiếng động, cảnh tuyệt đẹp."
 Hang động,Du lịch,Hang động tự nhiên;Đen tối,"Hang động được tạo từ đá hay đất, tối tăm, có thể khám phá."
-Hà Nội,Du lịch,Thủ đô Việt Nam;Ngàn năm,"Thủ đô Việt Nam, với lịch sử ngàn năm, có nhiều di tích."
-Sài Gòn,Du lịch,Thành phố lớn Nam Bộ;Phát triển,"Thành phố lớn ở Nam Bộ, phát triển kinh tế nhanh."
-Huế,Du lịch,Cố đô Việt Nam;Kiến trúc cổ,"Cố đô Việt Nam, có kiến trúc cổ, Kỳ Đài, Tử Cấm Thành."
-Đà Nẵng,Du lịch,Thành phố biển;Bãi cát trắng,"Thành phố biển Việt Nam, có bãi cát trắng, Bán đảo Sơn Trà."
-Hạ Long,Du lịch,Thành phố cảng;Vịnh Hạ Long,"Thành phố cảng ở Quảng Ninh, nổi tiếng vịnh Hạ Long đẹp."
-Phú Quốc,Du lịch,Đảo lớn Việt Nam;Cát trắng,"Đảo lớn nhất Việt Nam, có bãi cát trắng, nước biển trong."
-Quy Nhơn,Du lịch,Thành phố biển;Bãi Quy Nhơn,"Thành phố biển Bình Định, có bãi Quy Nhơn đẹp, Tây Sơn."
-Hội An,Du lịch,Phố cổ nổi tiếng;Kiến trúc cổ,"Phố cổ ở Quảng Nam, nổi tiếng kiến trúc cổ, đèn Hội An."
-Phong Nha,Du lịch,Hang động nổi tiếng;Đẹp hùng vĩ,"Hang động ở Quảng Bình, nổi tiếng hang động Phong Nha - Kẻ Bàng."
-Paris,Du lịch,Thủ đô Pháp;Lãng mạn,"Thủ đô Pháp, nổi tiếng lãng mạn, Tháp Eiffel, Bảo tàng Louvre."
-Tokyo,Du lịch,Thủ đô Nhật Bản;Hiện đại,"Thủ đô Nhật Bản, hiện đại, ồn ào, công nghệ cao."
-Bangkok,Du lịch,Thủ đô Thái Lan;Chùa vàng,"Thủ đô Thái Lan, nổi tiếng chùa vàng, chợi nổi, đồ ăn ngon."
-Singapore,Du lịch,Thành phố - Quốc gia;Hiện đại sạch sẽ,"Thành phố - quốc gia ở Đông Nam Á, hiện đại, sạch sẽ."
-Hong Kong,Du lịch,Đặc khu hành chính;Tòa nhà cao,"Đặc khu hành chính của Trung Quốc, tòa nhà cao chọc trời."
-Seoul,Du lịch,Thủ đô Hàn Quốc;Công nghệ,"Thủ đô Hàn Quốc, nổi tiếng công nghệ, thời trang, K-pop."
-Amsterdam,Du lịch,Thủ đô Hà Lan;Kênh nước,"Thủ đô Hà Lan, nổi tiếng kênh nước, căn nhà hẹp, xe đạp."
-Rome,Du lịch,Thủ đô Ý;Cổ kính,"Thủ đô Ý, nổi tiếng Colosseum, Vatican, kiến trúc cổ."
-London,Du lịch,Thủ đô Anh;Big Ben,"Thủ đô Anh, nổi tiếng Big Ben, cầu Tower Bridge, tàu điện ngầm."
-Berlin,Du lịch,Thủ đô Đức;Lịch sử sâu,"Thủ đô Đức, nổi tiếng lịch sử sâu, bức tường Berlin."
-Vienna,Du lịch,Thủ đô Áo;Âm nhạc cổ điển,"Thủ đô Áo, nổi tiếng âm nhạc cổ điển, cung điện hoàng gia."
-Moscow,Du lịch,Thủ đô Nga;Tòa nhà khổng lồ,"Thủ đô Nga, nổi tiếng tòa nhà khổng lồ, Quảng trường Đỏ."
-Sydney,Du lịch,Thành phố Úc;Opera House,"Thành phố Úc, nổi tiếng nhà hát Opera House, bãi biển Bondi."
-Melbourne,Du lịch,Thành phố Úc;Văn hóa,"Thành phố Úc, nổi tiếng văn hóa, nghệ thuật, cà phê."
+Hà Nội,Du lịch Việt Nam,Thủ đô Việt Nam;Ngàn năm,"Thủ đô Việt Nam, với lịch sử ngàn năm, có nhiều di tích."
+Sài Gòn,Du lịch Việt Nam,Thành phố lớn Nam Bộ;Phát triển,"Thành phố lớn ở Nam Bộ, phát triển kinh tế nhanh."
+Huế,Du lịch Việt Nam,Cố đô Việt Nam;Kiến trúc cổ,"Cố đô Việt Nam, có kiến trúc cổ, Kỳ Đài, Tử Cấm Thành."
+Đà Nẵng,Du lịch Việt Nam,Thành phố biển;Bãi cát trắng,"Thành phố biển Việt Nam, có bãi cát trắng, Bán đảo Sơn Trà."
+Hạ Long,Du lịch Việt Nam,Thành phố cảng;Vịnh Hạ Long,"Thành phố cảng ở Quảng Ninh, nổi tiếng vịnh Hạ Long đẹp."
+Phú Quốc,Du lịch Việt Nam,Đảo lớn Việt Nam;Cát trắng,"Đảo lớn nhất Việt Nam, có bãi cát trắng, nước biển trong."
+Quy Nhơn,Du lịch Việt Nam,Thành phố biển;Bãi Quy Nhơn,"Thành phố biển Bình Định, có bãi Quy Nhơn đẹp, Tây Sơn."
+Hội An,Du lịch Việt Nam,Phố cổ nổi tiếng;Kiến trúc cổ,"Phố cổ ở Quảng Nam, nổi tiếng kiến trúc cổ, đèn Hội An."
+Phong Nha,Du lịch Việt Nam,Hang động nổi tiếng;Đẹp hùng vĩ,"Hang động ở Quảng Bình, nổi tiếng hang động Phong Nha - Kẻ Bàng."
+Paris,Du lịch Thế giới,Thủ đô Pháp;Lãng mạn,"Thủ đô Pháp, nổi tiếng lãng mạn, Tháp Eiffel, Bảo tàng Louvre."
+Tokyo,Du lịch Thế giới,Thủ đô Nhật Bản;Hiện đại,"Thủ đô Nhật Bản, hiện đại, ồn ào, công nghệ cao."
+Bangkok,Du lịch Thế giới,Thủ đô Thái Lan;Chùa vàng,"Thủ đô Thái Lan, nổi tiếng chùa vàng, chợi nổi, đồ ăn ngon."
+Singapore,Du lịch Thế giới,Thành phố - Quốc gia;Hiện đại sạch sẽ,"Thành phố - quốc gia ở Đông Nam Á, hiện đại, sạch sẽ."
+Hong Kong,Du lịch Thế giới,Đặc khu hành chính;Tòa nhà cao,"Đặc khu hành chính của Trung Quốc, tòa nhà cao chọc trời."
+Seoul,Du lịch Thế giới,Thủ đô Hàn Quốc;Công nghệ,"Thủ đô Hàn Quốc, nổi tiếng công nghệ, thời trang, K-pop."
+Amsterdam,Du lịch Thế giới,Thủ đô Hà Lan;Kênh nước,"Thủ đô Hà Lan, nổi tiếng kênh nước, căn nhà hẹp, xe đạp."
+Rome,Du lịch Thế giới,Thủ đô Ý;Cổ kính,"Thủ đô Ý, nổi tiếng Colosseum, Vatican, kiến trúc cổ."
+London,Du lịch Thế giới,Thủ đô Anh;Big Ben,"Thủ đô Anh, nổi tiếng Big Ben, cầu Tower Bridge, tàu điện ngầm."
+Berlin,Du lịch Thế giới,Thủ đô Đức;Lịch sử sâu,"Thủ đô Đức, nổi tiếng lịch sử sâu, bức tường Berlin."
+Vienna,Du lịch Thế giới,Thủ đô Áo;Âm nhạc cổ điển,"Thủ đô Áo, nổi tiếng âm nhạc cổ điển, cung điện hoàng gia."
+Moscow,Du lịch Thế giới,Thủ đô Nga;Tòa nhà khổng lồ,"Thủ đô Nga, nổi tiếng tòa nhà khổng lồ, Quảng trường Đỏ."
+Sydney,Du lịch Thế giới,Thành phố Úc;Opera House,"Thành phố Úc, nổi tiếng nhà hát Opera House, bãi biển Bondi."
+Melbourne,Du lịch Thế giới,Thành phố Úc;Văn hóa,"Thành phố Úc, nổi tiếng văn hóa, nghệ thuật, cà phê."
 Neon sign,Giải trí,Biển hiệu neon;Chiếu sáng,"Biển hiệu sử dụng đèn neon, tạo ánh sáng rực rỡ lúc đêm."
 Club đêm,Giải trí,Quán bar đêm;Nhạc sống,"Nơi vui chơi giải trí vào buổi đêm, có nhạc DJ, khiêu vũ."
 Pub,Giải trí,Quán rượu;Bia rượu,"Quán rượu bia, nơi gặp gỡ bạn bè, uống bia trò chuyện."
@@ -278,10 +278,10 @@ Trà tắc,Đồ uống,Trà chanh phiên bản tắc;Giải khát mùa hè,"Tr�
 Xe đạp thể thao,Phương tiện,Xe đạp địa hình;Có nhiều cấp độ số,Xe đạp chuyên dụng cho việc tập luyện thể thao hoặc đi địa hình gồ ghề.
 Xe máy điện,Phương tiện,Xe máy chạy bằng điện;Không tiếng ồn,"Phương tiện 2 bánh chạy bằng động cơ điện công suất lớn, không phát thải khói bụi."
 Áo bà ba cách tân,Trang phục,Biến tấu từ áo bà ba truyền thống;Hiện đại trẻ trung,"Trang phục truyền thống được cách tân với kiểu dáng hiện đại hơn, hợp thời trang."
-Nha Trang,Du lịch,Thành phố biển miền Trung;Vịnh đẹp nổi tiếng,"Thành phố ven biển Khánh Hòa, nổi tiếng với các vịnh biển đẹp và hải sản tươi ngon."
-Phú Yên,Du lịch,Xứ hoa vàng trên cỏ xanh;Cảnh quan hoang sơ,Tỉnh duyên hải miền Trung nổi tiếng với cảnh quan thiên nhiên hoang sơ và bình yên.
-Ninh Bình,Du lịch,Cố đô Hoa Lư;Danh thắng Tràng An,"Vùng đất cố đô với quần thể danh thắng Tràng An, Tam Cốc Bích Động hùng vĩ."
-Bà Nà,Du lịch,Khu du lịch trên núi;Có Cầu Vàng nổi tiếng,Khu nghỉ dưỡng nổi tiếng trên đỉnh Núi Chúa với kiến trúc châu Âu và Cầu Vàng độc đáo.
+Nha Trang,Du lịch Việt Nam,Thành phố biển miền Trung;Vịnh đẹp nổi tiếng,"Thành phố ven biển Khánh Hòa, nổi tiếng với các vịnh biển đẹp và hải sản tươi ngon."
+Phú Yên,Du lịch Việt Nam,Xứ hoa vàng trên cỏ xanh;Cảnh quan hoang sơ,Tỉnh duyên hải miền Trung nổi tiếng với cảnh quan thiên nhiên hoang sơ và bình yên.
+Ninh Bình,Du lịch Việt Nam,Cố đô Hoa Lư;Danh thắng Tràng An,"Vùng đất cố đô với quần thể danh thắng Tràng An, Tam Cốc Bích Động hùng vĩ."
+Bà Nà,Du lịch Việt Nam,Khu du lịch trên núi;Có Cầu Vàng nổi tiếng,Khu nghỉ dưỡng nổi tiếng trên đỉnh Núi Chúa với kiến trúc châu Âu và Cầu Vàng độc đáo.
 Lô tô,Giải trí,Trò chơi dân gian có gọi số;Thường chơi dịp Tết,Trò chơi giải trí truyền thống có người gọi số và người chơi dò vé số.
 Đố vui,Giải trí,Trò chơi câu đố trí tuệ;Thử thách tư duy,Trò chơi đặt ra các câu đố mẹo hoặc kiến thức để thử sự nhạy bén.
 Máy hút bụi,Thiết bị,Dọn dẹp nhà cửa tự động;Lực hút mạnh,Thiết bị điện gia dụng dùng để hút sạch bụi bẩn trên sàn nhà và thảm.
@@ -299,3 +299,35 @@ Thanh long,Hoa quả,Trái cây vỏ đỏ ruột trắng/đỏ;Nhiều hạt nh
 Sầu riêng,Hoa quả,Vua trái cây có mùi đặc trưng;Múi vàng béo ngậy,"Trái cây có gai nhọn, phần múi vàng óng, vị béo ngọt và mùi hương rất nồng."
 Măng cụt,Hoa quả,Nữ hoàng trái cây vỏ tím;Múi trắng ngọt thanh,"Trái cây có vỏ ngoài màu tím đậm dày, bên trong là các múi trắng ngà ngọt thanh."
 Vải thiều,Hoa quả,Trái nhỏ vỏ sần màu đỏ;Ngọt đậm mùa hè,"Trái cây đặc sản mùa hè có vỏ sần đỏ, hạt nhỏ, cùi mọng nước ngọt lịm."
+Bố,Mối quan hệ & Xã hội,Người sinh ra bạn;Trụ cột gia đình,Người đàn ông sinh ra và nuôi dưỡng bạn trong gia đình.
+Mẹ,Mối quan hệ & Xã hội,Người sinh ra và chăm sóc bạn;Tần tảo vì con,"Người phụ nữ sinh ra và nuôi nấng bạn, luôn yêu thương và chăm sóc gia đình."
+Anh trai,Mối quan hệ & Xã hội,Nam giới lớn tuổi hơn trong nhà;Con trai sinh trước bạn,Người anh nam giới sinh trước bạn cùng cha mẹ trong gia đình.
+Chị gái,Mối quan hệ & Xã hội,Nữ giới lớn tuổi hơn trong nhà;Con gái sinh trước bạn,Người chị nữ giới sinh trước bạn cùng cha mẹ trong gia đình.
+Em trai,Mối quan hệ & Xã hội,Nam giới nhỏ tuổi hơn trong nhà;Con trai sinh sau bạn,Người em nam giới sinh sau bạn cùng cha mẹ trong gia đình.
+Em gái,Mối quan hệ & Xã hội,Nữ giới nhỏ tuổi hơn trong nhà;Con gái sinh sau bạn,Người em nữ giới sinh sau bạn cùng cha mẹ trong gia đình.
+Sếp,Mối quan hệ & Xã hội,Người quản lý công việc;Cấp trên ở nơi làm việc,"Người đứng đầu, quản lý và giao việc cho nhân viên trong công ty hoặc tổ chức."
+Chủ nhà,Mối quan hệ & Xã hội,Người sở hữu nhà cho thuê;Thu tiền nhà hàng tháng,"Người sở hữu căn nhà hoặc phòng trọ, cho người khác thuê để ở hoặc kinh doanh."
+Bạn thân,Mối quan hệ & Xã hội,Người bạn rất hiểu nhau;Chơi cực kỳ hợp,"Người bạn có mối quan hệ gắn bó thiết thiết, tin tưởng và chia sẻ mọi vui buồn trong cuộc sống."
+Kẻ thù,Mối quan hệ & Xã hội,Người đối đầu chống lại bạn;Không hòa hợp,"Người có sự thù hằn, đối lập lợi ích hoặc chống lại bạn."
+Đồng đội,Mối quan hệ & Xã hội,Người cùng chung chiến tuyến;Hợp tác hướng tới mục tiêu,"Người cùng tham gia một đội nhóm, chiến đấu hoặc làm việc cùng nhau để đạt được mục tiêu chung."
+Đồng chí,Mối quan hệ & Xã hội,Người cùng lý tưởng cách mạng;Xưng hô thân mật trong tổ chức,"Người cùng chung lý tưởng, chí hướng hoặc trong các tổ chức cách mạng, đoàn thể."
+Đám tang,Sự kiện & Đời sống,Lễ tang người đã khuất;Mặc đồ tang trắng đen,Lễ nghi tổ chức để tiễn đưa người vừa qua đời về nơi an nghỉ cuối cùng.
+Đám ma,Sự kiện & Đời sống,Từ gọi khác của lễ tang;Buổi đưa tang người mất,"Tên gọi dân gian của đám tang, nghi thức tang lễ cho người đã khuất."
+Đám cưới,Sự kiện & Đời sống,Lễ kết hôn của cô dâu chú rể;Ngày vui trọng đại,"Buổi lễ chính thức đánh dấu sự kết hôn giữa hai người, bắt đầu cuộc sống vợ chồng."
+Hôn lễ,Sự kiện & Đời sống,Nghi thức thành hôn;Lễ cưới trang trọng,Nghi lễ cưới hỏi chính thức theo truyền thống hoặc pháp luật.
+Quan tài,Sự kiện & Đời sống,Hòm đựng người mất;Làm bằng gỗ,Chiếc hòm bằng gỗ hoặc vật liệu khác dùng để chứa thi hài người đã khuất trong lễ tang.
+Ma,Sự kiện & Đời sống,Linh hồn người đã khuất;Thường xuất hiện trong truyện kinh dị,"Hiện thân tưởng tượng hoặc tâm linh của người đã chết, thường xuất hiện trong các câu chuyện dân gian hoặc phim kinh dị."
+Máy bay,Phương tiện,Phương tiện bay trên bầu trời;Có cánh và động cơ phản lực,Phương tiện giao thông hàng không chở hành khách hoặc hàng hóa bay ở độ cao lớn.
+Tàu hỏa,Phương tiện,Chạy trên đường ray sắt;Nhiều toa nối nhau,Phương tiện giao thông đường sắt gồm nhiều toa tàu chở hành khách hoặc hàng hóa chạy trên đường ray.
+Tàu điện,Phương tiện,Chạy bằng điện trên đô thị;Phương tiện công cộng hiện đại,Phương tiện giao thông công cộng chạy trên đường ray đô thị sử dụng năng lượng điện.
+Coca-Cola,Đồ uống,Nước ngọt có gas màu đen;Thương hiệu toàn cầu vỏ đỏ,Thức uống giải khát có gas nổi tiếng toàn cầu với hương vị cola đặc trưng và vỏ lon màu đỏ.
+Pepsi,Đồ uống,Nước ngọt có gas màu đen;Đối thủ lớn của Coca,"Thức uống giải khát có gas màu đen nổi tiếng, đối thủ cạnh tranh lớn của Coca-Cola."
+Nước tăng lực,Đồ uống,Đồ uống giúp tỉnh táo;Chứa caffeine và taurine,"Thức uống bổ sung năng lượng, giúp tỉnh táo và giảm mệt mỏi khi làm việc hoặc chơi thể thao."
+Soda,Đồ uống,Nước khoáng có gas;Dùng pha chế đồ uống,"Nước có gas sủi bọt, thường dùng để uống trực tiếp hoặc làm thành phần pha chế cocktail, thức uống khác."
+Lò chiên không dầu,Thiết bị,Nướng thực phẩm không cần dầu mỡ;Dùng thanh nhiệt đối lưu,Thiết bị nhà bếp dùng nhiệt và quạt đối lưu để làm chín thức ăn giòn rụm mà không cần dùng dầu mỡ.
+Lò vi sóng,Thiết bị,Hâm nóng thức ăn bằng sóng viba;Nấu ăn nhanh chóng,"Thiết bị điện gia dụng dùng sóng điện từ để hâm nóng, rã đông hoặc nấu chín thức ăn cực kỳ nhanh."
+Bếp từ,Thiết bị,Nấu ăn bằng từ trường;Mặt kính sang trọng,"Bếp nấu ăn hiện đại hoạt động dựa trên nguyên lý từ trường làm nóng đáy nồi, an toàn và tiết kiệm điện."
+Circle K,Thương hiệu & Tiện ích,Cửa hàng tiện lợi 24/7;Màu đỏ trắng quen thuộc,"Chuỗi cửa hàng tiện lợi quốc tế mở cửa 24/7, rất phổ biến với giới trẻ Việt Nam."
+Vinhomes,Thương hiệu & Tiện ích,Thương hiệu bất động sản cao cấp;Khu đô thị hiện đại,Thương hiệu phát triển bất động sản nhà ở cao cấp hàng đầu Việt Nam thuộc tập đoàn Vingroup.
+GS25,Thương hiệu & Tiện ích,Cửa hàng tiện lợi phong cách Hàn Quốc;Bán nhiều đồ ăn nhanh,"Chuỗi cửa hàng tiện lợi nổi tiếng có xuất xứ từ Hàn Quốc, được yêu thích tại các đô thị lớn."
+WinMart,Thương hiệu & Tiện ích,Hệ thống siêu thị và cửa hàng bán lẻ;Thuộc tập đoàn Masan,Hệ thống bán lẻ phổ biến tại Việt Nam gồm siêu thị và cửa hàng tiện ích cung cấp hàng tiêu dùng.

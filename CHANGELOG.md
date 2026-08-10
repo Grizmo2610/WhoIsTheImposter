@@ -2,6 +2,17 @@
 
 All notable changes to **Who Is The Imposter?** will be documented in this file.
 
+## [0.4.0-beta.2] - 2026-08-10
+
+### Added
+
+- **Hoàn thiện ứng dụng Android (Capacitor):** Bổ sung mã nguồn dự án `AndroidApp/`, script build tự động, cấu hình Capacitor, bộ icon đa kích thước và đồng bộ asset để đóng gói ứng dụng Android (`.apk`).
+- **Mở rộng kho từ vựng:** Bổ sung nhiều cặp từ và chủ đề mới (`Mối quan hệ & Xã hội`, `Sự kiện & Đời sống`, `Thương hiệu & Tiện ích`, phân loại chi tiết Du lịch Việt Nam / Thế giới) vào `words.csv`.
+
+### Changed
+
+- **Cải tiến công cụ xuất dữ liệu:** Cập nhật script `export_word_pairs.py` hỗ trợ cấu hình mã hóa UTF-8 cho stdout.
+
 ## [0.4.0-beta] - 2026-08-08
 
 ### Added

@@ -1,0 +1,23 @@
+{
+  "name": "ai-la-nguoi-giau-mat",
+  "version": "1.0.0",
+  "description": "Ai Là Người Giấu Mặt — Game truyền tay",
+  "main": "index.js",
+  "scripts": {
+    "build": "echo 'No build step needed — static HTML/CSS/JS'",
+    "cap:sync": "npx cap sync",
+    "cap:open:android": "npx cap open android",
+    "cap:run:android": "npx cap run android",
+    "android": "npx cap sync android && npx cap open android"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@capacitor/android": "^6.0.0",
+    "@capacitor/core": "^6.0.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.0.0"
+  }
+}
