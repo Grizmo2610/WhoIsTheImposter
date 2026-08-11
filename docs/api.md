@@ -1,4 +1,6 @@
-# 🔌 REST API & WebSocket Reference — Who Is The Imposter?
+# 🔌 REST API & WebSocket Reference — Who Is The Imposter? (Optional)
+
+> The offline Web/PWA/Android frontend does not call this API. This document only covers the optional FastAPI service retained for future or experimental multi-device work.
 
 This document specifies the REST API endpoints and WebSocket protocol provided by the FastAPI backend (`backend/app/routers/rooms.py`).
 

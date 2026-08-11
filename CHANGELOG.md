@@ -2,6 +2,35 @@
 
 All notable changes to **Who Is The Imposter?** will be documented in this file.
 
+## [2.0.0] - 2026-08-10
+
+### Added
+
+- Unified Vite + TypeScript frontend for Web/PWA and Capacitor Android.
+- Pure game/state, role, vote, and win-condition engines.
+- Bundled offline word repository plus auxiliary topic mapping.
+- Versioned local snapshots, legacy migration, and full-phase resume.
+- Installable PWA manifest and generated Workbox precache service worker.
+- Hold-to-reveal privacy flow, Capacitor lifecycle handling, haptics, and Android `FLAG_SECURE`.
+- Dark Mystery + Party Pop component system and responsive portrait/landscape layouts.
+- Vitest unit suite and Playwright gameplay/offline/security specifications.
+
+### Fixed
+
+- Removed backend calls from the local gameplay critical path.
+- Prevented player-name XSS by normalizing input and rendering user text through DOM text nodes.
+- Restored elimination details and the correct continuation action after reload.
+- Blocked game start until the bundled word repository is ready.
+- Made different-topic selection use real topic metadata instead of a different array index.
+- Removed double-scrolling and restored browser zoom/accessibility semantics.
+
+### Security
+
+- Secrets leave the active DOM/accessibility tree whenever hidden.
+- Blur, visibility, pointer cancel, and native background lifecycle immediately hide secrets.
+- Android screenshots, screen recording, recent-app previews, and app-data backup are restricted.
+- Audited dependencies; the remaining `tar` finding is isolated to Capacitor CLI 6 and requires the separately scoped Capacitor major upgrade.
+
 ## [0.4.0-beta.2] - 2026-08-10
 
 ### Added
