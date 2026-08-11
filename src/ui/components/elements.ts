@@ -19,15 +19,21 @@ export function el<K extends keyof HTMLElementTagNameMap>(
   return node;
 }
 
-export function PrimaryButton(label: string, onClick: () => void, disabled = false): HTMLButtonElement {
-  const button = el("button", { className: "button button--primary", text: label, onClick });
+export function PrimaryButton(label: string, onClick: () => void, disabled = false, focusKey = label): HTMLButtonElement {
+  const button = el("button", { className: "button button--primary", text: label, attrs: { "data-focus-key": focusKey }, onClick });
   button.type = "button";
   button.disabled = disabled;
   return button;
 }
 
-export function SecondaryButton(label: string, onClick: () => void): HTMLButtonElement {
-  const button = el("button", { className: "button button--secondary", text: label, onClick });
+export function SecondaryButton(label: string, onClick: () => void, focusKey = label): HTMLButtonElement {
+  const button = el("button", { className: "button button--secondary", text: label, attrs: { "data-focus-key": focusKey }, onClick });
+  button.type = "button";
+  return button;
+}
+
+export function DangerButton(label: string, onClick: () => void, focusKey = label): HTMLButtonElement {
+  const button = el("button", { className: "button button--danger", text: label, attrs: { "data-focus-key": focusKey }, onClick });
   button.type = "button";
   return button;
 }
@@ -35,18 +41,18 @@ export function SecondaryButton(label: string, onClick: () => void): HTMLButtonE
 export function IconButton(label: string, symbol: string, onClick: () => void): HTMLButtonElement {
   const button = el("button", {
     className: "icon-button",
-    attrs: { "aria-label": label, title: label },
+    attrs: { "aria-label": label, title: label, "data-focus-key": label },
     onClick,
   }, el("span", { text: symbol, attrs: { "aria-hidden": "true" } }));
   button.type = "button";
   return button;
 }
 
-export function GameHeader(eyebrow: string, onHome?: () => void): HTMLElement {
+export function GameHeader(eyebrow: string, onHome?: () => void, onOptions?: () => void): HTMLElement {
   return el("header", { className: "game-header" },
     onHome ? IconButton("Về trang chủ", "←", onHome) : el("span", { className: "game-header__spacer" }),
     el("p", { className: "game-header__eyebrow", text: eyebrow }),
-    el("span", { className: "game-header__spacer" }),
+    onOptions ? IconButton("Tùy chọn ván", "⋯", onOptions) : el("span", { className: "game-header__spacer" }),
   );
 }
 
@@ -71,7 +77,7 @@ export function PlayerAvatar(player: Pick<Player, "avatar" | "accent" | "name">,
 export function PlayerCard(player: Player, selected: boolean, onClick: () => void): HTMLButtonElement {
   const button = el("button", {
     className: `player-card${selected ? " is-selected" : ""}`,
-    attrs: { "aria-pressed": String(selected) },
+    attrs: { "aria-pressed": String(selected), "data-focus-key": `player:${player.id}` },
     onClick,
   }, PlayerAvatar(player, "large"), el("span", { className: "player-card__name", text: player.name }));
   button.type = "button";
@@ -92,7 +98,7 @@ export function Stepper(label: string, value: number, onChange: (delta: number) 
 export function Toggle(label: string, checked: boolean, onChange: () => void, description?: string): HTMLButtonElement {
   const button = el("button", {
     className: "toggle-row",
-    attrs: { "aria-pressed": String(checked) },
+    attrs: { "aria-pressed": String(checked), "data-focus-key": `toggle:${label}` },
     onClick: onChange,
   },
   el("span", { className: "toggle-row__copy" },

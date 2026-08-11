@@ -145,3 +145,8 @@ ios/
 .DS_Store
 *.apk
 *.aab
+
+
+# Playwright
+test-results/
+playwright-report/

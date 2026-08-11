@@ -40,4 +40,12 @@ describe("WordRepository", () => {
     expect(result.imposterWord).toBe("Bóng đá");
     expect(result.source).toBe("fallback");
   });
+
+  it("filters by topic and avoids recently used pair ids", () => {
+    const repository = new WordRepository(pairs, { "Phở": "Ẩm thực", "Bóng đá": "Thể thao" });
+    const first = repository.select("similar", () => 0, { selectedTopics: ["Ẩm thực"] });
+    const second = repository.select("similar", () => 0, { excludedPairIds: [first.pairId] });
+    expect(first.topic).toBe("Ẩm thực");
+    expect(second.pairId).not.toBe(first.pairId);
+  });
 });

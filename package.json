@@ -1,6 +1,6 @@
 {
   "name": "who-is-the-imposter",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "private": true,
   "type": "module",
   "description": "Offline-first pass-the-phone social deduction game",

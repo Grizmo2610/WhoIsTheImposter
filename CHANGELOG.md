@@ -2,6 +2,27 @@
 
 All notable changes to **Who Is The Imposter?** will be documented in this file.
 
+## [2.1.0] - 2026-08-11
+
+### Added
+
+- Optional non-playing moderator with a private handoff, guided clue round, open discussion, soft speaking queue, yield signal, and cooldown.
+- Timestamp-based discussion and clue timers that survive reload/background transitions.
+- State v3, v2 migration, elimination history, topic/difficulty filters, stable runtime pair IDs, and recent-word avoidance.
+- Final recap with both teams' words, all roles, elimination timeline, topic, mode, and moderator credit.
+- Game options for safely pausing a session or ending it early with a neutral, full-answer recap.
+
+### Changed
+
+- Consensus selection no longer manufactures one vote per active player or displays a false vote count.
+- Word selection randomizes topics before pairs to reduce category-size bias.
+
+### Fixed
+
+- Prevented discussion timer ticks and moderator controls from rebuilding the active screen, which reset scroll/focus and replayed the entrance animation every second.
+- Preserved scroll and keyboard focus for same-screen renders while keeping entrance animation and focus reset for real screen transitions.
+- Replaced duplicate clue-turn actions with one clear next-speaker action.
+
 ## [2.0.0] - 2026-08-10
 
 ### Added
