@@ -57,6 +57,9 @@ Repository này bao gồm **hai cấu trúc mã nguồn / kiến trúc triển k
 * **Chống gian lận**: Tự động ẩn màn hình khi người chơi chuyển tab trình duyệt.
 * **Kho từ vựng & Quản lý CLI**: Hơn 50 cặp từ tiếng Việt quản lý qua file CSV local, Cloudflare R2 hoặc Cloudflare D1 (`manage_words.py`).
 * **Giao diện tương tác**: Hiệu ứng confetti chúc mừng chiến thắng và hỗ trợ chơi nhiều ván liên tục.
+* **Thảo luận có điều phối**: Quản trò tùy chọn đứng ngoài ván, vòng manh mối công bằng, tranh luận mở, timer có thể khôi phục, hàng chờ mềm và cooldown.
+* **Ván local ổn định**: State v3, migration, resume, cập nhật UI không gây bật cuộn và kết thúc sớm không xác định phe thắng.
+* **Chọn từ cân bằng**: Lọc chủ đề, độ khó và tránh lặp lại 50 cặp từ gần nhất.
 
 Quy trình:
 Cài đặt → Nhập Tên → Truyền Máy → Xem Bí Mật → Thảo Luận → Bỏ Phiếu → Loại → Kết Quả

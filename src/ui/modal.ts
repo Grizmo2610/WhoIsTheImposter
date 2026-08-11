@@ -1,8 +1,8 @@
-import { el, PrimaryButton, SecondaryButton, type Child } from "./components/elements";
+import { DangerButton, el, PrimaryButton, SecondaryButton, type Child } from "./components/elements";
 
 export interface ModalAction {
   label: string;
-  kind?: "primary" | "secondary";
+  kind?: "primary" | "secondary" | "danger";
   onSelect: () => void;
 }
 
@@ -18,7 +18,9 @@ export class Modal {
     const titleId = `modal-title-${Date.now()}`;
     const buttons = actions.map((action) => {
       const select = (): void => { this.close(); action.onSelect(); };
-      return action.kind === "secondary" ? SecondaryButton(action.label, select) : PrimaryButton(action.label, select);
+      return action.kind === "secondary" ? SecondaryButton(action.label, select)
+        : action.kind === "danger" ? DangerButton(action.label, select)
+          : PrimaryButton(action.label, select);
     });
     this.dialog = el("div", {
       className: "modal",

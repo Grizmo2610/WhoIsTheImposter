@@ -71,6 +71,21 @@ describe("GameEngine", () => {
     expect(game.continueFromElimination().phase).toBe("result");
   });
 
+  it("ends early without changing roles, eliminations or winner", () => {
+    const game = engine();
+    const started = game.start();
+    const roles = started.players.map((player) => player.secret);
+    const ended = game.endGameEarly();
+    expect(ended.phase).toBe("result");
+    expect(ended.gameOver).toBe(true);
+    expect(ended.winner).toBeNull();
+    expect(ended.endedEarly).toBe(true);
+    expect(ended.players.map((player) => player.secret)).toEqual(roles);
+    expect(ended.players.some((player) => player.eliminated)).toBe(false);
+    expect(ended.eliminationHistory).toEqual([]);
+    expect(() => game.endGameEarly()).toThrow("GAME_ALREADY_ENDED");
+  });
+
   it("restores the complete elimination state and correct CTA transition", () => {
     const game = engine();
     game.start();
@@ -92,5 +107,73 @@ describe("GameEngine", () => {
     const civilian = game.getGameState().players.find((player) => player.secret?.role === "civilian")!;
     game.selectVote(civilian.id);
     expect(game.confirmVote().winner).toBe("imposter");
+  });
+
+  it("keeps a moderator outside role assignment and requires a private handoff", () => {
+    const moderated = new GameEngine(new WordRepository(pairs, topics), names, { moderatedDiscussionEnabled: true }, {
+      random: () => 0,
+      now: () => 100,
+      idFactory: (() => { let id = 0; return () => `mod-${++id}`; })(),
+      moderatorName: "Minh",
+    });
+    moderated.start();
+    for (let index = 0; index < names.length; index += 1) { moderated.markRoleSeen(); moderated.continueAfterPass(); }
+    const handoff = moderated.getGameState();
+    expect(handoff.moderator).toEqual({ enabled: true, name: "Minh", handoffConfirmed: false });
+    expect(handoff.players).toHaveLength(names.length);
+    expect(handoff.discussion.stage).toBe("moderator-handoff");
+    expect(moderated.confirmModeratorHandoff().discussion.stage).toBe("clue-round");
+  });
+
+  it("runs clue turns before open discussion and keeps the speaking queue unique", () => {
+    const game = new GameEngine(new WordRepository(pairs, topics), names, { moderatedDiscussionEnabled: true, timerEnabled: true }, {
+      random: () => 0,
+      now: () => 100,
+      idFactory: (() => { let id = 0; return () => `queue-${++id}`; })(),
+      moderatorName: "Minh",
+    });
+    game.start();
+    for (let index = 0; index < names.length; index += 1) { game.markRoleSeen(); game.continueAfterPass(); }
+    game.confirmModeratorHandoff();
+    for (let index = 0; index < names.length; index += 1) game.advanceClueTurn();
+    const open = game.getGameState();
+    expect(open.discussion.stage).toBe("open-floor");
+    expect(open.discussion.timer.status).toBe("running");
+    const playerId = open.players[0]!.id;
+    game.toggleSpeakingQueue(playerId);
+    game.toggleSpeakingQueue(playerId);
+    expect(game.getGameState().discussion.speakingQueue).toEqual([]);
+  });
+
+  it("records consensus without manufacturing individual votes", () => {
+    const game = engine();
+    game.start();
+    for (let index = 0; index < names.length; index += 1) { game.markRoleSeen(); game.continueAfterPass(); }
+    game.beginVote();
+    const target = game.getGameState().players.find((player) => player.secret?.role === "civilian")!;
+    game.selectVote(target.id);
+    const state = game.confirmVote();
+    expect(state.lastElimination?.voteCount).toBeNull();
+    expect(state.eliminationHistory[0]?.selectionMethod).toBe("consensus");
+  });
+
+  it("pauses the discussion timer for cooldown and resumes the remaining time", () => {
+    let now = 1_000;
+    let id = 0;
+    const game = new GameEngine(new WordRepository(pairs, topics), names, {
+      timerEnabled: true,
+      discussionSeconds: 120,
+    }, { random: () => 0, now: () => now, idFactory: () => `timer-${++id}` });
+    game.start();
+    for (let index = 0; index < names.length; index += 1) { game.markRoleSeen(); game.continueAfterPass(); }
+    now = 31_000;
+    const cooled = game.startCooldown();
+    expect(cooled.discussion.timer.status).toBe("paused");
+    expect(cooled.discussion.timer.pausedRemainingSeconds).toBe(90);
+    now = 41_000;
+    const resumed = game.tickDiscussion();
+    expect(resumed.discussion.cooldownEndsAt).toBeNull();
+    expect(resumed.discussion.timer.status).toBe("running");
+    expect(resumed.discussion.timer.endsAt).toBe(131_000);
   });
 });

@@ -57,6 +57,9 @@ The repository includes **two architectural implementations/code structures**:
 * **Anti-Cheat Protection**: Automatically hides the screen when switching browser tabs.
 * **Word Bank & CLI Management**: 50+ Vietnamese word pairs managed via local CSV, Cloudflare R2, or Cloudflare D1 (`manage_words.py` console command).
 * **Interactive UI**: Confetti celebration on game victory and smooth multi-round support.
+* **Moderated Discussion**: Optional non-playing moderator, fair clue rounds, open discussion, persisted timers, a soft speaking queue, and cooldown controls.
+* **Reliable Local Sessions**: State v3 migration, stable live UI updates, resume support, and neutral early-game termination.
+* **Balanced Word Selection**: Topic and difficulty filters with avoidance of the latest 50 word pairs.
 
 Pipeline:
 Setup → Names → Handover → Reveal → Discuss → Vote → Eliminate → Results

@@ -35,10 +35,50 @@ describe("state storage and migration", () => {
         { playerId: "b", name: "Bình", color: "#000", eliminated: false, secret: { role: "imposter", word: "Bún bò" } },
       ],
     }, 123);
-    expect(migrated?.version).toBe(2);
+    expect(migrated?.version).toBe(3);
     expect(migrated?.phase).toBe("elimination");
     expect(migrated?.players[0]?.eliminated).toBe(true);
     expect(migrated?.lastElimination?.playerId).toBe("a");
+    expect(migrated?.moderator.enabled).toBe(false);
+    expect(migrated?.selection.method).toBe("consensus");
+  });
+
+  it("migrates a v2 discussion without expiring its timer", () => {
+    const migrated = migrateStoredState({
+      version: 2,
+      gameId: "v2-game",
+      phase: "discussion",
+      config: { imposterCount: 1, imposterWordMode: "similar", multiRound: true, revealRoleOnElimination: true, timerEnabled: true, timerMinutes: 3 },
+      players: [
+        { id: "a", name: "An", avatar: "◆", accent: "#fff", eliminated: false, secret: { role: "civilian", word: "Phở" } },
+        { id: "b", name: "Bình", avatar: "●", accent: "#000", eliminated: false, secret: { role: "imposter", word: "Bún bò" } },
+        { id: "c", name: "Chi", avatar: "▲", accent: "#aaa", eliminated: false, secret: { role: "civilian", word: "Phở" } },
+      ],
+      round: 1,
+      vote: { votes: {}, pendingTargetId: null },
+    }, 123);
+    expect(migrated?.discussion.stage).toBe("open-floor");
+    expect(migrated?.discussion.timer.status).toBe("paused");
+    expect(migrated?.discussion.timer.pausedRemainingSeconds).toBe(180);
+    expect(migrated?.endedEarly).toBe(false);
+  });
+
+  it("normalizes a v3 snapshot that predates endedEarly", () => {
+    const legacyV3 = migrateStoredState({
+      version: 2,
+      gameId: "v2-game",
+      phase: "discussion",
+      config: { imposterCount: 1, imposterWordMode: "similar", multiRound: true, revealRoleOnElimination: true, timerEnabled: false, timerMinutes: 3 },
+      players: [
+        { id: "a", name: "An", avatar: "◆", accent: "#fff", eliminated: false, secret: { role: "civilian", word: "Phở" } },
+        { id: "b", name: "Bình", avatar: "●", accent: "#000", eliminated: false, secret: { role: "imposter", word: "Bún bò" } },
+        { id: "c", name: "Chi", avatar: "▲", accent: "#aaa", eliminated: false, secret: { role: "civilian", word: "Phở" } },
+      ],
+      round: 1,
+      vote: { votes: {}, pendingTargetId: null },
+    }, 123)!;
+    delete (legacyV3 as Partial<typeof legacyV3>).endedEarly;
+    expect(migrateStoredState(legacyV3)?.endedEarly).toBe(false);
   });
 
   it("discards corrupted JSON instead of crashing", () => {
