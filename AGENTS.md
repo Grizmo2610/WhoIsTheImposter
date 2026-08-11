@@ -10,6 +10,7 @@ Welcome, AI Agent. When working within the **Who Is The Imposter?** codebase, yo
 ## 2. File Operations & Paths
 * **Absolute Paths**: Always use absolute paths when reading or writing files via tools.
 * **Preserve Documentation**: Keep `CHANGELOG.md`, `README.md`, `README.vie.md`, and files under `docs/` accurate and synchronized with any code changes or feature additions.
+* **Preserve Existing Content**: When updating or modifying key files (such as `LICENSE`, `README.md`, `README.vie.md`, etc.), **never delete existing content unless explicitly requested**. Only append or add new content while retaining all previous sections and information.
 * **Do Not Proactively Create Random Docs**: Only create or modify documentation files when explicitly requested or when directly mandated by core workflows.
 
 ## 3. Storage & Backend Integrity
@@ -19,3 +20,4 @@ Welcome, AI Agent. When working within the **Who Is The Imposter?** codebase, yo
 ## 4. Execution & Verification
 * **Self-Verification**: Verify changes by running appropriate test commands, linters, or checking health check endpoints (`/api/health`) when modifying the backend.
 * **Safety First**: Explain any critical system or filesystem modifications before executing shell commands via `bash`.
+* **Branch Isolation**: Always create and work on a dedicated feature/fix branch when making any code or documentation changes. **Never** modify code directly on `main` and **never** merge into `main` automatically.

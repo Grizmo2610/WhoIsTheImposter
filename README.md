@@ -1,97 +1,254 @@
-# Who Is The Imposter?
+<!-- Improved compatibility of back to top link -->
 
-An offline-first, pass-the-phone social deduction game for the web, PWA, and Android. The entire core game runs locally: no account, room server, or internet connection is required after the application assets are installed or cached.
+<a id="readme-top"></a>
 
-Vietnamese documentation: [README.vie.md](README.vie.md).
+[![Contributors][contributors-shield]][contributors-url]
+[![Forks][forks-shield]][forks-url]
+[![Stargazers][stars-shield]][stars-url]
+[![Issues][issues-shield]][issues-url]
+[![project\_license][license-shield]][license-url]
 
-## Highlights
+<br />
+<div align="center">
+  <a href="https://github.com/Grizmo2610/WhoIsTheImposter">
+    <img src="images/logo.png" alt="Logo" width="80" height="80">
+  </a>
 
-- One Vite + TypeScript frontend shared by Web/PWA and Capacitor Android.
-- Bundled Vietnamese word bank with explicit loading, ready, and error states.
-- Pure game engine separated from DOM, storage, and platform APIs.
-- Versioned local state and resume support for every game phase, including elimination.
-- Safe player-name rendering through DOM text nodes; no user-controlled HTML parsing.
-- Hold-to-reveal privacy flow, automatic hiding on blur/background, and Android `FLAG_SECURE`.
-- Mobile-first Dark Mystery + Party Pop design with landscape layouts, keyboard navigation, focus trapping, reduced motion, and 44px+ touch targets.
-- Vitest unit coverage plus Playwright specifications for gameplay, resume, XSS, and offline launch.
+<h3 align="center">Who Is The Imposter?</h3>
 
-## Architecture
+  <p align="center">
+    Real-time & Pass-and-play party game — find the imposter among your friends
+    <br />
+    <a href="docs/architecture.md"><strong>Explore the docs »</strong></a>
+    <br />
+    <br />
+    <a href="https://whoistheimposter.hoangtuantu893.workers.dev/">View Demo</a>
+    &middot;
+    <a href="https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=bug&template=bug-report.md">Report Bug</a>
+    &middot;
+    <a href="https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=enhancement&template=feature-request.md">Request Feature</a>
+  </p>
+</div>
 
-```text
-src/                         shared application source
-  core/                      pure game rules and state machine
-  data/                      WordRepository + bundled JSON data
-  security/                  validation and privacy lifecycle
-  storage/                   versioned persistence and migration
-  ui/                        DOM screens and reusable components
-  styles/                    design tokens and responsive layout
-public/                      PWA manifest, icons, local assets
-tests/unit/                  DOM-free Vitest tests
-tests/e2e/                   Playwright specifications
-android/                     Capacitor Android wrapper only
-backend/                     optional legacy/experimental FastAPI service
-dist/                        generated Web/PWA and Capacitor assets
-```
+---
 
-The production path is:
+## About The Project
 
-```text
-src → Vite build → dist → Web/PWA + Capacitor Android
-```
+[![Product Name Screen Shot][product-screenshot]](https://whoistheimposter.hoangtuantu893.workers.dev/)
 
-The optional FastAPI backend is not used by local gameplay and is not required to build, start, resume, vote, or finish a game.
+**Who Is The Imposter?** is a party game inspired by classic social deduction formats (Mafia / Among Us). Players take turns viewing their secret word, discussing, and voting to eliminate the imposter before they sabotage the group.
 
-## Development
+The repository includes **two architectural implementations/code structures**:
+1. **Modern Offline-First Frontend (`src/`, Vite + TypeScript, PWA, Capacitor Android)**:
+   - Built with modern TypeScript and Vite.
+   - Pure, decoupled game engine (`src/core/`), versioned storage with migration (`src/storage/`), security & privacy manager (`src/security/`), and DOM UI renderer.
+   - Fully playable offline as a Web app, PWA, or native Android app via Capacitor (`android/`). Tested with Vitest and Playwright.
+2. **Full-Stack Architecture (`backend/` & `frontend/`)**:
+   - **FastAPI Backend (`backend/`)**: Authoritative server with WebSocket real-time sync, CLI word management (`manage_words.py`), and storage adapters for Local CSV, Cloudflare R2, and Cloudflare D1 SQLite.
+   - **Legacy/Static Frontend (`frontend/`)**: Traditional static client interfacing with the backend.
 
-Requirements: Node.js 20.19+ or 22.12+ and npm.
+### Core Features
+
+* **Dual Mode Play**: Pass-and-play on a single device or multi-device online via WebSocket.
+* **Configurable Setup**: Player count (3–12), imposter count, and round timer with circular progress indicator.
+* **Imposter Modes**: 
+  * **Aware**: Imposter knows their role and receives a related clue to bluff with.
+  * **Hidden**: Imposter only sees a word similar to the civilians' word with no role indication.
+* **Anti-Cheat Protection**: Automatically hides the screen when switching browser tabs.
+* **Word Bank & CLI Management**: 50+ Vietnamese word pairs managed via local CSV, Cloudflare R2, or Cloudflare D1 (`manage_words.py` console command).
+* **Interactive UI**: Confetti celebration on game victory and smooth multi-round support.
+
+Pipeline:
+Setup → Names → Handover → Reveal → Discuss → Vote → Eliminate → Results
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## Documentation
+
+Explore the project documentation for deeper insights:
+* 🏛️ [System Architecture](docs/architecture.md)
+* 📚 [Word Bank & CLI Management](docs/wordbank.md)
+* 🔌 [REST API & WebSocket Reference](docs/api.md)
+* 📋 [Changelog](CHANGELOG.md)
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## Built With
+
+<p align="center">
+  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
+  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
+  <img src="https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white" />
+  <img src="https://img.shields.io/badge/FastAPI-0.100%2B-009688?style=for-the-badge&logo=fastapi&logoColor=white" />
+  <img src="https://img.shields.io/badge/WebSocket-Realtime-orange?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Cloudflare_R2-S3-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" />
+  <img src="https://img.shields.io/badge/Cloudflare_D1-SQLite-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" />
+</p>
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## Getting Started & Installation
+
+### Prerequisites
+
+* A modern web browser (Chrome, Firefox, Safari, Edge)
+* Python 3.10+ (optional, only required if running the FastAPI backend)
+
+### 1. Clone the Repository
 
 ```sh
-npm install
-npm run dev
+git clone https://github.com/Grizmo2610/WhoIsTheImposter.git
 ```
 
-Production and static verification:
+2. Open the project folder
 
 ```sh
-npm run typecheck
-npm run test
-npm run build
+cd WhoIsTheImposter
 ```
 
-Browser end-to-end specifications are available but intentionally separate:
+### 2. Option A: Run Frontend-Only (Pass-and-Play)
 
-```sh
-npm run test:e2e
+No installation or build step required. Simply open `index.html` in your browser:
+
+* **Windows:** `start index.html` (or double-click `index.html`)
+* **macOS:** `open index.html`
+* **Linux:** `xdg-open index.html`
+
+### 3. Option B: Run Full-Stack (FastAPI Backend + Frontend)
+
+To run with secure server-side state and multi-device WebSocket support:
+
+* **Terminal 1 (Backend):**
+  ```bash
+  cd backend
+  python -m venv .venv
+  .venv\Scripts\activate.bat   # On macOS/Linux: source .venv/bin/activate
+  pip install -r requirements.txt
+  cp .env.example .env
+  uvicorn app.main:app --reload --port 8000
+  ```
+
+* **Terminal 2 (Frontend Static Server):**
+  ```bash
+  cd frontend
+  python -m http.server 5500
+  ```
+  Then open `http://localhost:5500` in your browser.
+
+* For detailed architecture, storage backends (Cloudflare R2/D1), and console management commands (`manage_words.py`), see [backend/README.md](backend/README.md).
+* For frontend client architecture, see [frontend/README.md](frontend/README.md).
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## Usage
+
+### How to Play
+
+1. **Setup** — Configure the number of players, imposters, imposter mode, and optional timer.
+2. **Names** — Enter a name for each player.
+3. **Handover** — Pass the device to the next player. They tap to see their secret word.
+4. **Reveal** — The current player views their word privately (protected by anti-cheat tab switching).
+5. **Discuss** — All players discuss openly within the time limit.
+6. **Vote** — Each player votes for who they think is the imposter.
+7. **Eliminate** — The voted player is revealed as civilian or imposter.
+8. **Results** — The game ends when all imposters are eliminated (civilians win) or imposters outnumber civilians.
+
+### Word Bank & CLI Management
+
+Words are loaded via `WordRepository` (supporting Local CSV, Cloudflare R2, or Cloudflare D1). You can manage words using the backend CLI tool:
+```bash
+python backend/manage_words.py --backend local list
 ```
 
-## Android
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-Capacitor stays on major version 6 in this architectural refactor. The native project is generated and tracked under `android/`.
+---
 
-```sh
-npm run cap:sync
-npm run cap:open:android
-```
+## Roadmap
 
-`MainActivity` applies `FLAG_SECURE`, so secrets are excluded from screenshots, screen recording, and the recent-apps preview. Android backup is disabled because the local state can contain secret roles and words.
+* [x] Client-side pass-and-play mode
+* [x] FastAPI authoritative backend with WebSocket real-time sync
+* [x] Cloudflare R2 and Cloudflare D1 storage integrations for word banks
+* [x] CLI word bank management (`manage_words.py`)
+* [ ] Localization support (English, Japanese, Korean, etc.)
+* [ ] Sound effects and background music
+* [ ] Custom word packs
+* [ ] Online multiplayer expansion (WebRTC / Cloud deployment)
+* [x] Mobile app wrapper (Capacitor / PWA)
+* [ ] Score tracking and statistics
 
-No iOS dependency, native project, or build pipeline is included in this release.
+See the [open issues](https://github.com/Grizmo2610/WhoIsTheImposter/issues)
 
-## Offline and data model
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-`src/data/word_pairs.json` keeps its original object schema unchanged. `src/data/word-topic-map.json` is auxiliary metadata exported from `backend/data/words.csv`; it lets different-topic mode select an actual different topic. If metadata is unavailable, the repository exposes an explicit deterministic fallback rather than claiming an arbitrary different index is a different topic.
+---
 
-Vite PWA/Workbox precaches the application shell, compiled code, styles, word data, icons, and local assets. Since the word bank is imported into the application bundle, gameplay does not wait on a runtime fetch.
+## Contributing
 
-## Security and privacy notes
+1. Fork the project
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
 
-- Player names are normalized to 1–20 characters, stripped of control characters, and rendered with `textContent`/text nodes.
-- Secrets are removed from the active DOM and accessibility tree whenever they are hidden.
-- `pointerup`, `pointercancel`, lost pointer capture, blur, visibility changes, and Capacitor app background events all hide secrets.
-- Stored state is local to the device and contains game secrets to support reliable offline resume.
+---
 
-See [docs/architecture.md](docs/architecture.md), [docs/wordbank.md](docs/wordbank.md), and [CHANGELOG.md](CHANGELOG.md).
+### Top Contributors:
+
+<a href="https://github.com/Grizmo2610/WhoIsTheImposter/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Grizmo2610/WhoIsTheImposter" />
+</a>
+
+---
 
 ## License
 
-MIT — see [LICENSE.txt](LICENSE.txt).
+Distributed under the MIT License. See [LICENSE.txt](LICENSE.txt) for more information.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## Contact
+
+hoangtuantu - [hoangtuantu893@gmail.com](mailto:hoangtuantu893@gmail.com)
+
+Project Link:
+https://github.com/Grizmo2610/WhoIsTheImposter
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+## Acknowledgments
+
+* Among Us / Mafia / Werewolf game formats
+* FastAPI & Python ecosystem
+* Cloudflare R2 & D1
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+---
+
+[contributors-shield]: https://img.shields.io/github/contributors/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
+[contributors-url]: https://github.com/Grizmo2610/WhoIsTheImposter/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
+[forks-url]: https://github.com/Grizmo2610/WhoIsTheImposter/network/members
+[stars-shield]: https://img.shields.io/github/stars/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
+[stars-url]: https://github.com/Grizmo2610/WhoIsTheImposter/stargazers
+[issues-shield]: https://img.shields.io/github/issues/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
+[issues-url]: https://github.com/Grizmo2610/WhoIsTheImposter/issues
+[license-shield]: https://img.shields.io/github/license/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
+[license-url]: https://github.com/Grizmo2610/WhoIsTheImposter/blob/main/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
+[linkedin-url]: https://linkedin.com/in/linkedin_username
+[product-screenshot]: images/screenshot.png
