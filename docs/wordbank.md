@@ -1,81 +1,25 @@
-# 📚 Word Bank & CLI Management — Who Is The Imposter?
+# Kho từ offline
 
-The word bank system in **Who Is The Imposter?** is decoupled via a flexible repository pattern supporting local files and cloud storage backends.
+## Runtime source
 
----
+Frontend import trực tiếp:
 
-## Word Format & CSV Structure
+- `src/data/word_pairs.json`: 332 object `{ real, related, hint, meaning }`.
+- `src/data/word-topic-map.json`: mapping phụ `word → topic`.
 
-Each word entry contains the following fields:
-* `word` (`tu_that`): The secret word assigned to civilian players (or base word).
-* `topic` (`tu_lien_quan` or category topic): The category group. In imposter modes, imposters receive a related word or clue from the same topic.
-* `hints` (`goi_y`): A list of helpful clues or hints used during discussion (especially in "Aware" imposter mode).
-* `meaning`: Definition or description of the word shown when players inspect their word.
+Schema của từng object trong `word_pairs.json` không thay đổi. Topic map không được merge vào object runtime.
 
-CSV Format Example:
-```csv
-tu_that,tu_lien_quan,goi_y
-Phở,Bánh mì,Món ăn đường phố Việt Nam;Món nước có sợi
-Biển,Nhà tắm,Quán cà phê có view biển;Nơi ngắm hoàng hôn
-```
+`WordRepository` là abstraction duy nhất được game engine sử dụng. Constructor validate toàn bộ mảng và `assertReady()` ném `WORD_BANK_EMPTY` nếu dữ liệu rỗng. UI không bật Start cho đến khi repository ở trạng thái `ready`.
 
----
+## Các chế độ
 
-## Storage Backends
+- `similar`: imposter nhận field `related` của cùng pair.
+- `no-word`: imposter không có từ và nhận `hint`.
+- `different-topic`: lọc candidate theo topic map và chọn candidate có topic khác từ thật.
+- Nếu metadata topic thiếu hoàn toàn, repository dùng tập candidate loại từ thật/từ related, trả `source: "fallback"` và hành vi vẫn deterministic khi truyền random source trong test. Đây là fallback công khai, không được mô tả là bảo đảm khác topic.
 
-1. **`local`**: Stores the word bank in a local CSV file (`backend/data/words.csv`).
-2. **`r2`**: Cloudflare R2 (S3-compatible object storage) storing the entire word bank CSV file with TTL-based in-memory caching.
-3. **`d1`**: Cloudflare D1 (managed SQLite database) accessed via the Cloudflare REST API, allowing row-level inserts, updates, and deletes without overwrite conflicts.
+## Nguồn quản trị
 
----
+`backend/data/words.csv` vẫn là nguồn biên tập có cột topic. `backend/export_word_pairs.py` có thể export schema JSON cũ. Khi CSV thay đổi, cần đồng bộ cả pair JSON và topic map rồi chạy unit test `word-repository.test.ts`.
 
-## CLI Word Management (`manage_words.py`)
-
-The command-line tool `backend/manage_words.py` provides full CRUD capabilities against any configured storage backend (`local`, `r2`, or `d1`).
-
-### General Command Syntax
-```bash
-python manage_words.py [--backend local|r2|d1] <command> [options]
-```
-
-### Available Commands
-
-* **`init-schema`** (D1 only):
-  ```bash
-  python manage_words.py --backend d1 init-schema
-  ```
-
-* **`add`**: Add a new word entry.
-  ```bash
-  python manage_words.py --backend local add --word "Phở" --topic "Ẩm thực" --hints "Món nước có sợi" "Ăn sáng" --meaning "Món ăn truyền thống Việt Nam"
-  ```
-
-* **`list`**: Display all words grouped by topic.
-  ```bash
-  python manage_words.py --backend local list
-  ```
-
-* **`get`**: Retrieve a specific word entry.
-  ```bash
-  python manage_words.py --backend local get --word "Phở"
-  ```
-
-* **`update`**: Update an existing word entry.
-  ```bash
-  python manage_words.py --backend local update --word "Phở" --meaning "Món phở truyền thống nổi tiếng"
-  ```
-
-* **`delete`**: Delete a word entry.
-  ```bash
-  python manage_words.py --backend local delete --word "Phở"
-  ```
-
-* **`export`**: Backup the word bank to a local CSV file.
-  ```bash
-  python manage_words.py --backend r2 export --out backup.csv
-  ```
-
-* **`import`**: Upload a local CSV file to the backend (overwrites existing data).
-  ```bash
-  python manage_words.py --backend d1 import --file data/words.csv -y
-  ```
+Vì cả hai JSON được bundle vào JavaScript production, không có runtime fetch và không phụ thuộc mạng để tạo ván mới.
