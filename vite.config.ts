@@ -6,10 +6,10 @@ export default defineConfig({
   plugins: [
     VitePWA({
       registerType: "autoUpdate",
-      includeAssets: ["icons/*.webp", "assets/*.png"],
       manifest: false,
       workbox: {
-        globPatterns: ["**/*.{html,js,css,json,png,webp,svg}"],
+        globPatterns: ["**/*.{html,js,css,json,png,webp,svg,ttf,txt}"],
+        maximumFileSizeToCacheInBytes: 4 * 1024 * 1024,
         navigateFallback: "index.html",
       },
     }),

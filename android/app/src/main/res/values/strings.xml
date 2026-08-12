@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Ai Là Người Giấu Mặt</string>
-    <string name="title_activity_main">Ai Là Người Giấu Mặt</string>
+    <string name="app_name">Ai là kẻ giả danh</string>
+    <string name="title_activity_main">Ai là kẻ giả danh</string>
     <string name="package_name">com.ailanguidaumat.app</string>
     <string name="custom_url_scheme">com.ailanguidaumat.app</string>
 </resources>

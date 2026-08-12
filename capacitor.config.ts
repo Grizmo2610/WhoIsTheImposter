@@ -2,7 +2,7 @@ import type { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
   appId: "com.ailanguidaumat.app",
-  appName: "Ai Là Người Giấu Mặt",
+  appName: "Ai là kẻ giả danh",
   webDir: "dist",
   server: { androidScheme: "https" },
   android: {

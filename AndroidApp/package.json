@@ -1,7 +1,7 @@
 {
   "name": "ai-la-nguoi-giau-mat",
   "version": "1.0.0",
-  "description": "Ai Là Người Giấu Mặt — Game truyền tay",
+  "description": "Ai là kẻ giả danh — Game truyền tay",
   "main": "index.js",
   "scripts": {
     "build": "echo 'No build step needed — static HTML/CSS/JS'",

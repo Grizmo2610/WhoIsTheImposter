@@ -35,10 +35,11 @@ describe("state storage and migration", () => {
         { playerId: "b", name: "Bình", color: "#000", eliminated: false, secret: { role: "imposter", word: "Bún bò" } },
       ],
     }, 123);
-    expect(migrated?.version).toBe(2);
+    expect(migrated?.version).toBe(3);
     expect(migrated?.phase).toBe("elimination");
     expect(migrated?.players[0]?.eliminated).toBe(true);
     expect(migrated?.lastElimination?.playerId).toBe("a");
+    expect(migrated?.config.selectedTopics).toHaveLength(8);
   });
 
   it("discards corrupted JSON instead of crashing", () => {

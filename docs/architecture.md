@@ -1,66 +1,59 @@
 # Kiến trúc ứng dụng
 
-## Nguồn duy nhất
+## Runtime duy nhất
 
-`src/` là frontend duy nhất. Vite tạo `dist/`; cùng output này được deploy thành Web/PWA và copy vào native Android bằng Capacitor. Native code không chứa bản gameplay riêng.
-
-```text
-UI DOM
-  ↓ action / render(state)
-AppController
-  ↓
-GameEngine ─── WordRepository
-  ↓ snapshot
-GameStorage ─── migration
-```
-
-## Game engine
-
-`src/core/` không import DOM, localStorage hay Capacitor. `GameEngine` sở hữu state machine:
+`src/` là application source dùng chung. Vite tạo `dist/`; cùng output này được deploy thành Web/PWA và được Capacitor copy vào `android/`.
 
 ```text
-setup → reveal ⇄ pass → discussion → vote → elimination
-                              ↑                   │
-                              └───────────────────┘
-                                                  ↓
-                                                result
+vocabulary_database.json
+  ↓ validate
+WordGroup[] ──→ word-selector.ts
+                   ↓ kết quả đã random
+UI DOM → AppController → GameEngine → GameState v3 → GameStorage
+                                     ↓
+                              Web/PWA + Android
 ```
 
-`GameState` là nguồn sự thật duy nhất cho UI. Nó lưu phase, cấu hình, player/role/secret, reveal progress, round, vote, last elimination, game-over và winner. Mọi mutation trả về một snapshot clone để controller lưu ngay.
+Game không gọi backend để lấy từ. `src/data/vocabulary_database.json` là database runtime duy nhất, được import vào bundle thay vì tải bằng API.
+
+## Data modules
+
+- `word-topics.ts`: 8 topic và `WordTopic` dùng chung.
+- `random.ts`: `sampleOne` và `sampleUnique` không mutate input.
+- `word-database.ts`: schema types, validator và bundled loader.
+- `word-selector.ts`: lọc OR theo topic, availability validation và ba mode chọn từ độc lập DOM.
+
+## Game engine và state
+
+`src/core/` không import DOM, localStorage hay Capacitor. `GameEngine.start()` nhận database đã validate và gọi selector đúng một lần. State v3 lưu `config.selectedTopics`, kết quả `wordSelection`, từng secret đã cấp, `sourceGroupIds` và deadline đối chứng; restore dùng snapshot này, không random lại.
+
+Timer đối chứng tính 45 giây cho mỗi người còn sống. Engine lưu mốc `discussionEndsAt` tuyệt đối khi bắt đầu vòng, nên đóng/mở lại ứng dụng không làm thời gian quay về đầu. UI chỉ trình bày countdown; rung hết giờ nằm tại adapter Capacitor.
+
+```text
+setup → reveal → discussion → vote → elimination
+                    ↑                   │
+                    └───────────────────┘
+                                        ↓
+                                      result
+```
+
+Phase `pass` chỉ còn để migration snapshot v2; UI mới chuyển trực tiếp từ lá bài hiện tại sang lá bài úp tiếp theo.
 
 ## Storage và resume
 
-Key hiện tại là `who-is-the-imposter:game:v2`. Loader:
+Key hiện tại là `who-is-the-imposter:game:v3`. Loader cũng đọc v2 và snapshot legacy, chuẩn hóa chúng sang v3 rồi lưu lại. Resume giữ nguyên topic, role, từ/hint và group result đã chọn.
 
-1. Parse JSON trong `try/catch`.
-2. Kiểm tra version/shape.
-3. Migrate snapshot cũ `imposter_game_state_v1` nếu có thể.
-4. Khôi phục engine từ snapshot đã validate.
-5. Render hoàn toàn từ phase/state, không suy luận từ text/button DOM.
+## Offline/PWA và Android
 
-Elimination result là một phần của state, vì vậy reload vẫn giữ tên, avatar, phiếu, role, winner và CTA tiếp theo.
+Workbox precache application shell, compiled bundle, JSON đã import, font, icon và asset local. `capacitor.config.ts` dùng `webDir: "dist"`; native Android không có logic chọn từ riêng.
 
-## Offline/PWA
+## Bảo mật và privacy
 
-Kho từ và topic map là JSON import tĩnh. `vite-plugin-pwa` sinh Workbox service worker và precache mọi bundle/asset local. Không có REST call trong gameplay cốt lõi.
-
-Backend FastAPI trong `backend/` vẫn tồn tại như hệ thống tùy chọn cho thử nghiệm online sau này, nhưng frontend production không import client API hay phụ thuộc backend.
-
-## Boundary bảo mật
-
-- Input: normalize/validate tên tại `src/security/input-validator.ts`.
-- Output: component tạo DOM node và gán text; không parse chuỗi người dùng bằng `innerHTML`.
-- Privacy: `PrivacyManager` che secret khi blur, document hidden hoặc Capacitor app inactive.
-- Native Android: `FLAG_SECURE` và `allowBackup=false`.
-- Accessibility: hidden secret được thay bằng placeholder có `aria-hidden`, không chỉ đổi opacity.
-
-## Android
-
-`capacitor.config.ts` dùng `webDir: "dist"`. `android/` chỉ chứa shell do Capacitor tạo, plugin App/Haptics và privacy flag trong `MainActivity`. Không có iOS trong scope.
+- Tên người chơi được normalize/validate rồi render bằng text node.
+- Secret bị loại khỏi DOM/accessibility tree khi úp.
+- Blur, visibility change, pointer cancel và app background đều che secret.
+- Android bật `FLAG_SECURE` và tắt backup.
 
 ## Kiểm thử
 
-- `tests/unit`: role, số imposter, vote, win, round, resume, migration, kho từ rỗng, các word mode và validation.
-- `tests/e2e`: đặc tả flow chính, XSS, elimination resume và PWA offline.
-
-Unit tests chạy độc lập browser. E2E được gọi riêng bằng `npm run test:e2e`.
+Vitest kiểm tra validator database, lọc topic, random unique, ba mode, role/vote/win và migration/resume. Playwright vẫn là đặc tả E2E riêng và không nằm trong lần kiểm tra tự động của đợt refactor này.

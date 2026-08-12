@@ -1,8 +1,8 @@
-import { el, PrimaryButton, SecondaryButton, type Child } from "./components/elements";
+import { DangerButton, el, PrimaryButton, SecondaryButton, type Child } from "./components/elements";
 
 export interface ModalAction {
   label: string;
-  kind?: "primary" | "secondary";
+  kind?: "primary" | "secondary" | "danger";
   onSelect: () => void;
 }
 
@@ -18,14 +18,18 @@ export class Modal {
     const titleId = `modal-title-${Date.now()}`;
     const buttons = actions.map((action) => {
       const select = (): void => { this.close(); action.onSelect(); };
-      return action.kind === "secondary" ? SecondaryButton(action.label, select) : PrimaryButton(action.label, select);
+      return action.kind === "secondary"
+        ? SecondaryButton(action.label, select)
+        : action.kind === "danger"
+          ? DangerButton(action.label, select)
+          : PrimaryButton(action.label, select);
     });
     this.dialog = el("div", {
       className: "modal",
       attrs: { role: "dialog", "aria-modal": "true", "aria-labelledby": titleId },
     },
     el("div", { className: "modal__scrim", attrs: { "aria-hidden": "true" }, onClick: () => this.close() }),
-    el("section", { className: "modal__panel" },
+    el("section", { className: "modal__panel clue-card" },
       el("h2", { className: "modal__title", text: title, attrs: { id: titleId } }),
       el("div", { className: "modal__content" }, ...content),
       el("div", { className: "modal__actions" }, ...buttons),
@@ -40,6 +44,10 @@ export class Modal {
     this.root.replaceChildren();
     this.dialog = null;
     if (restoreFocus) this.previousFocus?.focus();
+  }
+
+  isOpen(): boolean {
+    return this.dialog !== null;
   }
 
   private readonly onKeyDown = (event: KeyboardEvent): void => {

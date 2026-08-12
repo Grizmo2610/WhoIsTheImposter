@@ -1,19 +1,17 @@
 import { describe, expect, it } from "vitest";
 import { GameEngine } from "../../src/core/game-engine";
 import { DEFAULT_CONFIG } from "../../src/core/game-state";
-import { WordRepository } from "../../src/data/word-repository";
+import type { WordGroup } from "../../src/data/word-database";
 
-const pairs = [
-  { real: "Phở", related: "Bún bò", hint: "Món nước", meaning: "Món ăn Việt Nam" },
-  { real: "Bóng đá", related: "Bóng rổ", hint: "Môn có bóng", meaning: "Một môn thể thao" },
-  { real: "Mèo", related: "Chó", hint: "Thú cưng", meaning: "Một loài vật" },
+const groups: WordGroup[] = [
+  { id: 1, topics: ["Ẩm thực & Đồ uống"], hint: "Món nước", related: ["Phở", "Bún bò", "Bún riêu"] },
+  { id: 2, topics: ["Thể thao"], hint: "Môn có bóng", related: ["Bóng đá", "Bóng rổ", "Bóng chuyền"] },
 ];
-const topics = { "Phở": "Ẩm thực", "Bóng đá": "Thể thao", "Mèo": "Động vật" };
 const names = ["An", "Bình", "Chi", "Dũng", "Hà"];
 
 function engine(config = {}, random = (): number => 0): GameEngine {
   let id = 0;
-  return new GameEngine(new WordRepository(pairs, topics), names, config, {
+  return new GameEngine(groups, names, config, {
     random,
     now: () => 100,
     idFactory: () => `id-${++id}`,
@@ -32,22 +30,30 @@ describe("GameEngine", () => {
     expect(state.config.imposterCount).toBe(2);
   });
 
-  it("moves through reveal, pass, discussion and vote", () => {
+  it("moves directly through each reveal into discussion and vote", () => {
     const game = engine();
     game.start();
     for (let index = 0; index < names.length; index += 1) {
       expect(game.getCurrentPlayer()?.name).toBe(names[index]);
-      expect(game.markRoleSeen().phase).toBe("pass");
-      const next = game.continueAfterPass();
+      const next = game.markRoleSeen();
       expect(next.phase).toBe(index === names.length - 1 ? "discussion" : "reveal");
     }
     expect(game.beginVote().phase).toBe("vote");
   });
 
+  it("starts a proportional discussion deadline when the timer is enabled", () => {
+    const game = engine({ timerEnabled: true });
+    game.start();
+    let state = game.getGameState();
+    for (let index = 0; index < names.length; index += 1) state = game.markRoleSeen();
+    expect(state.discussionEndsAt).toBe(100 + names.length * 45_000);
+    expect(game.beginVote().discussionEndsAt).toBeNull();
+  });
+
   it("increments the round after a civilian is eliminated", () => {
     const game = engine();
     game.start();
-    for (let index = 0; index < names.length; index += 1) { game.markRoleSeen(); game.continueAfterPass(); }
+    for (let index = 0; index < names.length; index += 1) game.markRoleSeen();
     game.beginVote();
     const civilian = game.getGameState().players.find((player) => player.secret?.role === "civilian")!;
     game.selectVote(civilian.id);
@@ -61,7 +67,7 @@ describe("GameEngine", () => {
   it("ends when every imposter is eliminated", () => {
     const game = engine({ imposterCount: 1 });
     game.start();
-    for (let index = 0; index < names.length; index += 1) { game.markRoleSeen(); game.continueAfterPass(); }
+    for (let index = 0; index < names.length; index += 1) game.markRoleSeen();
     game.beginVote();
     const imposter = game.getGameState().players.find((player) => player.secret?.role === "imposter")!;
     game.selectVote(imposter.id);
@@ -74,20 +80,31 @@ describe("GameEngine", () => {
   it("restores the complete elimination state and correct CTA transition", () => {
     const game = engine();
     game.start();
-    for (let index = 0; index < names.length; index += 1) { game.markRoleSeen(); game.continueAfterPass(); }
+    for (let index = 0; index < names.length; index += 1) game.markRoleSeen();
     game.beginVote();
     const civilian = game.getGameState().players.find((player) => player.secret?.role === "civilian")!;
     game.selectVote(civilian.id);
     const snapshot = game.confirmVote();
-    const restored = GameEngine.restore(new WordRepository(pairs, topics), snapshot, { idFactory: () => "unused" });
+    const restored = GameEngine.restore(groups, snapshot, { idFactory: () => "unused" });
     expect(restored.getGameState().lastElimination).toEqual(snapshot.lastElimination);
     expect(restored.continueFromElimination().phase).toBe("discussion");
+  });
+
+  it("restores assigned roles and words without selecting again", () => {
+    const game = engine({ imposterCount: 2 });
+    const snapshot = game.start();
+    const restored = GameEngine.restore(groups, snapshot, {
+      random: () => { throw new Error("restore must not randomize"); },
+      idFactory: () => "unused",
+    });
+    expect(restored.getGameState().players).toEqual(snapshot.players);
+    expect(restored.getGameState().wordSelection).toEqual(snapshot.wordSelection);
   });
 
   it("supports a single-round game", () => {
     const game = engine({ ...DEFAULT_CONFIG, multiRound: false });
     game.start();
-    for (let index = 0; index < names.length; index += 1) { game.markRoleSeen(); game.continueAfterPass(); }
+    for (let index = 0; index < names.length; index += 1) game.markRoleSeen();
     game.beginVote();
     const civilian = game.getGameState().players.find((player) => player.secret?.role === "civilian")!;
     game.selectVote(civilian.id);

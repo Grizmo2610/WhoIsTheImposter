@@ -1,4 +1,4 @@
-# 🔌 REST API & WebSocket Reference — Who Is The Imposter? (Optional)
+# 🔌 REST API & WebSocket Reference — Ai là kẻ giả danh (Optional)
 
 > The offline Web/PWA/Android frontend does not call this API. This document only covers the optional FastAPI service retained for future or experimental multi-device work.
 

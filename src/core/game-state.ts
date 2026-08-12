@@ -1,4 +1,6 @@
-export const STATE_VERSION = 2 as const;
+import { WORD_TOPICS, isWordTopic, type WordTopic } from "../data/word-topics";
+
+export const STATE_VERSION = 3 as const;
 
 export type GamePhase =
   | "setup"
@@ -9,7 +11,7 @@ export type GamePhase =
   | "elimination"
   | "result";
 
-export type ImposterWordMode = "similar" | "no-word" | "different-topic";
+export type ImposterWordMode = "similar" | "no-word" | "different-group";
 export type Role = "civilian" | "imposter";
 export type Winner = Role | null;
 
@@ -19,14 +21,13 @@ export interface GameConfig {
   multiRound: boolean;
   revealRoleOnElimination: boolean;
   timerEnabled: boolean;
-  timerMinutes: number;
+  selectedTopics: WordTopic[];
 }
 
 export interface PlayerSecret {
   role: Role;
   word: string | null;
   hint: string | null;
-  meaning: string | null;
 }
 
 export interface Player {
@@ -40,11 +41,10 @@ export interface Player {
 
 export interface WordSelection {
   civilianWord: string;
-  civilianMeaning: string;
-  imposterWord: string | null;
-  imposterHint: string | null;
+  imposterContents: string[];
+  hint: string | null;
   mode: ImposterWordMode;
-  source: "pair" | "topic-map" | "fallback";
+  sourceGroupIds: number[];
 }
 
 export interface EliminationResult {
@@ -69,6 +69,7 @@ export interface GameState {
   wordSelection: WordSelection | null;
   revealIndex: number;
   revealedPlayerIds: string[];
+  discussionEndsAt: number | null;
   round: number;
   vote: VoteState;
   lastElimination: EliminationResult | null;
@@ -84,7 +85,7 @@ export const DEFAULT_CONFIG: GameConfig = {
   multiRound: true,
   revealRoleOnElimination: true,
   timerEnabled: false,
-  timerMinutes: 3,
+  selectedTopics: [...WORD_TOPICS],
 };
 
 export function cloneState(state: GameState): GameState {
@@ -95,12 +96,22 @@ export function isGameState(value: unknown): value is GameState {
   if (!value || typeof value !== "object") return false;
   const state = value as Partial<GameState>;
   const phases: GamePhase[] = ["setup", "reveal", "pass", "discussion", "vote", "elimination", "result"];
+  const modes: ImposterWordMode[] = ["similar", "no-word", "different-group"];
   return state.version === STATE_VERSION
     && typeof state.gameId === "string"
     && !!state.config
+    && modes.includes(state.config.imposterWordMode)
+    && Array.isArray(state.config.selectedTopics)
+    && state.config.selectedTopics.every(isWordTopic)
+    && (!state.wordSelection || (
+      typeof state.wordSelection.civilianWord === "string"
+      && Array.isArray(state.wordSelection.imposterContents)
+      && Array.isArray(state.wordSelection.sourceGroupIds)
+    ))
     && Array.isArray(state.players)
     && typeof state.phase === "string"
     && phases.includes(state.phase as GamePhase)
     && typeof state.round === "number"
+    && (state.discussionEndsAt === null || state.discussionEndsAt === undefined || typeof state.discussionEndsAt === "number")
     && !!state.vote;
 }
