@@ -5,7 +5,7 @@ import type { Player } from "../../src/core/game-state";
 
 const player = (id: string, role: "civilian" | "imposter", eliminated = false): Player => ({
   id, name: id, avatar: "◆", accent: "#fff", eliminated,
-  secret: { role, word: "x", hint: null, meaning: null },
+  secret: { role, word: "x", hint: null },
 });
 
 describe("vote resolution", () => {

@@ -1,4 +1,16 @@
-import { DEFAULT_CONFIG, isGameState, STATE_VERSION, type GamePhase, type GameState, type Player, type Winner } from "../core/game-state";
+import {
+  DEFAULT_CONFIG,
+  isGameState,
+  STATE_VERSION,
+  type GameConfig,
+  type GamePhase,
+  type GameState,
+  type ImposterWordMode,
+  type Player,
+  type PlayerSecret,
+  type Winner,
+} from "../core/game-state";
+import { WORD_TOPICS, normalizeSelectedTopics } from "../data/word-topics";
 
 type LegacySnapshot = Record<string, unknown> & { version?: number };
 
@@ -14,79 +26,114 @@ function phaseFromLegacy(screen: unknown): GamePhase {
   return typeof screen === "string" ? (map[screen] ?? "setup") : "setup";
 }
 
+function modeFromLegacy(value: unknown, hiddenTopicMode?: unknown): ImposterWordMode {
+  if (value === "no-word" || value === "aware") return "no-word";
+  if (value === "different-group" || value === "different-topic" || hiddenTopicMode === "different_topic") return "different-group";
+  return "similar";
+}
+
+function secretFromUnknown(value: unknown): PlayerSecret | null {
+  if (!value || typeof value !== "object") return null;
+  const raw = value as Record<string, unknown>;
+  const role = raw.role === "imposter" ? "imposter" : raw.role === "civilian" ? "civilian" : null;
+  if (!role) return null;
+  return {
+    role,
+    word: typeof raw.word === "string" ? raw.word : null,
+    hint: typeof raw.hint === "string" ? raw.hint : null,
+  };
+}
+
+function playersFromUnknown(value: unknown): Player[] {
+  if (!Array.isArray(value)) return [];
+  return value.map((item, index) => {
+    const raw = item && typeof item === "object" ? item as Record<string, unknown> : {};
+    return {
+      id: typeof raw.id === "string" ? raw.id : typeof raw.playerId === "string" ? raw.playerId : `legacy-player-${index + 1}`,
+      name: typeof raw.name === "string" ? raw.name : `Người chơi ${index + 1}`,
+      avatar: typeof raw.avatar === "string" ? raw.avatar : "◆",
+      accent: typeof raw.accent === "string" ? raw.accent : typeof raw.color === "string" ? raw.color : "#7C5CFF",
+      eliminated: raw.eliminated === true,
+      secret: secretFromUnknown(raw.secret),
+    };
+  });
+}
+
+function configFromUnknown(value: unknown, legacy: LegacySnapshot): GameConfig {
+  const raw = value && typeof value === "object" ? value as Record<string, unknown> : {};
+  const rawTopics = Array.isArray(raw.selectedTopics) ? normalizeSelectedTopics(raw.selectedTopics) : [...WORD_TOPICS];
+  return {
+    ...DEFAULT_CONFIG,
+    imposterCount: typeof raw.imposterCount === "number"
+      ? raw.imposterCount
+      : typeof legacy.numImposters === "number" ? legacy.numImposters : 1,
+    imposterWordMode: modeFromLegacy(raw.imposterWordMode ?? legacy.imposterMode, legacy.hiddenTopicMode),
+    multiRound: typeof raw.multiRound === "boolean" ? raw.multiRound : legacy.multiRound !== false,
+    revealRoleOnElimination: typeof raw.revealRoleOnElimination === "boolean"
+      ? raw.revealRoleOnElimination
+      : legacy.revealRoleMode !== false,
+    timerEnabled: raw.timerEnabled === true,
+    selectedTopics: rawTopics.length > 0 ? rawTopics : [...WORD_TOPICS],
+  };
+}
+
 export function migrateStoredState(value: unknown, now = Date.now()): GameState | null {
   if (isGameState(value)) return structuredClone(value);
   if (!value || typeof value !== "object") return null;
   const legacy = value as LegacySnapshot;
-  const rawPlayers = Array.isArray(legacy.players) ? legacy.players : [];
-  if (!rawPlayers.length) return null;
-  const players: Player[] = rawPlayers.map((item, index) => {
-    const raw = item as Record<string, unknown>;
-    const rawSecret = raw.secret && typeof raw.secret === "object" ? raw.secret as Record<string, unknown> : null;
-    const role = rawSecret?.role === "imposter" ? "imposter" : rawSecret?.role === "civilian" ? "civilian" : null;
-    return {
-      id: typeof raw.playerId === "string" ? raw.playerId : `legacy-player-${index + 1}`,
-      name: typeof raw.name === "string" ? raw.name : `Người chơi ${index + 1}`,
-      avatar: "◆",
-      accent: typeof raw.color === "string" ? raw.color : "#7C5CFF",
-      eliminated: raw.eliminated === true,
-      secret: role ? {
-        role,
-        word: typeof rawSecret?.word === "string" ? rawSecret.word : null,
-        hint: typeof rawSecret?.hint === "string" ? rawSecret.hint : null,
-        meaning: typeof rawSecret?.meaning === "string" ? rawSecret.meaning : null,
-      } : null,
-    };
-  });
-  const phase = phaseFromLegacy(legacy.screen ?? legacy.phase);
-  const currentIndex = typeof legacy.currentPlayerIndex === "number" ? legacy.currentPlayerIndex : 0;
-  const legacyWinner: Winner = legacy.winner === "civilian" || legacy.winner === "imposter"
+  const players = playersFromUnknown(legacy.players);
+  if (!players.length) return null;
+  const config = configFromUnknown(legacy.config, legacy);
+  const phase = typeof legacy.phase === "string" && ["setup", "reveal", "pass", "discussion", "vote", "elimination", "result"].includes(legacy.phase)
+    ? legacy.phase as GamePhase
+    : phaseFromLegacy(legacy.screen);
+  const currentIndex = typeof legacy.revealIndex === "number"
+    ? legacy.revealIndex
+    : typeof legacy.currentPlayerIndex === "number" ? legacy.currentPlayerIndex : 0;
+  const winner: Winner = legacy.winner === "civilian" || legacy.winner === "imposter"
     ? legacy.winner
-    : legacy.pendingWinner === "civilian" || legacy.pendingWinner === "imposter"
-      ? legacy.pendingWinner
-      : null;
-  const gameOver = phase === "result" || legacy.pendingGameOver === true || legacyWinner !== null;
+    : legacy.pendingWinner === "civilian" || legacy.pendingWinner === "imposter" ? legacy.pendingWinner : null;
+  const gameOver = legacy.gameOver === true || phase === "result" || legacy.pendingGameOver === true || winner !== null;
+  const rawElimination = legacy.lastElimination && typeof legacy.lastElimination === "object"
+    ? legacy.lastElimination as Record<string, unknown>
+    : null;
   const lastEliminated = [...players].reverse().find((player) => player.eliminated && player.secret);
-  const lastElimination = phase === "elimination" && lastEliminated?.secret ? {
-    playerId: lastEliminated.id,
-    voteCount: 0,
-    role: lastEliminated.secret.role,
-    gameOver,
-    winner: legacyWinner,
-  } : null;
-  const imposterWordMode = legacy.imposterMode === "aware"
-    ? "no-word"
-    : legacy.hiddenTopicMode === "different_topic"
-      ? "different-topic"
-      : "similar";
+  const eliminatedPlayerId = typeof rawElimination?.playerId === "string" ? rawElimination.playerId : lastEliminated?.id;
+  const eliminatedPlayer = players.find((player) => player.id === eliminatedPlayerId && player.secret);
+  const civilianWord = players.find((player) => player.secret?.role === "civilian")?.secret?.word;
+  const imposterSecrets = players.filter((player) => player.secret?.role === "imposter").map((player) => player.secret!);
   return {
     version: STATE_VERSION,
-    gameId: typeof legacy.roomId === "string" ? legacy.roomId : `legacy-${now}`,
+    gameId: typeof legacy.gameId === "string" ? legacy.gameId : typeof legacy.roomId === "string" ? legacy.roomId : `legacy-${now}`,
     phase,
-    config: {
-      ...DEFAULT_CONFIG,
-      imposterCount: typeof legacy.numImposters === "number" ? legacy.numImposters : 1,
-      imposterWordMode,
-      multiRound: legacy.multiRound !== false,
-      revealRoleOnElimination: legacy.revealRoleMode !== false,
-    },
+    config,
     players,
-    wordSelection: typeof legacy.realWord === "string" ? {
-      civilianWord: legacy.realWord,
-      civilianMeaning: typeof legacy.realMeaning === "string" ? legacy.realMeaning : "",
-      imposterWord: null,
-      imposterHint: null,
-      mode: imposterWordMode,
-      source: "fallback",
+    wordSelection: civilianWord ? {
+      civilianWord,
+      imposterContents: imposterSecrets.map((secret) => secret.word ?? secret.hint ?? ""),
+      hint: imposterSecrets.find((secret) => secret.hint)?.hint ?? null,
+      mode: config.imposterWordMode,
+      sourceGroupIds: [],
     } : null,
     revealIndex: Math.max(0, Math.min(players.length - 1, currentIndex)),
-    revealedPlayerIds: players.slice(0, currentIndex).map((player) => player.id),
+    revealedPlayerIds: Array.isArray(legacy.revealedPlayerIds)
+      ? legacy.revealedPlayerIds.filter((id): id is string => typeof id === "string")
+      : players.slice(0, currentIndex).map((player) => player.id),
+    discussionEndsAt: typeof legacy.discussionEndsAt === "number" ? legacy.discussionEndsAt : null,
     round: typeof legacy.round === "number" ? legacy.round : 1,
-    vote: { votes: {}, pendingTargetId: null },
-    lastElimination,
+    vote: legacy.vote && typeof legacy.vote === "object"
+      ? structuredClone(legacy.vote) as GameState["vote"]
+      : { votes: {}, pendingTargetId: null },
+    lastElimination: eliminatedPlayer?.secret ? {
+      playerId: eliminatedPlayer.id,
+      voteCount: typeof rawElimination?.voteCount === "number" ? rawElimination.voteCount : 0,
+      role: eliminatedPlayer.secret.role,
+      gameOver,
+      winner,
+    } : null,
     gameOver,
-    winner: legacyWinner,
-    createdAt: now,
-    updatedAt: now,
+    winner,
+    createdAt: typeof legacy.createdAt === "number" ? legacy.createdAt : now,
+    updatedAt: typeof legacy.updatedAt === "number" ? legacy.updatedAt : now,
   };
 }

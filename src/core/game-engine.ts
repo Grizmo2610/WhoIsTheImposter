@@ -9,12 +9,15 @@ import {
 } from "./game-state";
 import { assignRoles, chooseImposterIndexes } from "./role-engine";
 import { determineWinner } from "./win-condition";
-import type { RandomSource } from "../data/word-repository";
-import { WordRepository } from "../data/word-repository";
+import type { RandomSource } from "../data/random";
+import type { WordGroup } from "../data/word-database";
+import { selectGameWords } from "../data/word-selector";
+import { normalizeSelectedTopics } from "../data/word-topics";
 import { safeImposterCount, validatePlayerNames } from "../security/input-validator";
+import { discussionDurationSeconds } from "./discussion-timer";
 
 const AVATARS = ["◆", "●", "▲", "■", "★", "⬟", "✦", "⬢", "◈", "✺", "⬣", "✹"];
-const ACCENTS = ["#38D8FF", "#FF9A3D", "#FF66B3", "#58E6A9", "#A98BFF", "#F7D154", "#5F8CFF", "#FF6B78"];
+const ACCENTS = ["#22D3EE", "#FF6B6B", "#FACC15", "#34D399", "#A78BFA", "#F472B6", "#FB923C", "#60A5FA"];
 
 export class GameRuleError extends Error {
   constructor(public readonly code: string) {
@@ -35,7 +38,7 @@ export class GameEngine {
   private readonly now: () => number;
 
   constructor(
-    private readonly words: WordRepository,
+    private readonly database: readonly WordGroup[],
     playerNames: string[],
     config: Partial<GameConfig> = {},
     options: EngineOptions = {},
@@ -55,6 +58,7 @@ export class GameEngine {
     }));
     const mergedConfig = { ...DEFAULT_CONFIG, ...config };
     mergedConfig.imposterCount = safeImposterCount(players.length, mergedConfig.imposterCount);
+    mergedConfig.selectedTopics = normalizeSelectedTopics(mergedConfig.selectedTopics);
     this.state = {
       version: STATE_VERSION,
       gameId: idFactory(),
@@ -64,6 +68,7 @@ export class GameEngine {
       wordSelection: null,
       revealIndex: 0,
       revealedPlayerIds: [],
+      discussionEndsAt: null,
       round: 1,
       vote: { votes: {}, pendingTargetId: null },
       lastElimination: null,
@@ -74,10 +79,13 @@ export class GameEngine {
     };
   }
 
-  static restore(words: WordRepository, state: GameState, options: EngineOptions = {}): GameEngine {
+  static restore(database: readonly WordGroup[], state: GameState, options: EngineOptions = {}): GameEngine {
     if (!isGameState(state)) throw new GameRuleError("INVALID_STATE");
-    const engine = new GameEngine(words, state.players.map((player) => player.name), state.config, options);
+    const engine = new GameEngine(database, state.players.map((player) => player.name), state.config, options);
     engine.state = cloneState(state);
+    engine.state.discussionEndsAt ??= engine.state.phase === "discussion" && engine.state.config.timerEnabled
+      ? engine.now() + discussionDurationSeconds(engine.alivePlayerCount()) * 1000
+      : null;
     return engine;
   }
 
@@ -91,7 +99,13 @@ export class GameEngine {
 
   start(): GameState {
     if (this.state.phase !== "setup") throw new GameRuleError("GAME_ALREADY_STARTED");
-    const selection = this.words.select(this.state.config.imposterWordMode, this.random);
+    const selection = selectGameWords({
+      database: this.database,
+      selectedTopics: this.state.config.selectedTopics,
+      mode: this.state.config.imposterWordMode,
+      imposterCount: this.state.config.imposterCount,
+      random: this.random,
+    });
     const indexes = chooseImposterIndexes(this.state.players.length, this.state.config.imposterCount, this.random);
     this.state.players = assignRoles(this.state.players, indexes, selection);
     this.state.wordSelection = selection;
@@ -104,10 +118,17 @@ export class GameEngine {
     const player = this.state.players[this.state.revealIndex];
     if (!player) throw new GameRuleError("PLAYER_NOT_FOUND");
     if (!this.state.revealedPlayerIds.includes(player.id)) this.state.revealedPlayerIds.push(player.id);
-    this.state.phase = "pass";
+    if (this.state.revealIndex < this.state.players.length - 1) {
+      this.state.revealIndex += 1;
+      this.state.phase = "reveal";
+    } else {
+      this.state.phase = "discussion";
+      this.startDiscussionTimer();
+    }
     return this.touch();
   }
 
+  /** Advances version-2 snapshots saved on the retired handoff screen. */
   continueAfterPass(): GameState {
     if (this.state.phase !== "pass") throw new GameRuleError("NOT_PASS_PHASE");
     if (this.state.revealIndex < this.state.players.length - 1) {
@@ -115,6 +136,7 @@ export class GameEngine {
       this.state.phase = "reveal";
     } else {
       this.state.phase = "discussion";
+      this.startDiscussionTimer();
     }
     return this.touch();
   }
@@ -123,6 +145,7 @@ export class GameEngine {
     if (this.state.phase !== "discussion" && this.state.phase !== "vote") throw new GameRuleError("NOT_DISCUSSION_PHASE");
     this.state.vote = { votes: {}, pendingTargetId: null };
     this.state.phase = "vote";
+    this.state.discussionEndsAt = null;
     return this.touch();
   }
 
@@ -164,7 +187,18 @@ export class GameEngine {
     if (this.state.phase !== "elimination") throw new GameRuleError("NOT_ELIMINATION_PHASE");
     this.state.phase = this.state.gameOver ? "result" : "discussion";
     this.state.vote = { votes: {}, pendingTargetId: null };
+    if (!this.state.gameOver) this.startDiscussionTimer();
     return this.touch();
+  }
+
+  private alivePlayerCount(): number {
+    return this.state.players.filter((player) => !player.eliminated).length;
+  }
+
+  private startDiscussionTimer(): void {
+    this.state.discussionEndsAt = this.state.config.timerEnabled
+      ? this.now() + discussionDurationSeconds(this.alivePlayerCount()) * 1000
+      : null;
   }
 
   private touch(): GameState {

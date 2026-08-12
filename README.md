@@ -1,254 +1,166 @@
-<!-- Improved compatibility of back to top link -->
+# Ai là kẻ giả danh
 
-<a id="readme-top"></a>
+An offline-first, pass-the-phone social deduction game for the web, PWA, and Android. The entire core game runs locally: no account, room server, or internet connection is required after the application assets are installed or cached.
 
-[![Contributors][contributors-shield]][contributors-url]
-[![Forks][forks-shield]][forks-url]
-[![Stargazers][stars-shield]][stars-url]
-[![Issues][issues-shield]][issues-url]
-[![project\_license][license-shield]][license-url]
+Vietnamese documentation: [README.vie.md](README.vie.md).
 
-<br />
-<div align="center">
-  <a href="https://github.com/Grizmo2610/WhoIsTheImposter">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
+## Highlights
 
-<h3 align="center">Who Is The Imposter?</h3>
+- One Vite + TypeScript frontend shared by Web/PWA and Capacitor Android.
+- Bundled Vietnamese word bank with explicit loading, ready, and error states.
+- Pure game engine separated from DOM, storage, and platform APIs.
+- Versioned local state and resume support for every game phase, including elimination.
+- Safe player-name rendering through DOM text nodes; no user-controlled HTML parsing.
+- Physical 3D hold-to-flip secret card using authored 2:3 artwork; no-word mode uses a dedicated red face to identify the Imposter and present the assigned hint.
+- Automatic secret hiding on release/blur/background and Android `FLAG_SECURE`.
+- Android system Back navigation closes dialogs, steps back through setup, and confirms before pausing an active game.
+- Token-driven Ghost-Flame Mystery design with a responsive CSS spectral background, clue-card controls, dark cyan-edged CTAs, stable player identity colors, reduced motion, and 48px+ Android touch targets.
+- Supplied Vietnamese ghost hero lockup on Home; no fixed-ratio full-screen background image is required at runtime.
+- Vitest unit coverage plus Playwright specifications for gameplay, resume, XSS, and offline launch.
 
-  <p align="center">
-    Real-time & Pass-and-play party game — find the imposter among your friends
-    <br />
-    <a href="docs/architecture.md"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://whoistheimposter.hoangtuantu893.workers.dev/">View Demo</a>
-    &middot;
-    <a href="https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=bug&template=bug-report.md">Report Bug</a>
-    &middot;
-    <a href="https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=enhancement&template=feature-request.md">Request Feature</a>
-  </p>
-</div>
+## Architecture
 
----
+```text
+src/                         shared application source
+  core/                      pure game rules and state machine
+  data/                      single JSON database + validator/selector
+  security/                  validation and privacy lifecycle
+  storage/                   versioned persistence and migration
+  ui/                        DOM screens and reusable components
+  styles/                    design tokens and responsive layout
+public/                      PWA manifest, icons, local assets
+tests/unit/                  DOM-free Vitest tests
+tests/e2e/                   Playwright specifications
+android/                     Capacitor Android wrapper only
+backend/                     optional legacy/experimental FastAPI service
+dist/                        generated Web/PWA and Capacitor assets
+```
 
-## About The Project
+The production path is:
 
-[![Product Name Screen Shot][product-screenshot]](https://whoistheimposter.hoangtuantu893.workers.dev/)
+```text
+src → Vite build → dist → Web/PWA + Capacitor Android
+```
 
-**Who Is The Imposter?** is a party game inspired by classic social deduction formats (Mafia / Among Us). Players take turns viewing their secret word, discussing, and voting to eliminate the imposter before they sabotage the group.
+The optional FastAPI backend is not used by local gameplay and is not required to build, start, resume, vote, or finish a game.
 
-The repository includes **two architectural implementations/code structures**:
-1. **Modern Offline-First Frontend (`src/`, Vite + TypeScript, PWA, Capacitor Android)**:
-   - Built with modern TypeScript and Vite.
-   - Pure, decoupled game engine (`src/core/`), versioned storage with migration (`src/storage/`), security & privacy manager (`src/security/`), and DOM UI renderer.
-   - Fully playable offline as a Web app, PWA, or native Android app via Capacitor (`android/`). Tested with Vitest and Playwright.
-2. **Full-Stack Architecture (`backend/` & `frontend/`)**:
-   - **FastAPI Backend (`backend/`)**: Authoritative server with WebSocket real-time sync, CLI word management (`manage_words.py`), and storage adapters for Local CSV, Cloudflare R2, and Cloudflare D1 SQLite.
-   - **Legacy/Static Frontend (`frontend/`)**: Traditional static client interfacing with the backend.
+## Development
 
-### Core Features
-
-* **Dual Mode Play**: Pass-and-play on a single device or multi-device online via WebSocket.
-* **Configurable Setup**: Player count (3–12), imposter count, and round timer with circular progress indicator.
-* **Imposter Modes**: 
-  * **Aware**: Imposter knows their role and receives a related clue to bluff with.
-  * **Hidden**: Imposter only sees a word similar to the civilians' word with no role indication.
-* **Anti-Cheat Protection**: Automatically hides the screen when switching browser tabs.
-* **Word Bank & CLI Management**: 50+ Vietnamese word pairs managed via local CSV, Cloudflare R2, or Cloudflare D1 (`manage_words.py` console command).
-* **Interactive UI**: Confetti celebration on game victory and smooth multi-round support.
-
-Pipeline:
-Setup → Names → Handover → Reveal → Discuss → Vote → Eliminate → Results
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
----
-
-## Documentation
-
-Explore the project documentation for deeper insights:
-* 🏛️ [System Architecture](docs/architecture.md)
-* 📚 [Word Bank & CLI Management](docs/wordbank.md)
-* 🔌 [REST API & WebSocket Reference](docs/api.md)
-* 📋 [Changelog](CHANGELOG.md)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
----
-
-## Built With
-
-<p align="center">
-  <img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=html5&logoColor=white" />
-  <img src="https://img.shields.io/badge/CSS3-1572B6?style=for-the-badge&logo=css3&logoColor=white" />
-  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?style=for-the-badge&logo=javascript&logoColor=black" />
-  <img src="https://img.shields.io/badge/Python-3.10%2B-blue?style=for-the-badge&logo=python&logoColor=white" />
-  <img src="https://img.shields.io/badge/FastAPI-0.100%2B-009688?style=for-the-badge&logo=fastapi&logoColor=white" />
-  <img src="https://img.shields.io/badge/WebSocket-Realtime-orange?style=for-the-badge" />
-  <img src="https://img.shields.io/badge/Cloudflare_R2-S3-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" />
-  <img src="https://img.shields.io/badge/Cloudflare_D1-SQLite-F38020?style=for-the-badge&logo=cloudflare&logoColor=white" />
-</p>
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
----
-
-## Getting Started & Installation
-
-### Prerequisites
-
-* A modern web browser (Chrome, Firefox, Safari, Edge)
-* Python 3.10+ (optional, only required if running the FastAPI backend)
-
-### 1. Clone the Repository
+Requirements: Node.js 20.19+ or 22.12+ and npm.
 
 ```sh
-git clone https://github.com/Grizmo2610/WhoIsTheImposter.git
+npm install
+npm run dev
 ```
 
-2. Open the project folder
+Production and static verification:
 
 ```sh
-cd WhoIsTheImposter
+npm run typecheck
+npm run test
+npm run build
 ```
 
-### 2. Option A: Run Frontend-Only (Pass-and-Play)
+Browser end-to-end specifications are available but intentionally separate:
 
-No installation or build step required. Simply open `index.html` in your browser:
-
-* **Windows:** `start index.html` (or double-click `index.html`)
-* **macOS:** `open index.html`
-* **Linux:** `xdg-open index.html`
-
-### 3. Option B: Run Full-Stack (FastAPI Backend + Frontend)
-
-To run with secure server-side state and multi-device WebSocket support:
-
-* **Terminal 1 (Backend):**
-  ```bash
-  cd backend
-  python -m venv .venv
-  .venv\Scripts\activate.bat   # On macOS/Linux: source .venv/bin/activate
-  pip install -r requirements.txt
-  cp .env.example .env
-  uvicorn app.main:app --reload --port 8000
-  ```
-
-* **Terminal 2 (Frontend Static Server):**
-  ```bash
-  cd frontend
-  python -m http.server 5500
-  ```
-  Then open `http://localhost:5500` in your browser.
-
-* For detailed architecture, storage backends (Cloudflare R2/D1), and console management commands (`manage_words.py`), see [backend/README.md](backend/README.md).
-* For frontend client architecture, see [frontend/README.md](frontend/README.md).
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
----
-
-## Usage
-
-### How to Play
-
-1. **Setup** — Configure the number of players, imposters, imposter mode, and optional timer.
-2. **Names** — Enter a name for each player.
-3. **Handover** — Pass the device to the next player. They tap to see their secret word.
-4. **Reveal** — The current player views their word privately (protected by anti-cheat tab switching).
-5. **Discuss** — All players discuss openly within the time limit.
-6. **Vote** — Each player votes for who they think is the imposter.
-7. **Eliminate** — The voted player is revealed as civilian or imposter.
-8. **Results** — The game ends when all imposters are eliminated (civilians win) or imposters outnumber civilians.
-
-### Word Bank & CLI Management
-
-Words are loaded via `WordRepository` (supporting Local CSV, Cloudflare R2, or Cloudflare D1). You can manage words using the backend CLI tool:
-```bash
-python backend/manage_words.py --backend local list
+```sh
+npm run test:e2e
 ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+## Android
 
----
+Capacitor stays on major version 6 in this architectural refactor. The native project is generated and tracked under `android/`.
+
+```sh
+npm run cap:sync
+npm run cap:open:android
+```
+
+`MainActivity` applies `FLAG_SECURE`, so secrets are excluded from screenshots, screen recording, and the recent-apps preview. Android backup is disabled because the local state can contain secret roles and words.
+
+The shared UI also handles Android-specific interaction details: the soft keyboard resizes the content viewport, focused controls remain stable after UI updates, hover styling is limited to devices that actually support hover, and hold-to-reveal provides light haptic feedback. System Back follows this order: close the open dialog, return from settings to players, return from players to home, confirm and save before leaving a running game, then exit from home.
+
+The optional confrontation timer allocates 45 seconds per surviving player, persists its deadline with the resumable game, and vibrates once at `0:00`.
+
+Build a debug APK without running browser tests:
+
+```sh
+npm run typecheck
+npm run test
+npm run cap:sync
+cd android
+./gradlew assembleDebug
+```
+
+The generated file is `android/app/build/outputs/apk/debug/app-debug.apk`.
+
+No iOS dependency, native project, or build pipeline is included in this release.
+
+## Offline and data model
+
+`src/data/vocabulary_database.json` is the only runtime word source. Every record keeps the exact `id / topics / hint / related` schema. The bundled validator rejects malformed groups, while the selector filters the eight shared topics with OR semantics and blocks unsupported configurations without falling back outside the user's selection.
+
+Vite PWA/Workbox precaches the application shell, compiled code, styles, word data, icons, and local assets. Since the word bank is imported into the application bundle, gameplay does not wait on a runtime fetch.
+
+## Security and privacy notes
+
+- Player names are normalized to 1–20 characters, stripped of control characters, and rendered with `textContent`/text nodes.
+- Secrets are removed from the active DOM and accessibility tree whenever they are hidden.
+- `pointerup`, `pointercancel`, lost pointer capture, blur, visibility changes, and Capacitor app background events all hide secrets.
+- Stored state is local to the device and contains game secrets to support reliable offline resume.
+
+See [docs/architecture.md](docs/architecture.md), [docs/wordbank.md](docs/wordbank.md), the [Neon Noir Party design system](design-system/who-is-the-imposter/MASTER.md), and [CHANGELOG.md](CHANGELOG.md).
+
+## How to play
+
+1. Add 3–12 players, choose the number of imposters, word mode, and one or more topics.
+2. Pass the device to the named player. That player holds the secret card to flip it, memorizes the displayed word or hint, releases to hide it, and taps **Chuyển máy cho người tiếp theo**. For the final player, the action becomes **Bắt đầu vòng đối chứng**. Similar-word and different-group deals remain role-neutral; no-word mode identifies the Imposter with a dedicated red card face.
+3. After everyone has viewed their card, take turns giving indirect descriptions. Never say, spell, or translate the exact secret word.
+4. Discuss as a group, select one surviving player by consensus, and confirm the elimination. The current offline flow uses one shared group decision rather than separate ballots.
+5. In multi-round mode, civilians win when no imposters remain; imposters win when their surviving count is at least the surviving civilian count. In single-round mode, civilians win only if the first eliminated player is an imposter.
+
+The available deal modes are **Similar word**, **No word**, and **Different group**. For detailed rules, privacy behavior, resume behavior, and fair-play tips, read the [Vietnamese gameplay guide](docs/how-to-play.md).
+
+## Project links
+
+- [Repository](https://github.com/Grizmo2610/WhoIsTheImposter)
+- [Open issues](https://github.com/Grizmo2610/WhoIsTheImposter/issues)
+- [Report a bug](https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=bug&template=bug-report.md)
+- [Request a feature](https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=enhancement&template=feature-request.md)
+
+## Optional legacy/full-stack tools
+
+Historical online/full-stack material is not part of the supported runtime. The authoritative path is the local TypeScript engine under `src/core/` with the single bundled JSON database under `src/data/`.
 
 ## Roadmap
 
-* [x] Client-side pass-and-play mode
-* [x] FastAPI authoritative backend with WebSocket real-time sync
-* [x] Cloudflare R2 and Cloudflare D1 storage integrations for word banks
-* [x] CLI word bank management (`manage_words.py`)
-* [ ] Localization support (English, Japanese, Korean, etc.)
-* [ ] Sound effects and background music
-* [ ] Custom word packs
-* [ ] Online multiplayer expansion (WebRTC / Cloud deployment)
-* [x] Mobile app wrapper (Capacitor / PWA)
-* [ ] Score tracking and statistics
+- [x] Offline pass-and-play Web/PWA experience.
+- [x] Shared Capacitor Android wrapper.
+- [x] Bundled word bank and versioned offline resume.
+- [x] Privacy-safe hold-to-flip deal flow with an explicit no-word Imposter face.
+- [ ] Native iOS wrapper and release pipeline.
+- [ ] Optional score tracking and statistics without weakening offline privacy.
 
-See the [open issues](https://github.com/Grizmo2610/WhoIsTheImposter/issues)
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
----
+Roadmap discussion and accepted work are tracked in [GitHub Issues](https://github.com/Grizmo2610/WhoIsTheImposter/issues).
 
 ## Contributing
 
-1. Fork the project
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+1. Fork or clone the project.
+2. Create a dedicated branch such as `feature/short-description` or `fix/short-description`; do not work directly on `main`.
+3. Preserve the existing word-bank schema and keep gameplay rules in the pure core instead of duplicating them in UI or native code.
+4. Run `npm run typecheck`, `npm run test`, and `npm run build` for relevant changes. Browser E2E checks remain a separate manual step when requested.
+5. Commit the focused change, push the branch, and open a pull request against `main`. Do not force-push or auto-merge.
 
----
+Please document user-visible behavior in both README files, the gameplay guide when rules change, and `CHANGELOG.md`.
 
-### Top Contributors:
+## Contact and acknowledgements
 
-<a href="https://github.com/Grizmo2610/WhoIsTheImposter/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Grizmo2610/WhoIsTheImposter" />
-</a>
+Maintainer: [hoangtuantu893@gmail.com](mailto:hoangtuantu893@gmail.com).
 
----
+The project uses Vite, TypeScript, Capacitor, Vitest, Playwright specifications, and community-maintained open-source packages. See the repository history and contributor graph for individual contributions.
+
+Space Grotesk and Plus Jakarta Sans are bundled locally for offline use under the SIL Open Font License; the corresponding license texts are stored in `public/fonts/`.
 
 ## License
 
-Distributed under the MIT License. See [LICENSE.txt](LICENSE.txt) for more information.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
----
-
-## Contact
-
-hoangtuantu - [hoangtuantu893@gmail.com](mailto:hoangtuantu893@gmail.com)
-
-Project Link:
-https://github.com/Grizmo2610/WhoIsTheImposter
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
----
-
-## Acknowledgments
-
-* Among Us / Mafia / Werewolf game formats
-* FastAPI & Python ecosystem
-* Cloudflare R2 & D1
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
----
-
-[contributors-shield]: https://img.shields.io/github/contributors/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
-[contributors-url]: https://github.com/Grizmo2610/WhoIsTheImposter/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
-[forks-url]: https://github.com/Grizmo2610/WhoIsTheImposter/network/members
-[stars-shield]: https://img.shields.io/github/stars/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
-[stars-url]: https://github.com/Grizmo2610/WhoIsTheImposter/stargazers
-[issues-shield]: https://img.shields.io/github/issues/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
-[issues-url]: https://github.com/Grizmo2610/WhoIsTheImposter/issues
-[license-shield]: https://img.shields.io/github/license/Grizmo2610/WhoIsTheImposter.svg?style=for-the-badge
-[license-url]: https://github.com/Grizmo2610/WhoIsTheImposter/blob/main/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/linkedin_username
-[product-screenshot]: images/screenshot.png
+MIT — see [LICENSE.txt](LICENSE.txt).

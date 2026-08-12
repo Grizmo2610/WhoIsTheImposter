@@ -13,11 +13,12 @@ Welcome, AI Agent. When working within the **Who Is The Imposter?** codebase, yo
 * **Preserve Existing Content**: When updating or modifying key files (such as `LICENSE`, `README.md`, `README.vie.md`, etc.), **never delete existing content unless explicitly requested**. Only append or add new content while retaining all previous sections and information.
 * **Do Not Proactively Create Random Docs**: Only create or modify documentation files when explicitly requested or when directly mandated by core workflows.
 
-## 3. Storage & Backend Integrity
-* **Repository Pattern**: Never bypass the `WordRepository` abstraction when dealing with word banks (`local`, `r2`, `d1`).
+## 3. Offline Data Integrity
+* **Single source**: `src/data/vocabulary_database.json` is the only runtime word database. Keep filtering and selection in the typed data modules; never duplicate it in UI or native code.
+* **No runtime backend**: Do not add API, CSV, D1, R2, or S3 word loading to the supported Web/PWA/Android path.
 * **Environment Security**: Never log, expose, or commit secrets, API keys, or `.env` configuration files.
 
 ## 4. Execution & Verification
-* **Self-Verification**: Verify changes by running appropriate test commands, linters, or checking health check endpoints (`/api/health`) when modifying the backend.
+* **Self-Verification**: Verify changes with the appropriate typecheck, unit tests, and production build.
 * **Safety First**: Explain any critical system or filesystem modifications before executing shell commands via `bash`.
 * **Branch Isolation**: Always create and work on a dedicated feature/fix branch when making any code or documentation changes. **Never** modify code directly on `main` and **never** merge into `main` automatically.

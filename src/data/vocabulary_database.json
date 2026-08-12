@@ -1,0 +1,1987 @@
+[
+  {
+    "id": 1,
+    "topics": [
+      "Ẩm thực & Đồ uống",
+      "Việt Nam"
+    ],
+    "hint": "Món nước có sợi",
+    "related": [
+      "Phở",
+      "Bún bò Huế",
+      "Bún riêu",
+      "Bánh canh",
+      "Cao lầu"
+    ]
+  },
+  {
+    "id": 2,
+    "topics": [
+      "Ẩm thực & Đồ uống",
+      "Việt Nam"
+    ],
+    "hint": "Món ăn sáng quen thuộc",
+    "related": [
+      "Bánh mì",
+      "Xôi",
+      "Cháo lòng",
+      "Bún mọc"
+    ]
+  },
+  {
+    "id": 3,
+    "topics": [
+      "Ẩm thực & Đồ uống",
+      "Việt Nam"
+    ],
+    "hint": "Món cuốn hoặc gói",
+    "related": [
+      "Gỏi cuốn",
+      "Bánh tráng cuộn",
+      "Bò bía",
+      "Nem cuốn",
+      "Phở cuốn"
+    ]
+  },
+  {
+    "id": 4,
+    "topics": [
+      "Ẩm thực & Đồ uống",
+      "Việt Nam"
+    ],
+    "hint": "Món ăn vặt đường phố",
+    "related": [
+      "Bánh tráng trộn",
+      "Cá viên chiên",
+      "Nem chua rán",
+      "Bắp xào"
+    ]
+  },
+  {
+    "id": 5,
+    "topics": [
+      "Ẩm thực & Đồ uống",
+      "Việt Nam"
+    ],
+    "hint": "Món có nước chấm đặc trưng",
+    "related": [
+      "Bún chả",
+      "Bánh xèo",
+      "Ốc luộc",
+      "Bánh cuốn",
+      "Bánh gối"
+    ]
+  },
+  {
+    "id": 6,
+    "topics": [
+      "Ẩm thực & Đồ uống"
+    ],
+    "hint": "Món ngọt thường thấy trong tiệm cà phê",
+    "related": [
+      "Croissant",
+      "Tiramisu",
+      "Macaron",
+      "Cheesecake",
+      "Mochi"
+    ]
+  },
+  {
+    "id": 7,
+    "topics": [
+      "Ẩm thực & Đồ uống"
+    ],
+    "hint": "Đồ uống được giới trẻ ưa chuộng",
+    "related": [
+      "Matcha latte",
+      "Cold brew",
+      "Trà sữa",
+      "Cà phê muối",
+      "Trà trái cây"
+    ]
+  },
+  {
+    "id": 8,
+    "topics": [
+      "Ẩm thực & Đồ uống"
+    ],
+    "hint": "Khoáng chất cần thiết cho cơ thể",
+    "related": [
+      "Canxi",
+      "Magie",
+      "Vitamin A",
+      "Sắt",
+      "Vitamin C"
+    ]
+  },
+  {
+    "id": 9,
+    "topics": [
+      "Ẩm thực & Đồ uống"
+    ],
+    "hint": "Món tráng miệng lạnh",
+    "related": [
+      "Kem",
+      "Bingsu",
+      "Sữa chua",
+      "Chè khúc bạch",
+      "Panna cotta"
+    ]
+  },
+  {
+    "id": 10,
+    "topics": [
+      "Ẩm thực & Đồ uống",
+      "Việt Nam"
+    ],
+    "hint": "Món ngọt truyền thống",
+    "related": [
+      "Chè đậu xanh",
+      "Chè trôi nước",
+      "Chè sen",
+      "Chè bưởi",
+      "Tào phớ"
+    ]
+  },
+  {
+    "id": 11,
+    "topics": [
+      "Ẩm thực & Đồ uống"
+    ],
+    "hint": "Món ăn đường phố mang phong cách Mexico",
+    "related": [
+      "Burrito",
+      "Quesadilla",
+      "Nachos",
+      "Enchilada",
+      "Churros"
+    ]
+  },
+  {
+    "id": 12,
+    "topics": [
+      "Ẩm thực & Đồ uống"
+    ],
+    "hint": "Món Nhật nổi tiếng",
+    "related": [
+      "Takoyaki",
+      "Udon",
+      "Ramen"
+    ]
+  },
+  {
+    "id": 13,
+    "topics": [
+      "Ẩm thực & Đồ uống"
+    ],
+    "hint": "Món cay kiểu châu Á",
+    "related": [
+      "Lẩu Thái",
+      "Lẩu Tứ Xuyên",
+      "Mì cay",
+      "Tokbokki",
+      "Malatang"
+    ]
+  },
+  {
+    "id": 14,
+    "topics": [
+      "Ẩm thực & Đồ uống"
+    ],
+    "hint": "Đồ uống lành mạnh",
+    "related": [
+      "Nước ép cần tây",
+      "Kombucha",
+      "Sinh tố",
+      "Nước dừa",
+      "Trà thảo mộc"
+    ]
+  },
+  {
+    "id": 15,
+    "topics": [
+      "Ẩm thực & Đồ uống"
+    ],
+    "hint": "Loại sốt chấm thường đi kèm đồ ăn",
+    "related": [
+      "Sốt cà chua",
+      "Mayonnaise",
+      "Tương ớt",
+      "Mù tạt"
+    ]
+  },
+  {
+    "id": 16,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Thứ tự làm bẩn bản thân để biến mọi thứ sạch hơn",
+    "related": [
+      "Cây lau nhà",
+      "Miếng rửa bát",
+      "Bàn chải đánh răng",
+      "Giấy vệ sinh"
+    ]
+  },
+  {
+    "id": 17,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Đồ dùng bị hỏi mượn nhưng không được trả",
+    "related": [
+      "Tiền",
+      "Thước",
+      "Tẩy",
+      "Sách giáo khoa",
+      "Máy tính cầm tay"
+    ]
+  },
+  {
+    "id": 18,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Vật dụng mang theo khi ra ngoài",
+    "related": [
+      "Ví",
+      "Chìa khóa",
+      "Căn cước công dân",
+      "Áo chống nắng",
+      "Gương cầm tay"
+    ]
+  },
+  {
+    "id": 19,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Đồ dùng sơ chế trong nhà bếp",
+    "related": [
+      "Dao",
+      "Kéo",
+      "Dụng cụ nạo sợi",
+      "Cối xay thịt"
+    ]
+  },
+  {
+    "id": 20,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Phụ kiện giúp góc làm việc gọn gàng",
+    "related": [
+      "Hub USB-C",
+      "Dock laptop",
+      "Giá đỡ laptop",
+      "Kệ màn hình",
+      "Đế sạc không dây"
+    ]
+  },
+  {
+    "id": 21,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Đồ dùng có thể gấp lại",
+    "related": [
+      "Ô",
+      "Quạt"
+    ]
+  },
+  {
+    "id": 22,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Đồ dùng giúp căn phòng dễ chịu hơn",
+    "related": [
+      "Điều hòa",
+      "Máy lọc không khí",
+      "Máy tạo ẩm",
+      "Đèn ngủ"
+    ]
+  },
+  {
+    "id": 23,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Vật thường xuất hiện trong balô học sinh",
+    "related": [
+      "Sách",
+      "Vở",
+      "Hộp bút",
+      "Bình nước"
+    ]
+  },
+  {
+    "id": 24,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Đồ dùng phục vụ quay chụp",
+    "related": [
+      "Máy ảnh",
+      "Tripod",
+      "Gimbal",
+      "Micro"
+    ]
+  },
+  {
+    "id": 25,
+    "topics": [
+      "Đồ vật",
+      "Việt Nam"
+    ],
+    "hint": "Nơi bạn nằm im nghe người khác khen ngợi mình",
+    "related": [
+      "Quan tài",
+      "Tang lễ",
+      "Điếu văn"
+    ]
+  },
+  {
+    "id": 26,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Mua được trong thegioididong",
+    "related": [
+      "Điện thoại",
+      "TV",
+      "Laptop",
+      "Máy tính bảng",
+      "Đồng hồ thông minh"
+    ]
+  },
+  {
+    "id": 27,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Thiết bị điện thường dùng trong bếp",
+    "related": [
+      "Máy pha cà phê",
+      "Nồi chiên không dầu",
+      "Lò vi sóng",
+      "Máy rửa bát",
+      "Bếp từ"
+    ]
+  },
+  {
+    "id": 28,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Vật dụng dùng để đựng đồ cá nhân",
+    "related": [
+      "Túi tote",
+      "Vali",
+      "Túi đeo chéo",
+      "Balo"
+    ]
+  },
+  {
+    "id": 29,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Đồ dùng giúp chăm sóc tóc hằng ngày",
+    "related": [
+      "Máy sấy tóc",
+      "Máy uốn tóc",
+      "Lược"
+    ]
+  },
+  {
+    "id": 30,
+    "topics": [
+      "Ẩm thực & Đồ uống"
+    ],
+    "hint": "Đồ ăn này lúc sống bơi được",
+    "related": [
+      "Ba ba",
+      "Bạch tuộc",
+      "Cua"
+    ]
+  },
+  {
+    "id": 31,
+    "topics": [
+      "Thể thao"
+    ],
+    "hint": "Môn thể thao được chơi bằng chân",
+    "related": [
+      "Bóng đá",
+      "Đá cầu",
+      "Đạp xe",
+      "Bóng chuyền"
+    ]
+  },
+  {
+    "id": 32,
+    "topics": [
+      "Thể thao"
+    ],
+    "hint": "Môn thi đấu sử dụng vợt",
+    "related": [
+      "Cầu lông",
+      "Tennis",
+      "Bóng bàn"
+    ]
+  },
+  {
+    "id": 33,
+    "topics": [
+      "Thể thao",
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "",
+    "related": [
+      "Lionel Messi",
+      "Ronaldinho",
+      "FC Barcelona"
+    ]
+  },
+  {
+    "id": 34,
+    "topics": [
+      "Thể thao"
+    ],
+    "hint": "Môn thể thao nhưng bị phụ huynh mắng là trò vô bổ",
+    "related": [
+      "Esports",
+      "Billiards"
+    ]
+  },
+  {
+    "id": 35,
+    "topics": [
+      "Thể thao"
+    ],
+    "hint": "Bài tập phổ biến trong phòng gym",
+    "related": [
+      "Squat",
+      "Deadlift",
+      "Plank"
+    ]
+  },
+  {
+    "id": 36,
+    "topics": [
+      "Thể thao"
+    ],
+    "hint": "Môn võ truyền thống của các nước Đông Á",
+    "related": [
+      "Kungfu",
+      "Taekwondo",
+      "Karate",
+      "Judo"
+    ]
+  },
+  {
+    "id": 37,
+    "topics": [
+      "Thể thao"
+    ],
+    "hint": "Môn thể thao khiến bạn ướt sũng",
+    "related": [
+      "Gym",
+      "Lướt sóng",
+      "Bơi lội"
+    ]
+  },
+  {
+    "id": 38,
+    "topics": [
+      "Thể thao"
+    ],
+    "hint": "Vai trò trở thành người hùng hoặc tội đồ sau một trận đấu",
+    "related": [
+      "Trọng tài",
+      "Huấn luyện viên",
+      "Cầu thủ"
+    ]
+  },
+  {
+    "id": 39,
+    "topics": [
+      "Thể thao",
+      "Ẩm thực & Đồ uống"
+    ],
+    "hint": "Thực phẩm nhạt nhẽo cho dân giảm cân",
+    "related": [
+      "Yến mạch",
+      "Ức gà",
+      "Khoai lang"
+    ]
+  },
+  {
+    "id": 40,
+    "topics": [
+      "Thể thao",
+      "Giải trí"
+    ],
+    "hint": "Sự kiện thể thao được quan tâm",
+    "related": [
+      "SEA Games",
+      "Olympic",
+      "World Cup"
+    ]
+  },
+  {
+    "id": 41,
+    "topics": [
+      "Thể thao",
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Vận động viên da đen nổi tiếng",
+    "related": [
+      "Serena Williams",
+      "Lebron James",
+      "Usain Bolt"
+    ]
+  },
+  {
+    "id": 42,
+    "topics": [
+      "Thể thao",
+      "Nghệ thuật"
+    ],
+    "hint": "Môn thể thao có nhịp điệu",
+    "related": [
+      "Thể dục dụng cụ",
+      "Aerobic",
+      "Cheerleading"
+    ]
+  },
+  {
+    "id": 43,
+    "topics": [
+      "Thể thao",
+      "Giải trí"
+    ],
+    "hint": "Đấu trí trên mặt bàn",
+    "related": [
+      "Cờ tỷ phú",
+      "Cờ vua",
+      "Cá ngựa"
+    ]
+  },
+  {
+    "id": 44,
+    "topics": [
+      "Thể thao"
+    ],
+    "hint": "Hoạt động tập luyện yêu thích của phụ nữ",
+    "related": [
+      "Pilates",
+      "Chạy bộ",
+      "Yoga",
+      "Pickleball"
+    ]
+  },
+  {
+    "id": 45,
+    "topics": [
+      "Thể thao",
+      "Giải trí"
+    ],
+    "hint": "Hoạt động không phù hợp cho người bị bệnh tim",
+    "related": [
+      "Nhảy dù",
+      "Tàu lượn siêu tốc",
+      "Nhảy bungee"
+    ]
+  },
+  {
+    "id": 46,
+    "topics": [
+      "Giải trí",
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Nền tảng xem video",
+    "related": [
+      "YouTube",
+      "Instagram",
+      "FPT Play"
+    ]
+  },
+  {
+    "id": 47,
+    "topics": [
+      "Giải trí",
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Recommendation system",
+    "related": [
+      "Spotify",
+      "Netflix",
+      "Tiktok"
+    ]
+  },
+  {
+    "id": 48,
+    "topics": [
+      "Giải trí"
+    ],
+    "hint": "Chương trình gameshow Việt hot",
+    "related": [
+      "Anh trai say hi",
+      "Em xinh say hi",
+      "Rap Việt",
+      "Running Man"
+    ]
+  },
+  {
+    "id": 49,
+    "topics": [
+      "Giải trí"
+    ],
+    "hint": "Thể loại phim rất đông fan",
+    "related": [
+      "Siêu anh hùng",
+      "Anime",
+      "K-drama"
+    ]
+  },
+  {
+    "id": 50,
+    "topics": [
+      "Giải trí"
+    ],
+    "hint": "Nội dung chỉ cần nghe mà chưa chắc cần nhìn",
+    "related": [
+      "Podcast",
+      "ASMR",
+      "Talkshow"
+    ]
+  },
+  {
+    "id": 51,
+    "topics": [
+      "Giải trí"
+    ],
+    "hint": "Game nổi tiếng với cộng đồng người trẻ",
+    "related": [
+      "Roblox",
+      "Liên Quân Mobile",
+      "PUBG",
+      "Valorant"
+    ]
+  },
+  {
+    "id": 52,
+    "topics": [
+      "Giải trí"
+    ],
+    "hint": "Càng đông càng vui càng bẫy nhau",
+    "related": [
+      "Ma sói",
+      "Uno",
+      "Mèo nổ"
+    ]
+  },
+  {
+    "id": 53,
+    "topics": [
+      "Giải trí"
+    ],
+    "hint": "Dùng trong concert, thuộc về 1 cộng đồng fan",
+    "related": [
+      "Lightstick",
+      "Banner",
+      "Fanchant"
+    ]
+  },
+  {
+    "id": 54,
+    "topics": [
+      "Giải trí",
+      "Việt Nam"
+    ],
+    "hint": "Bộ truyện gắn liền với tuổi thơ trẻ em Việt Nam thế hệ độc giả 9x, 2000",
+    "related": [
+      "Thần đồng Đất Việt",
+      "Tí Quậy",
+      "Trạng Quỳnh"
+    ]
+  },
+  {
+    "id": 55,
+    "topics": [
+      "Giải trí",
+      "Việt Nam"
+    ],
+    "hint": "Trò chơi dân gian Việt Nam cho trẻ con",
+    "related": [
+      "Ô ăn quan",
+      "Bịt mắt bắt dê",
+      "Rồng rắn lên mây"
+    ]
+  },
+  {
+    "id": 56,
+    "topics": [
+      "Giải trí"
+    ],
+    "hint": "Show nổi tiếng của Netflix trọng tâm là nữ chính",
+    "related": [
+      "The Queen's Gambit",
+      "Wednesday (Chị Tư)",
+      "Bridgerton",
+      "Emily in Paris"
+    ]
+  },
+  {
+    "id": 57,
+    "topics": [
+      "Giải trí"
+    ],
+    "hint": "Phim xây dựng thế giới giả tưởng riêng",
+    "related": [
+      "Harry Potter",
+      "The Lord of the Rings",
+      "Game of Throne",
+      "Avatar"
+    ]
+  },
+  {
+    "id": 58,
+    "topics": [
+      "Giải trí",
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Nữ ca sĩ tóc vàng nổi tiếng",
+    "related": [
+      "Taylor Swift",
+      "Madonna",
+      "Britney Spears",
+      "Miley Cyrus"
+    ]
+  },
+  {
+    "id": 59,
+    "topics": [
+      "Giải trí"
+    ],
+    "hint": "Show trao giải quốc tế",
+    "related": [
+      "Oscar",
+      "Grammy",
+      "Billboard Music Awards",
+      "Liên hoan phim Cannes"
+    ]
+  },
+  {
+    "id": 60,
+    "topics": [
+      "Giải trí"
+    ],
+    "hint": "Những chuyến phiêu lưu dài hơn cả tuổi thơ người xem",
+    "related": [
+      "Doraemon",
+      "Naruto",
+      "One Piece",
+      "Thám tử lừng danh Conan"
+    ]
+  },
+  {
+    "id": 61,
+    "topics": [
+      "Nghệ thuật"
+    ],
+    "hint": "Hình thức thủ công tạo sản phẩm bằng tay",
+    "related": [
+      "Điêu khắc",
+      "Gấp origami",
+      "Làm gốm"
+    ]
+  },
+  {
+    "id": 62,
+    "topics": [
+      "Giải trí"
+    ],
+    "hint": "Nhóm nhạc Kpop có 5 thành viên",
+    "related": [
+      "Red Velvet",
+      "(G)I-DLE",
+      "NewJeans",
+      "TXT",
+      "SHINee"
+    ]
+  },
+  {
+    "id": 63,
+    "topics": [
+      "Nghệ thuật"
+    ],
+    "hint": "Người khiến khung hình có câu chuyện",
+    "related": [
+      "Đạo diễn",
+      "Biên kịch",
+      "Người dựng phim"
+    ]
+  },
+  {
+    "id": 64,
+    "topics": [
+      "Nghệ thuật"
+    ],
+    "hint": "Nghệ thuật biểu diễn phương Tây",
+    "related": [
+      "Múa đương đại",
+      "Opera",
+      "Xiếc",
+      "Ballet",
+      "Kịch câm"
+    ]
+  },
+  {
+    "id": 65,
+    "topics": [
+      "Nghệ thuật"
+    ],
+    "hint": "Thời kỳ hội họa",
+    "related": [
+      "Phục Hưng",
+      "Chủ nghĩa hiện thực",
+      "Đương đại"
+    ]
+  },
+  {
+    "id": 66,
+    "topics": [
+      "Nghệ thuật"
+    ],
+    "hint": "Bức tranh nổi tiếng",
+    "related": [
+      "Mona Lisa",
+      "Đêm đầy sao",
+      "Van gogh"
+    ]
+  },
+  {
+    "id": 67,
+    "topics": [
+      "Nghệ thuật"
+    ],
+    "hint": "Công cụ số thiết kế",
+    "related": [
+      "Xingtu",
+      "Illustrator",
+      "Canva",
+      "Figma"
+    ]
+  },
+  {
+    "id": 68,
+    "topics": [
+      "Nghệ thuật",
+      "Giải trí",
+      "Việt Nam"
+    ],
+    "hint": "Loại hình nghệ thuật truyền thống Việt Nam",
+    "related": [
+      "Múa rối nước",
+      "Chèo",
+      "Tuồng",
+      "Cải lương",
+      "Quan họ"
+    ]
+  },
+  {
+    "id": 69,
+    "topics": [
+      "Nghệ thuật",
+      "Việt Nam"
+    ],
+    "hint": "Chất liệu gắn với mỹ thuật Việt",
+    "related": [
+      "Sơn mài",
+      "Lụa",
+      "Sơn dầu",
+      "Giấy dó"
+    ]
+  },
+  {
+    "id": 70,
+    "topics": [
+      "Nghệ thuật"
+    ],
+    "hint": "Sở hữu cơ thể không thở được",
+    "related": [
+      "Nghệ thuật ướp xác",
+      "Tượng Nữ thần tự do",
+      "Búp bê"
+    ]
+  },
+  {
+    "id": 71,
+    "topics": [
+      "Nghệ thuật"
+    ],
+    "hint": "Tạo hình nghệ thuật trên vật sống",
+    "related": [
+      "Xăm hình (Tatoo)",
+      "Làm móng nghệ thuật (Nail Art)",
+      "Cắt tỉa lông thú cưng"
+    ]
+  },
+  {
+    "id": 72,
+    "topics": [
+      "Nghệ thuật"
+    ],
+    "hint": "Tác phẩm nghệ thuật khổng lồ giữa lòng Paris",
+    "related": [
+      "Bảo tàng Louvre",
+      "Tháp Eiffel",
+      "Nhà thờ Đức Bà"
+    ]
+  },
+  {
+    "id": 73,
+    "topics": [
+      "Địa điểm"
+    ],
+    "hint": "Từng sở hữu tòa nhà cao nhất thế giới",
+    "related": [
+      "New York",
+      "Kuala Lumpur",
+      "Dubai"
+    ]
+  },
+  {
+    "id": 74,
+    "topics": [
+      "Địa điểm",
+      "Việt Nam"
+    ],
+    "hint": "Điểm du lịch nổi tiếng ở miền Bắc",
+    "related": [
+      "Hạ Long",
+      "Sa Pa",
+      "Ninh Bình",
+      "Hà Giang",
+      "Mộc Châu"
+    ]
+  },
+  {
+    "id": 75,
+    "topics": [
+      "Địa điểm",
+      "Việt Nam"
+    ],
+    "hint": "Điểm đến biển đảo nổi tiếng Việt Nam",
+    "related": [
+      "Phú Quốc",
+      "Nha Trang",
+      "Côn Đảo",
+      "Cát Bà",
+      "Lý Sơn"
+    ]
+  },
+  {
+    "id": 76,
+    "topics": [
+      "Địa điểm",
+      "Việt Nam"
+    ],
+    "hint": "Nơi nổi tiếng với kiến trúc cổ",
+    "related": [
+      "Hội An",
+      "Huế",
+      "Đồng Văn",
+      "Đường Lâm"
+    ]
+  },
+  {
+    "id": 77,
+    "topics": [
+      "Địa điểm"
+    ],
+    "hint": "Khu vực thường có trong trung tâm thương mại",
+    "related": [
+      "Rạp chiếu phim",
+      "Khu ăn uống",
+      "Siêu thị",
+      "Arcade",
+      "Cửa hàng thời trang"
+    ]
+  },
+  {
+    "id": 78,
+    "topics": [
+      "Địa điểm"
+    ],
+    "hint": "Không gian phù hợp học và làm việc",
+    "related": [
+      "Thư viện",
+      "Coworking space",
+      "Phòng đọc",
+      "Study café",
+      "Phòng tự học"
+    ]
+  },
+  {
+    "id": 79,
+    "topics": [
+      "Địa điểm"
+    ],
+    "hint": "Địa điểm vui chơi hợp nhóm bạn",
+    "related": [
+      "Music box",
+      "Phòng bowling",
+      "Escape room",
+      "Cyber game"
+    ]
+  },
+  {
+    "id": 80,
+    "topics": [
+      "Địa điểm"
+    ],
+    "hint": "Nơi thường đông người vào cuối tuần",
+    "related": [
+      "Trung tâm thương mại",
+      "Phố đi bộ",
+      "Công viên giải trí",
+      "Phố ẩm thực"
+    ]
+  },
+  {
+    "id": 81,
+    "topics": [
+      "Địa điểm"
+    ],
+    "hint": "Điểm đến gắn nhiều với thiên nhiên",
+    "related": [
+      "Thác nước",
+      "Hang động",
+      "Bãi biển",
+      "Đồi cát",
+      "Rừng quốc gia"
+    ]
+  },
+  {
+    "id": 82,
+    "topics": [
+      "Địa điểm"
+    ],
+    "hint": "Địa điểm du lịch thường được check-in",
+    "related": [
+      "Quảng trường",
+      "Đài quan sát",
+      "Cầu kính",
+      "Cánh đồng hoa",
+      "Đỉnh núi"
+    ]
+  },
+  {
+    "id": 83,
+    "topics": [
+      "Địa điểm",
+      "Việt Nam"
+    ],
+    "hint": "Địa danh nổi tiếng nằm tại Hà Nội",
+    "related": [
+      "Hồ Gươm",
+      "Văn Miếu",
+      "Hồ Tây",
+      "Nhà thờ Lớn",
+      "Lăng Bác"
+    ]
+  },
+  {
+    "id": 84,
+    "topics": [
+      "Địa điểm",
+      "Việt Nam"
+    ],
+    "hint": "Địa danh nổi tiếng tại Thành phố Hồ Chí Minh",
+    "related": [
+      "Chợ Bến Thành",
+      "Dinh Độc Lập",
+      "Phố đi bộ Nguyễn Huệ"
+    ]
+  },
+  {
+    "id": 85,
+    "topics": [
+      "Địa điểm"
+    ],
+    "hint": "Nơi phục vụ việc đi lại đường dài",
+    "related": [
+      "Sân bay",
+      "Nhà ga",
+      "Bến xe",
+      "Bến cảng",
+      "Ga metro"
+    ]
+  },
+  {
+    "id": 86,
+    "topics": [
+      "Địa điểm"
+    ],
+    "hint": "Không gian dành cho văn hóa nghệ thuật",
+    "related": [
+      "Bảo tàng",
+      "Nhà hát",
+      "Trung tâm văn hóa",
+      "Phòng triển lãm"
+    ]
+  },
+  {
+    "id": 87,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Thương hiệu điện thoại thông minh nổi tiếng",
+    "related": [
+      "Apple",
+      "Samsung",
+      "Xiaomi",
+      "OPPO",
+      "vivo"
+    ]
+  },
+  {
+    "id": 88,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Thương hiệu đồ thể thao quốc tế nổi tiếng",
+    "related": [
+      "Nike",
+      "Adidas",
+      "Puma",
+      "New Balance",
+      "Decathlon",
+      "Reebok",
+      "Li-Ning"
+    ]
+  },
+  {
+    "id": 89,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Chuỗi đồ uống quen thuộc",
+    "related": [
+      "Cộng cafe",
+      "Highlands Coffee",
+      "Phúc Long",
+      "Katinat",
+      "The Coffee House"
+    ]
+  },
+  {
+    "id": 90,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu",
+      "Việt Nam"
+    ],
+    "hint": "Thương hiệu Việt được nhiều người biết",
+    "related": [
+      "Vinamilk",
+      "Biti's",
+      "VinFast",
+      "Trung Nguyên",
+      "Viettel"
+    ]
+  },
+  {
+    "id": 91,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Thương hiệu thời trang phổ biến toàn cầu",
+    "related": [
+      "Uniqlo",
+      "Zara",
+      "H&M"
+    ]
+  },
+  {
+    "id": 92,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Tập đoàn công nghệ toàn cầu nổi tiếng",
+    "related": [
+      "Meta",
+      "Amazon",
+      "NVIDIA",
+      "Tencent",
+      "ByteDance"
+    ]
+  },
+  {
+    "id": 93,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Công ty nổi bật trong lĩnh vực AI",
+    "related": [
+      "OpenAI",
+      "Anthropic",
+      "xAI",
+      "Google"
+    ]
+  },
+  {
+    "id": 94,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Hãng xe điện được nhiều người nhắc tới",
+    "related": [
+      "Tesla",
+      "BYD",
+      "Rivian"
+    ]
+  },
+  {
+    "id": 95,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Chuỗi đồ ăn nhanh nổi tiếng quốc tế",
+    "related": [
+      "McDonald's",
+      "KFC",
+      "Burger King",
+      "Jollibee",
+      "Lotteria"
+    ]
+  },
+  {
+    "id": 96,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Thương hiệu nước ngọt có ga nổi tiếng",
+    "related": [
+      "Coca-Cola",
+      "Pepsi",
+      "Sprite",
+      "Fanta",
+      "7UP"
+    ]
+  },
+  {
+    "id": 97,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Nữ ca sĩ quốc tế có fandom lớn",
+    "related": [
+      "Ariana Grande",
+      "Lady Gaga",
+      "Billie Eilish",
+      "Dua Lipa"
+    ]
+  },
+  {
+    "id": 98,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Nam ca sĩ quốc tế được biết rộng rãi",
+    "related": [
+      "Bruno Mars",
+      "Ed Sheeran",
+      "Justin Bieber",
+      "The Weeknd",
+      "Harry Styles"
+    ]
+  },
+  {
+    "id": 99,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu",
+      "Việt Nam"
+    ],
+    "hint": "Nam nghệ sĩ Việt có fandom đông",
+    "related": [
+      "Sơn Tùng M-TP",
+      "Đen Vâu",
+      "HIEUTHUHAI",
+      "SOOBIN",
+      "MONO"
+    ]
+  },
+  {
+    "id": 100,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu",
+      "Việt Nam"
+    ],
+    "hint": "Nữ nghệ sĩ Việt được biết rộng rãi",
+    "related": [
+      "Mỹ Tâm",
+      "Hồ Ngọc Hà",
+      "Tóc Tiên",
+      "Hoàng Thùy Linh",
+      "Bích Phương"
+    ]
+  },
+  {
+    "id": 101,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Nhân vật nổi tiếng trong ngành công nghệ",
+    "related": [
+      "Elon Musk",
+      "Mark Zuckerberg",
+      "Sam Altman",
+      "Jensen Huang"
+    ]
+  },
+  {
+    "id": 102,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Biểu tượng thường gợi nhớ đến Việt Nam",
+    "related": [
+      "Nón lá",
+      "Hoa sen",
+      "Trống đồng",
+      "Búp sen"
+    ]
+  },
+  {
+    "id": 103,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Phương tiện trên đường phố Việt",
+    "related": [
+      "Xe máy",
+      "Xe buýt",
+      "Xe đạp",
+      "Xích lô"
+    ]
+  },
+  {
+    "id": 104,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Hoạt động quen thuộc trong dịp Tết",
+    "related": [
+      "Lì xì",
+      "Chúc Tết",
+      "Gói bánh chưng",
+      "Xông đất",
+      "Xin chữ"
+    ]
+  },
+  {
+    "id": 105,
+    "topics": [
+      "Việt Nam",
+      "Ẩm thực & Đồ uống"
+    ],
+    "hint": "Món ăn thường xuất hiện dịp Tết",
+    "related": [
+      "Bánh chưng",
+      "Giò lụa",
+      "Thịt kho tàu",
+      "Dưa hành",
+      "Mứt Tết"
+    ]
+  },
+  {
+    "id": 106,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Trang phục truyền thống của các vùng Việt Nam",
+    "related": [
+      "Áo tứ thân",
+      "Áo bà ba",
+      "Áo dài",
+      "Trang phục thổ cẩm"
+    ]
+  },
+  {
+    "id": 107,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Hình ảnh quen thuộc của làng quê Việt",
+    "related": [
+      "Cây đa",
+      "Giếng nước",
+      "Đình làng",
+      "Ruộng lúa",
+      "Lũy tre"
+    ]
+  },
+  {
+    "id": 108,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Đặc sản Việt thường được mua làm quà",
+    "related": [
+      "Cốm",
+      "Ô mai",
+      "Nước mắm",
+      "Cafe",
+      "Chè xanh"
+    ]
+  },
+  {
+    "id": 109,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Di sản nghệ thuật truyền thống Việt Nam",
+    "related": [
+      "Nhã nhạc cung đình",
+      "Ca trù",
+      "Đờn ca tài tử",
+      "Không gian cồng chiêng",
+      "Hát xoan"
+    ]
+  },
+  {
+    "id": 110,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Trải nghiệm di chuyển hay gặp khi du lịch",
+    "related": [
+      "Xe jeep",
+      "Thuyền thúng",
+      "Cáp treo",
+      "Xe buggy",
+      "Tàu cao tốc"
+    ]
+  },
+  {
+    "id": 111,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Hình ảnh dễ gặp trên phố Việt Nam",
+    "related": [
+      "Quán cóc",
+      "Hàng rong",
+      "Cửa hàng tiện lợi",
+      "Ghế nhựa"
+    ]
+  },
+  {
+    "id": 112,
+    "topics": [
+      "Việt Nam",
+      "Ẩm thực & Đồ uống"
+    ],
+    "hint": "Món Việt làm chủ yếu từ gạo",
+    "related": [
+      "Bún",
+      "Cơm tấm",
+      "Bánh đúc",
+      "Bánh bèo"
+    ]
+  },
+  {
+    "id": 113,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Chợ đặc trưng ở Việt Nam",
+    "related": [
+      "Chợ nổi",
+      "Chợ phiên",
+      "Chợ đầu mối",
+      "Chợ dân sinh"
+    ]
+  },
+  {
+    "id": 114,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Không gian sinh hoạt cộng đồng quen thuộc",
+    "related": [
+      "Nhà văn hóa",
+      "Sân đình",
+      "Nhà cộng đồng",
+      "Sân bóng làng",
+      "Nhà sinh hoạt"
+    ]
+  },
+  {
+    "id": 115,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Trải nghiệm phổ biến khi du lịch nội địa",
+    "related": [
+      "Homestay",
+      "Check-in",
+      "Săn mây",
+      "Cắm trại",
+      "Đi chợ địa phương"
+    ]
+  },
+  {
+    "id": 116,
+    "topics": [
+      "Việt Nam",
+      "Thể thao"
+    ],
+    "hint": "Hình ảnh quen thuộc khi cổ vũ bóng đá",
+    "related": [
+      "Cờ đỏ sao vàng",
+      "Áo đỏ",
+      "Kèn cổ vũ",
+      "Băng đô Việt Nam",
+      "Đi bão"
+    ]
+  },
+  {
+    "id": 117,
+    "topics": [
+      "Ẩm thực & Đồ uống",
+      "Việt Nam"
+    ],
+    "hint": "Món nước nổi tiếng, không phải miền Bắc",
+    "related": [
+      "Hủ tiếu",
+      "Bún mắm",
+      "Lẩu cua đồng",
+      "Mì Quảng"
+    ]
+  },
+  {
+    "id": 118,
+    "topics": [
+      "Ẩm thực & Đồ uống",
+      "Việt Nam"
+    ],
+    "hint": "Món nướng vỉa hè thơm dễ nhận ra",
+    "related": [
+      "Bắp nướng",
+      "Khoai lang nướng",
+      "Thịt xiên nướng",
+      "Hàu nướng mỡ hành"
+    ]
+  },
+  {
+    "id": 119,
+    "topics": [
+      "Ẩm thực & Đồ uống",
+      "Việt Nam"
+    ],
+    "hint": "Đồ uống giải nhiệt quen thuộc ngoài phố",
+    "related": [
+      "Nước mía",
+      "Nước sâm",
+      "Sâm bí đao",
+      "Nước rau má",
+      "Nước đậu rang"
+    ]
+  },
+  {
+    "id": 120,
+    "topics": [
+      "Ẩm thực & Đồ uống"
+    ],
+    "hint": "Trái cây màu vàng vị ngọt chua",
+    "related": [
+      "Xoài",
+      "Dứa",
+      "Chuối",
+      "Mít",
+      "Chanh dây"
+    ]
+  },
+  {
+    "id": 121,
+    "topics": [
+      "Ẩm thực & Đồ uống"
+    ],
+    "hint": "Trái cây có múi vị chua thơm",
+    "related": [
+      "Cam",
+      "Quýt",
+      "Bưởi",
+      "Chanh",
+      "Tắc"
+    ]
+  },
+  {
+    "id": 122,
+    "topics": [
+      "Ẩm thực & Đồ uống"
+    ],
+    "hint": "Trái cây nhỏ mọng nước dễ ăn",
+    "related": [
+      "Dâu tây",
+      "Nho",
+      "Mận",
+      "Dâu tằm",
+      "Cherry"
+    ]
+  },
+  {
+    "id": 123,
+    "topics": [
+      "Ẩm thực & Đồ uống",
+      "Việt Nam"
+    ],
+    "hint": "Trái cây nhiệt đới nổi tiếng Việt Nam",
+    "related": [
+      "Măng cụt",
+      "Vải thiều",
+      "Nhãn lồng",
+      "Chôm chôm",
+      "Mãng cầu"
+    ]
+  },
+  {
+    "id": 124,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Thiết bị hỗ trợ dọn nhà",
+    "related": [
+      "Máy hút bụi",
+      "Robot lau nhà",
+      "Máy sấy quần áo",
+      "Máy hút ẩm"
+    ]
+  },
+  {
+    "id": 125,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Thiết bị văn phòng",
+    "related": [
+      "Máy in",
+      "Máy chấm công",
+      "Máy chiếu"
+    ]
+  },
+  {
+    "id": 126,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Thiết bị thường có trong phòng tắm",
+    "related": [
+      "Bồn tắm",
+      "Vòi sen",
+      "Bồn cầu",
+      "Lavabo"
+    ]
+  },
+  {
+    "id": 127,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Thứ cứu rỗi con người khi bị cúp điện",
+    "related": [
+      "Nến",
+      "Đèn pin",
+      "Màn hình điện thoại",
+      "Quạt nan"
+    ]
+  },
+  {
+    "id": 128,
+    "topics": [
+      "Đồ vật"
+    ],
+    "hint": "Đồ nội thất thường đặt trong nhà",
+    "related": [
+      "Ghế sofa",
+      "Tủ quần áo",
+      "Giường",
+      "Bàn trang điểm",
+      "Kệ sách"
+    ]
+  },
+  {
+    "id": 129,
+    "topics": [
+      "Giải trí"
+    ],
+    "hint": "Định dạng truyện tranh phổ biến hiện nay",
+    "related": [
+      "Manga",
+      "Webtoon",
+      "Manhwa",
+      "Comic"
+    ]
+  },
+  {
+    "id": 130,
+    "topics": [
+      "Giải trí"
+    ],
+    "hint": "Địa điểm vui chơi về đêm",
+    "related": [
+      "Club đêm",
+      "Pub",
+      "Rooftop bar",
+      "Lounge"
+    ]
+  },
+  {
+    "id": 131,
+    "topics": [
+      "Giải trí"
+    ],
+    "hint": "Sự kiện đông người thường có tiệc",
+    "related": [
+      "Tiệc cưới",
+      "Prom",
+      "Sinh nhật",
+      "Gala",
+      "Tiệc tất niên"
+    ]
+  },
+  {
+    "id": 132,
+    "topics": [
+      "Giải trí",
+      "Việt Nam"
+    ],
+    "hint": "Trò chơi ở lễ hội Việt Nam",
+    "related": [
+      "Nhảy bao bố",
+      "Kéo co",
+      "Đấu vật",
+      "Cướp cờ"
+    ]
+  },
+  {
+    "id": 133,
+    "topics": [
+      "Giải trí"
+    ],
+    "hint": "Nhân vật siêu nhiên trong phim",
+    "related": [
+      "Ma cà rồng",
+      "Người sói",
+      "Zombie",
+      "Phù thủy",
+      "Xác ướp"
+    ]
+  },
+  {
+    "id": 134,
+    "topics": [
+      "Nghệ thuật",
+      "Đồ vật"
+    ],
+    "hint": "Nhạc cụ phương Tây quen thuộc trên sân khấu",
+    "related": [
+      "Guitar",
+      "Piano",
+      "Violin",
+      "Cello"
+    ]
+  },
+  {
+    "id": 135,
+    "topics": [
+      "Nghệ thuật",
+      "Việt Nam"
+    ],
+    "hint": "Nhạc cụ truyền thống mang âm sắc Việt",
+    "related": [
+      "Đàn tranh",
+      "Đàn bầu",
+      "Sáo trúc",
+      "Đàn nguyệt"
+    ]
+  },
+  {
+    "id": 136,
+    "topics": [
+      "Nghệ thuật"
+    ],
+    "hint": "Nhạc cụ thường xuất hiện trong ban nhạc",
+    "related": [
+      "Đàn organ",
+      "Trống",
+      "Kèn saxophone",
+      "Bass guitar"
+    ]
+  },
+  {
+    "id": 137,
+    "topics": [
+      "Nghệ thuật"
+    ],
+    "hint": "Nghề trực tiếp tạo sản phẩm thị giác",
+    "related": [
+      "Họa sĩ",
+      "Nhà điêu khắc",
+      "Nhà thiết kế",
+      "Nhà minh họa",
+      "Nhiếp ảnh gia"
+    ]
+  },
+  {
+    "id": 138,
+    "topics": [
+      "Nghệ thuật"
+    ],
+    "hint": "Nghề sáng tạo nội dung bằng câu chữ",
+    "related": [
+      "Nhà thơ",
+      "Nhà văn",
+      "Copywriter",
+      "Biên tập viên"
+    ]
+  },
+  {
+    "id": 139,
+    "topics": [
+      "Nghệ thuật",
+      "Việt Nam"
+    ],
+    "hint": "Hình thức thủ công và mỹ thuật truyền thống",
+    "related": [
+      "Gốm sứ",
+      "Thư pháp",
+      "Khảm trai"
+    ]
+  },
+  {
+    "id": 140,
+    "topics": [
+      "Địa điểm"
+    ],
+    "hint": "Thành phố châu Á nổi tiếng du lịch",
+    "related": [
+      "Tokyo",
+      "Bangkok",
+      "Singapore",
+      "Seoul",
+      "Hong Kong"
+    ]
+  },
+  {
+    "id": 141,
+    "topics": [
+      "Địa điểm",
+      "Việt Nam"
+    ],
+    "hint": "Được UNESCO công nhận",
+    "related": [
+      "Vườn quốc gia Phong Nha - Kẻ Bàng",
+      "Quần thể danh thắng Tràng An",
+      "Cố đô Huế",
+      "Phố cổ Hội An"
+    ]
+  },
+  {
+    "id": 142,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu"
+    ],
+    "hint": "Cửa hàng tiện lợi quen thuộc",
+    "related": [
+      "Circle K",
+      "GS25",
+      "WinMart+",
+      "7-Eleven",
+      "FamilyMart"
+    ]
+  },
+  {
+    "id": 143,
+    "topics": [
+      "Người nổi tiếng/Thương hiệu",
+      "Việt Nam"
+    ],
+    "hint": "Thương hiệu khách sạn tại Việt Nam",
+    "related": [
+      "Vinpearl",
+      "FLC",
+      "Marriott International"
+    ]
+  },
+  {
+    "id": 144,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Sản phẩm truyền thống nổi tiếng",
+    "related": [
+      "Lụa Vạn Phúc",
+      "Tranh Đông Hồ",
+      "Gốm Bát Tràng"
+    ]
+  },
+  {
+    "id": 145,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Di tích gắn với lịch sử các triều đại",
+    "related": [
+      "Hoa Lư",
+      "Lam Kinh",
+      "Thành Nhà Hồ",
+      "Cổ Loa",
+      "Hoàng thành Thăng Long"
+    ]
+  },
+  {
+    "id": 146,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Lễ hội truyền thống nổi tiếng trên cả nước",
+    "related": [
+      "Giỗ Tổ Hùng Vương",
+      "Hội Gióng",
+      "Lễ hội Lim",
+      "Lễ hội Chùa Hương"
+    ]
+  },
+  {
+    "id": 147,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Hình ảnh mang tính biểu tượng văn hóa Việt",
+    "related": [
+      "Chim Lạc",
+      "Chùa Một Cột",
+      "Rồng thời Lý",
+      "Cột cờ Hà Nội"
+    ]
+  },
+  {
+    "id": 148,
+    "topics": [
+      "Việt Nam"
+    ],
+    "hint": "Món quà đặc sản địa phương",
+    "related": [
+      "Kẹo dừa Bến Tre",
+      "Nem chua Thanh Hóa",
+      "Bánh đậu xanh Hải Dương",
+      "Kẹo cu đơ Hà Tĩnh"
+    ]
+  }
+]

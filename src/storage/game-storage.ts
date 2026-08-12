@@ -1,7 +1,8 @@
 import type { GameState } from "../core/game-state";
 import { migrateStoredState } from "./migration";
 
-export const GAME_STORAGE_KEY = "who-is-the-imposter:game:v2";
+export const GAME_STORAGE_KEY = "who-is-the-imposter:game:v3";
+export const PREVIOUS_STORAGE_KEY = "who-is-the-imposter:game:v2";
 export const LEGACY_STORAGE_KEY = "imposter_game_state_v1";
 export const NAMES_STORAGE_KEY = "who-is-the-imposter:names";
 
@@ -24,13 +25,13 @@ export class GameStorage {
   }
 
   load(): GameState | null {
-    for (const key of [GAME_STORAGE_KEY, LEGACY_STORAGE_KEY]) {
+    for (const key of [GAME_STORAGE_KEY, PREVIOUS_STORAGE_KEY, LEGACY_STORAGE_KEY]) {
       try {
         const raw = this.storage.getItem(key);
         if (!raw) continue;
         const migrated = migrateStoredState(JSON.parse(raw));
         if (migrated) {
-          if (key === LEGACY_STORAGE_KEY) {
+          if (key !== GAME_STORAGE_KEY) {
             this.save(migrated);
             this.storage.removeItem(LEGACY_STORAGE_KEY);
           }
@@ -45,6 +46,7 @@ export class GameStorage {
 
   clear(): void {
     this.storage.removeItem(GAME_STORAGE_KEY);
+    this.storage.removeItem(PREVIOUS_STORAGE_KEY);
     this.storage.removeItem(LEGACY_STORAGE_KEY);
   }
 
