@@ -2,21 +2,21 @@
 
 An offline-first, pass-the-phone social deduction game for the web, PWA, and Android. The entire core game runs locally: no account, room server, or internet connection is required after the application assets are installed or cached.
 
-Vietnamese documentation: [README.vie.md](README.vie.md).
+Vietnamese documentation: README.vie.md.
 
 ## Highlights
 
-- One Vite + TypeScript frontend shared by Web/PWA and Capacitor Android.
-- Bundled Vietnamese word bank with explicit loading, ready, and error states.
-- Pure game engine separated from DOM, storage, and platform APIs.
-- Versioned local state and resume support for every game phase, including elimination.
-- Safe player-name rendering through DOM text nodes; no user-controlled HTML parsing.
-- Physical 3D hold-to-flip secret card using authored 2:3 artwork; no-word mode uses a dedicated red face to identify the Imposter and present the assigned hint.
-- Automatic secret hiding on release/blur/background and Android `FLAG_SECURE`.
-- Android system Back navigation closes dialogs, steps back through setup, and confirms before pausing an active game.
-- Token-driven Ghost-Flame Mystery design with a responsive CSS spectral background, clue-card controls, dark cyan-edged CTAs, stable player identity colors, reduced motion, and 48px+ Android touch targets.
-- Supplied Vietnamese ghost hero lockup on Home; no fixed-ratio full-screen background image is required at runtime.
-- Vitest unit coverage plus Playwright specifications for gameplay, resume, XSS, and offline launch.
+* One Vite + TypeScript frontend shared by Web/PWA and Capacitor Android.
+* Bundled Vietnamese word bank with explicit loading, ready, and error states.
+* Pure game engine separated from DOM, storage, and platform APIs.
+* Versioned local state and resume support for every game phase, including elimination.
+* Safe player-name rendering through DOM text nodes; no user-controlled HTML parsing.
+* Physical 3D hold-to-flip secret card using authored 2:3 artwork; no-word mode uses a dedicated red face to identify the Imposter and present the assigned hint.
+* Automatic secret hiding on release/blur/background and Android `FLAG_SECURE`.
+* Android system Back navigation closes dialogs, steps back through setup, and confirms before pausing an active game.
+* Token-driven Ghost-Flame Mystery design with a responsive CSS spectral background, clue-card controls, dark cyan-edged CTAs, stable player identity colors, reduced motion, and 48px+ Android touch targets.
+* Supplied Vietnamese ghost hero lockup on Home; no fixed-ratio full-screen background image is required at runtime.
+* Vitest unit coverage plus Playwright specifications for gameplay, resume, XSS, and offline launch.
 
 ## Architecture
 
@@ -71,9 +71,16 @@ npm run test:e2e
 
 Capacitor stays on major version 6 in this architectural refactor. The native project is generated and tracked under `android/`.
 
+Sync the web assets and Capacitor plugins:
+
 ```sh
-npm run cap:sync
-npm run cap:open:android
+npx cap sync android
+```
+
+Open the native Android project in Android Studio:
+
+```sh
+npx cap open android
 ```
 
 `MainActivity` applies `FLAG_SECURE`, so secrets are excluded from screenshots, screen recording, and the recent-apps preview. Android backup is disabled because the local state can contain secret roles and words.
@@ -82,17 +89,35 @@ The shared UI also handles Android-specific interaction details: the soft keyboa
 
 The optional confrontation timer allocates 45 seconds per surviving player, persists its deadline with the resumable game, and vibrates once at `0:00`.
 
+Run the app directly on a connected Android device:
+
+```sh
+npx cap run android
+```
+
 Build a debug APK without running browser tests:
 
 ```sh
 npm run typecheck
 npm run test
-npm run cap:sync
+npm run build
+npx cap sync android
 cd android
 ./gradlew assembleDebug
 ```
 
-The generated file is `android/app/build/outputs/apk/debug/app-debug.apk`.
+On Windows CMD:
+
+```cmd
+cd android
+gradlew.bat assembleDebug
+```
+
+The generated file is:
+
+```text
+android/app/build/outputs/apk/debug/app-debug.apk
+```
 
 No iOS dependency, native project, or build pipeline is included in this release.
 
@@ -104,12 +129,12 @@ Vite PWA/Workbox precaches the application shell, compiled code, styles, word da
 
 ## Security and privacy notes
 
-- Player names are normalized to 1–20 characters, stripped of control characters, and rendered with `textContent`/text nodes.
-- Secrets are removed from the active DOM and accessibility tree whenever they are hidden.
-- `pointerup`, `pointercancel`, lost pointer capture, blur, visibility changes, and Capacitor app background events all hide secrets.
-- Stored state is local to the device and contains game secrets to support reliable offline resume.
+* Player names are normalized to 1–20 characters, stripped of control characters, and rendered with `textContent`/text nodes.
+* Secrets are removed from the active DOM and accessibility tree whenever they are hidden.
+* `pointerup`, `pointercancel`, lost pointer capture, blur, visibility changes, and Capacitor app background events all hide secrets.
+* Stored state is local to the device and contains game secrets to support reliable offline resume.
 
-See [docs/architecture.md](docs/architecture.md), [docs/wordbank.md](docs/wordbank.md), the [Neon Noir Party design system](design-system/who-is-the-imposter/MASTER.md), and [CHANGELOG.md](CHANGELOG.md).
+See `docs/architecture.md`, `docs/wordbank.md`, the [Neon Noir Party design system](design-system/who-is-the-imposter/MASTER.md), and `CHANGELOG.md`.
 
 ## How to play
 
@@ -123,10 +148,10 @@ The available deal modes are **Similar word**, **No word**, and **Different grou
 
 ## Project links
 
-- [Repository](https://github.com/Grizmo2610/WhoIsTheImposter)
-- [Open issues](https://github.com/Grizmo2610/WhoIsTheImposter/issues)
-- [Report a bug](https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=bug&template=bug-report.md)
-- [Request a feature](https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=enhancement&template=feature-request.md)
+* [Repository](https://github.com/Grizmo2610/WhoIsTheImposter)
+* [Open issues](https://github.com/Grizmo2610/WhoIsTheImposter/issues)
+* [Report a bug](https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=bug&template=bug-report.md)
+* [Request a feature](https://github.com/Grizmo2610/WhoIsTheImposter/issues/new?labels=enhancement&template=feature-request.md)
 
 ## Optional legacy/full-stack tools
 
@@ -134,12 +159,12 @@ Historical online/full-stack material is not part of the supported runtime. The 
 
 ## Roadmap
 
-- [x] Offline pass-and-play Web/PWA experience.
-- [x] Shared Capacitor Android wrapper.
-- [x] Bundled word bank and versioned offline resume.
-- [x] Privacy-safe hold-to-flip deal flow with an explicit no-word Imposter face.
-- [ ] Native iOS wrapper and release pipeline.
-- [ ] Optional score tracking and statistics without weakening offline privacy.
+* [x] Offline pass-and-play Web/PWA experience.
+* [x] Shared Capacitor Android wrapper.
+* [x] Bundled word bank and versioned offline resume.
+* [x] Privacy-safe hold-to-flip deal flow with an explicit no-word Imposter face.
+* [ ] Native iOS wrapper and release pipeline.
+* [ ] Optional score tracking and statistics without weakening offline privacy.
 
 Roadmap discussion and accepted work are tracked in [GitHub Issues](https://github.com/Grizmo2610/WhoIsTheImposter/issues).
 
@@ -163,4 +188,4 @@ Space Grotesk and Plus Jakarta Sans are bundled locally for offline use under th
 
 ## License
 
-MIT — see [LICENSE.txt](LICENSE.txt).
+MIT — see LICENSE.txt.
