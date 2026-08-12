@@ -11,7 +11,11 @@ export type GamePhase =
   | "elimination"
   | "result";
 
-export type ImposterWordMode = "similar" | "no-word" | "different-group";
+export type ImposterWordMode =
+  | "similar"
+  | "no-word"
+  | "different-group";
+
 export type Role = "civilian" | "imposter";
 export type Winner = Role | null;
 
@@ -41,6 +45,7 @@ export interface Player {
 
 export interface WordSelection {
   civilianWord: string;
+  civilianMeaning: string | null;
   imposterContents: string[];
   hint: string | null;
   mode: ImposterWordMode;
@@ -94,24 +99,43 @@ export function cloneState(state: GameState): GameState {
 
 export function isGameState(value: unknown): value is GameState {
   if (!value || typeof value !== "object") return false;
+
   const state = value as Partial<GameState>;
-  const phases: GamePhase[] = ["setup", "reveal", "pass", "discussion", "vote", "elimination", "result"];
-  const modes: ImposterWordMode[] = ["similar", "no-word", "different-group"];
-  return state.version === STATE_VERSION
-    && typeof state.gameId === "string"
-    && !!state.config
-    && modes.includes(state.config.imposterWordMode)
-    && Array.isArray(state.config.selectedTopics)
-    && state.config.selectedTopics.every(isWordTopic)
-    && (!state.wordSelection || (
-      typeof state.wordSelection.civilianWord === "string"
-      && Array.isArray(state.wordSelection.imposterContents)
-      && Array.isArray(state.wordSelection.sourceGroupIds)
-    ))
-    && Array.isArray(state.players)
-    && typeof state.phase === "string"
-    && phases.includes(state.phase as GamePhase)
-    && typeof state.round === "number"
-    && (state.discussionEndsAt === null || state.discussionEndsAt === undefined || typeof state.discussionEndsAt === "number")
-    && !!state.vote;
+  const phases: GamePhase[] = [
+    "setup",
+    "reveal",
+    "pass",
+    "discussion",
+    "vote",
+    "elimination",
+    "result",
+  ];
+  const modes: ImposterWordMode[] = [
+    "similar",
+    "no-word",
+    "different-group",
+  ];
+
+  return (
+    state.version === STATE_VERSION &&
+    typeof state.gameId === "string" &&
+    !!state.config &&
+    modes.includes(state.config.imposterWordMode) &&
+    Array.isArray(state.config.selectedTopics) &&
+    state.config.selectedTopics.every(isWordTopic) &&
+    (!state.wordSelection ||
+      (typeof state.wordSelection.civilianWord === "string" &&
+        (state.wordSelection.civilianMeaning === null ||
+          typeof state.wordSelection.civilianMeaning === "string") &&
+        Array.isArray(state.wordSelection.imposterContents) &&
+        Array.isArray(state.wordSelection.sourceGroupIds))) &&
+    Array.isArray(state.players) &&
+    typeof state.phase === "string" &&
+    phases.includes(state.phase as GamePhase) &&
+    typeof state.round === "number" &&
+    (state.discussionEndsAt === null ||
+      state.discussionEndsAt === undefined ||
+      typeof state.discussionEndsAt === "number") &&
+    !!state.vote
+  );
 }

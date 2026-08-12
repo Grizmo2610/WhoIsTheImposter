@@ -50,7 +50,6 @@ function hasCommonSelectedTopic(
 function differentGroupPairs(
   groups: readonly WordGroup[],
   selectedTopics: readonly WordTopic[],
-  imposterCount: number,
 ): Array<[WordGroup, WordGroup]> {
   const pairs: Array<[WordGroup, WordGroup]> = [];
 
@@ -112,7 +111,6 @@ export function selectionAvailability(
     differentGroupPairs(
       eligible,
       selectedTopics,
-      input.imposterCount,
     ).length === 0
   ) {
     return "INSUFFICIENT_WORD_GROUPS";
@@ -161,6 +159,7 @@ export function selectGameWords(
 
     return {
       civilianWord,
+      civilianMeaning: null,
       imposterContents: Array(input.imposterCount).fill(
         imposterWord,
       ),
@@ -175,6 +174,7 @@ export function selectGameWords(
 
     return {
       civilianWord: sampleOne(group.related, random),
+      civilianMeaning: null,
       imposterContents: Array(input.imposterCount).fill(
         group.hint,
       ),
@@ -188,7 +188,6 @@ export function selectGameWords(
     differentGroupPairs(
       eligible,
       selectedTopics,
-      input.imposterCount,
     ),
     random,
   );
@@ -198,6 +197,7 @@ export function selectGameWords(
 
   return {
     civilianWord,
+    civilianMeaning: null,
     imposterContents: Array(input.imposterCount).fill(
       imposterWord,
     ),
