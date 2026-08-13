@@ -153,8 +153,6 @@ Mọi hành vi người dùng nhìn thấy cần được cập nhật ở cả 
 
 ## Liên hệ và ghi nhận
 
-Người duy trì: [hoangtuantu893@gmail.com](mailto:hoangtuantu893@gmail.com).
-
 Dự án sử dụng Vite, TypeScript, Capacitor, Vitest, đặc tả Playwright và các gói mã nguồn mở do cộng đồng duy trì. Xem lịch sử repository và contributor graph để biết đóng góp cụ thể.
 
 Space Grotesk và Plus Jakarta Sans được bundle local để dùng offline theo SIL Open Font License; nội dung giấy phép tương ứng nằm trong `public/fonts/`.

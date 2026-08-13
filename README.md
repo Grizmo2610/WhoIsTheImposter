@@ -180,8 +180,6 @@ Please document user-visible behavior in both README files, the gameplay guide w
 
 ## Contact and acknowledgements
 
-Maintainer: [hoangtuantu893@gmail.com](mailto:hoangtuantu893@gmail.com).
-
 The project uses Vite, TypeScript, Capacitor, Vitest, Playwright specifications, and community-maintained open-source packages. See the repository history and contributor graph for individual contributions.
 
 Space Grotesk and Plus Jakarta Sans are bundled locally for offline use under the SIL Open Font License; the corresponding license texts are stored in `public/fonts/`.
